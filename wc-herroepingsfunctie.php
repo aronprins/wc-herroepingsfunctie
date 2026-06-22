@@ -1,0 +1,822 @@
+<?php
+/**
+ * Plugin Name:       WooCommerce Herroepingsfunctie (NL)
+ * Plugin URI:        https://example.com/
+ * Description:        Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt gedeeltelijke herroeping, tweestapsbevestiging, automatische ontvangstbevestiging en logging.
+ * Version:           1.0.0
+ * Author:            Custom
+ * License:           GPL-2.0-or-later
+ * Text Domain:       wc-herroepingsfunctie
+ * Requires Plugins:  woocommerce
+ *
+ * LET OP: dit is een vertrekpunt. Test op een staging-omgeving en laat de
+ * juridische teksten/uitzonderingen door een jurist controleren vóór livegang.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Directe toegang verbieden.
+}
+
+define( 'WCH_VERSION', '1.0.0' );
+define( 'WCH_OPTION', 'wch_settings' );
+define( 'WCH_TABLE', 'wch_herroepingen' );
+define( 'WCH_FILE', __FILE__ );
+
+/**
+ * Hoofdklasse.
+ */
+final class WC_Herroepingsfunctie {
+
+	/** @var WC_Herroepingsfunctie */
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	private function __construct() {
+		// Activatie / deactivatie.
+		register_activation_hook( WCH_FILE, array( $this, 'activate' ) );
+		register_deactivation_hook( WCH_FILE, array( $this, 'deactivate' ) );
+
+		// HPOS-compatibiliteit declareren (moet vroeg gebeuren).
+		add_action( 'before_woocommerce_init', function () {
+			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', WCH_FILE, true );
+			}
+		} );
+
+		// Zorg dat WooCommerce actief is.
+		add_action( 'plugins_loaded', array( $this, 'init' ) );
+	}
+
+	/**
+	 * Initialiseren (na plugins_loaded, zodat WooCommerce beschikbaar is).
+	 */
+	public function init() {
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			add_action( 'admin_notices', function () {
+				echo '<div class="notice notice-error"><p>';
+				echo esc_html__( 'WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is.', 'wc-herroepingsfunctie' );
+				echo '</p></div>';
+			} );
+			return;
+		}
+
+		// HPOS-compatibiliteit is al gedeclareerd in de constructor.
+
+		// Frontend.
+		add_shortcode( 'herroepingsfunctie', array( $this, 'render_shortcode' ) );
+
+		// AJAX (ingelogd én niet-ingelogd).
+		add_action( 'wp_ajax_wch_lookup', array( $this, 'ajax_lookup_order' ) );
+		add_action( 'wp_ajax_nopriv_wch_lookup', array( $this, 'ajax_lookup_order' ) );
+		add_action( 'wp_ajax_wch_submit', array( $this, 'ajax_submit_withdrawal' ) );
+		add_action( 'wp_ajax_nopriv_wch_submit', array( $this, 'ajax_submit_withdrawal' ) );
+
+		// "Mijn account" endpoint + menu-item.
+		add_action( 'init', array( $this, 'add_account_endpoint' ) );
+		add_filter( 'woocommerce_account_menu_items', array( $this, 'account_menu_item' ) );
+		add_action( 'woocommerce_account_herroepen_endpoint', array( $this, 'render_account_endpoint' ) );
+		add_filter( 'query_vars', array( $this, 'add_query_var' ) );
+
+		// Beheer.
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  Activatie: databasetabel + endpoint.
+	 * --------------------------------------------------------------------- */
+
+	public function activate() {
+		global $wpdb;
+		$table           = $wpdb->prefix . WCH_TABLE;
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE {$table} (
+			id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+			order_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
+			order_number VARCHAR(100) NOT NULL DEFAULT '',
+			customer_name VARCHAR(190) NOT NULL DEFAULT '',
+			customer_email VARCHAR(190) NOT NULL DEFAULT '',
+			items LONGTEXT NULL,
+			reason TEXT NULL,
+			ip_address VARCHAR(100) NOT NULL DEFAULT '',
+			submitted_at_utc DATETIME NOT NULL,
+			created_at DATETIME NOT NULL,
+			PRIMARY KEY  (id),
+			KEY order_id (order_id),
+			KEY customer_email (customer_email)
+		) {$charset_collate};";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql );
+
+		// Standaardinstellingen zetten als ze nog niet bestaan.
+		if ( false === get_option( WCH_OPTION ) ) {
+			add_option( WCH_OPTION, $this->default_settings() );
+		}
+
+		// Endpoint registreren en permalinks verversen.
+		$this->add_account_endpoint();
+		flush_rewrite_rules();
+	}
+
+	public function deactivate() {
+		flush_rewrite_rules();
+	}
+
+	private function default_settings() {
+		return array(
+			'intro_tekst'        => 'Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in.',
+			'confirm_knop_tekst' => 'Herroeping bevestigen',
+			'email_onderwerp'    => 'Bevestiging van uw herroeping',
+			'admin_email'        => get_option( 'admin_email' ),
+			'uitgesloten_cats'   => array(),
+			'uitgesloten_ids'    => '',
+			'sluit_virtueel_uit' => 'no',
+			'order_status'       => 'no', // 'yes' = order op 'in afwachting' zetten.
+			'bewaar_ip'          => 'yes',
+		);
+	}
+
+	private function get_settings() {
+		$saved = get_option( WCH_OPTION, array() );
+		return wp_parse_args( is_array( $saved ) ? $saved : array(), $this->default_settings() );
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  "Mijn account" endpoint.
+	 * --------------------------------------------------------------------- */
+
+	public function add_account_endpoint() {
+		add_rewrite_endpoint( 'herroepen', EP_ROOT | EP_PAGES );
+	}
+
+	public function add_query_var( $vars ) {
+		$vars[] = 'herroepen';
+		return $vars;
+	}
+
+	public function account_menu_item( $items ) {
+		// Voeg "Herroepen" toe vóór "Uitloggen".
+		$new = array();
+		foreach ( $items as $key => $label ) {
+			if ( 'customer-logout' === $key ) {
+				$new['herroepen'] = __( 'Herroepen', 'wc-herroepingsfunctie' );
+			}
+			$new[ $key ] = $label;
+		}
+		if ( ! isset( $new['herroepen'] ) ) {
+			$new['herroepen'] = __( 'Herroepen', 'wc-herroepingsfunctie' );
+		}
+		return $new;
+	}
+
+	public function render_account_endpoint() {
+		echo $this->render_shortcode( array() ); // phpcs:ignore WordPress.Security.EscapeOutput
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  Frontend formulier.
+	 * --------------------------------------------------------------------- */
+
+	public function render_shortcode( $atts ) {
+		$settings = $this->get_settings();
+		$nonce    = wp_create_nonce( 'wch_nonce' );
+		$ajax_url = admin_url( 'admin-ajax.php' );
+
+		ob_start();
+		?>
+		<div class="wch-wrap" id="wch-app">
+			<style>
+				.wch-wrap{max-width:640px;margin:1.5em 0;font-size:16px;line-height:1.5;}
+				.wch-wrap h3{margin:0 0 .5em;}
+				.wch-step{display:none;}
+				.wch-step.is-active{display:block;}
+				.wch-field{margin-bottom:1em;}
+				.wch-field label{display:block;font-weight:600;margin-bottom:.25em;}
+				.wch-field input[type=text],.wch-field input[type=email],.wch-field textarea{width:100%;padding:.6em;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;}
+				.wch-btn{display:inline-block;padding:.7em 1.4em;border:0;border-radius:6px;cursor:pointer;font-size:1em;}
+				.wch-btn-primary{background:#1f2d3d;color:#fff;}
+				.wch-btn-secondary{background:#e9ecef;color:#1f2d3d;margin-right:.5em;}
+				.wch-item{display:flex;align-items:flex-start;gap:.6em;padding:.6em 0;border-bottom:1px solid #eee;}
+				.wch-item label{font-weight:400;}
+				.wch-notice{padding:.8em 1em;border-radius:6px;margin:1em 0;}
+				.wch-error{background:#fdecea;color:#611a15;}
+				.wch-success{background:#edf7ed;color:#1e4620;}
+				.wch-muted{color:#666;font-size:.9em;}
+				.wch-summary{background:#f7f7f8;padding:1em;border-radius:6px;}
+				.wch-hidden{display:none;}
+			</style>
+
+			<div class="wch-notice wch-error wch-hidden" data-role="error"></div>
+
+			<!-- Stap 1: identificatie -->
+			<div class="wch-step is-active" data-step="1">
+				<h3><?php esc_html_e( 'Bestelling herroepen', 'wc-herroepingsfunctie' ); ?></h3>
+				<p><?php echo esc_html( $settings['intro_tekst'] ); ?></p>
+				<div class="wch-field">
+					<label for="wch-order"><?php esc_html_e( 'Ordernummer', 'wc-herroepingsfunctie' ); ?></label>
+					<input type="text" id="wch-order" autocomplete="off">
+				</div>
+				<div class="wch-field">
+					<label for="wch-email"><?php esc_html_e( 'E-mailadres van de bestelling', 'wc-herroepingsfunctie' ); ?></label>
+					<input type="email" id="wch-email" autocomplete="email">
+				</div>
+				<button type="button" class="wch-btn wch-btn-primary" data-action="lookup">
+					<?php esc_html_e( 'Bestelling ophalen', 'wc-herroepingsfunctie' ); ?>
+				</button>
+			</div>
+
+			<!-- Stap 2: selectie -->
+			<div class="wch-step" data-step="2">
+				<h3><?php esc_html_e( 'Wat wilt u herroepen?', 'wc-herroepingsfunctie' ); ?></h3>
+				<p class="wch-muted"><?php esc_html_e( 'Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent niet verplicht een reden op te geven.', 'wc-herroepingsfunctie' ); ?></p>
+				<div data-role="items"></div>
+				<div class="wch-field" style="margin-top:1em;">
+					<label for="wch-reason"><?php esc_html_e( 'Reden (optioneel)', 'wc-herroepingsfunctie' ); ?></label>
+					<textarea id="wch-reason" rows="3"></textarea>
+				</div>
+				<button type="button" class="wch-btn wch-btn-secondary" data-action="back"><?php esc_html_e( 'Terug', 'wc-herroepingsfunctie' ); ?></button>
+				<button type="button" class="wch-btn wch-btn-primary" data-action="toconfirm"><?php esc_html_e( 'Doorgaan', 'wc-herroepingsfunctie' ); ?></button>
+			</div>
+
+			<!-- Stap 3: bevestigen -->
+			<div class="wch-step" data-step="3">
+				<h3><?php esc_html_e( 'Herroeping bevestigen', 'wc-herroepingsfunctie' ); ?></h3>
+				<p><?php esc_html_e( 'Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten herroept. U ontvangt direct een ontvangstbevestiging per e-mail.', 'wc-herroepingsfunctie' ); ?></p>
+				<div class="wch-summary" data-role="summary"></div>
+				<p style="margin-top:1em;">
+					<button type="button" class="wch-btn wch-btn-secondary" data-action="back2"><?php esc_html_e( 'Terug', 'wc-herroepingsfunctie' ); ?></button>
+					<button type="button" class="wch-btn wch-btn-primary" data-action="submit"><?php echo esc_html( $settings['confirm_knop_tekst'] ); ?></button>
+				</p>
+			</div>
+
+			<!-- Stap 4: klaar -->
+			<div class="wch-step" data-step="4">
+				<div class="wch-notice wch-success" data-role="done"></div>
+			</div>
+		</div>
+
+		<script>
+		(function(){
+			var app = document.getElementById('wch-app');
+			if(!app || app.dataset.init){ return; }
+			app.dataset.init = '1';
+
+			var ajaxUrl = <?php echo wp_json_encode( $ajax_url ); ?>;
+			var nonce   = <?php echo wp_json_encode( $nonce ); ?>;
+			var state   = { order:'', email:'', items:[], selected:[] };
+
+			function $(sel){ return app.querySelector(sel); }
+			function show(step){
+				app.querySelectorAll('.wch-step').forEach(function(s){ s.classList.remove('is-active'); });
+				app.querySelector('[data-step="'+step+'"]').classList.add('is-active');
+			}
+			function err(msg){
+				var box = app.querySelector('[data-role=error]');
+				if(!msg){ box.classList.add('wch-hidden'); return; }
+				box.textContent = msg; box.classList.remove('wch-hidden');
+			}
+			function post(action, data){
+				var body = new URLSearchParams();
+				body.append('action', action);
+				body.append('nonce', nonce);
+				Object.keys(data).forEach(function(k){
+					if(Array.isArray(data[k])){ data[k].forEach(function(v){ body.append(k+'[]', v); }); }
+					else { body.append(k, data[k]); }
+				});
+				return fetch(ajaxUrl, {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:body.toString()})
+					.then(function(r){ return r.json(); });
+			}
+			function esc(s){ var d=document.createElement('div'); d.textContent=s==null?'':s; return d.innerHTML; }
+
+			app.addEventListener('click', function(e){
+				var a = e.target.getAttribute('data-action');
+				if(!a){ return; }
+
+				if(a==='lookup'){
+					err('');
+					state.order = $('#wch-order').value.trim();
+					state.email = $('#wch-email').value.trim();
+					if(!state.order || !state.email){ err('Vul uw ordernummer en e-mailadres in.'); return; }
+					e.target.disabled = true;
+					post('wch_lookup', {order_number:state.order, email:state.email}).then(function(res){
+						e.target.disabled = false;
+						if(!res || !res.success){ err(res && res.data ? res.data.message : 'Er ging iets mis.'); return; }
+						state.items = res.data.items;
+						var html = '';
+						state.items.forEach(function(it){
+							html += '<div class="wch-item">'
+								+ '<input type="checkbox" id="wch-it-'+esc(it.id)+'" value="'+esc(it.id)+'" data-itemcb>'
+								+ '<label for="wch-it-'+esc(it.id)+'">'+esc(it.name)+' &times; '+esc(it.qty)+'</label>'
+								+ '</div>';
+						});
+						app.querySelector('[data-role=items]').innerHTML = html;
+						show(2);
+					}).catch(function(){ e.target.disabled=false; err('Er ging iets mis. Probeer het later opnieuw.'); });
+				}
+
+				if(a==='back'){ err(''); show(1); }
+				if(a==='back2'){ err(''); show(2); }
+
+				if(a==='toconfirm'){
+					err('');
+					var cbs = app.querySelectorAll('[data-itemcb]:checked');
+					if(cbs.length === 0){ err('Selecteer minimaal één product om te herroepen.'); return; }
+					state.selected = Array.prototype.map.call(cbs, function(c){ return c.value; });
+					var names = state.items.filter(function(it){ return state.selected.indexOf(String(it.id)) > -1; });
+					var sum = '<ul style="margin:.5em 0 .5em 1.2em;">';
+					names.forEach(function(it){ sum += '<li>'+esc(it.name)+' &times; '+esc(it.qty)+'</li>'; });
+					sum += '</ul>';
+					var reason = $('#wch-reason').value.trim();
+					if(reason){ sum += '<p><strong>Reden:</strong> '+esc(reason)+'</p>'; }
+					sum += '<p class="wch-muted">Bestelling: '+esc(state.order)+'</p>';
+					app.querySelector('[data-role=summary]').innerHTML = sum;
+					show(3);
+				}
+
+				if(a==='submit'){
+					err('');
+					e.target.disabled = true;
+					post('wch_submit', {
+						order_number: state.order,
+						email: state.email,
+						reason: $('#wch-reason').value.trim(),
+						item_ids: state.selected
+					}).then(function(res){
+						e.target.disabled = false;
+						if(!res || !res.success){ err(res && res.data ? res.data.message : 'Er ging iets mis.'); show(2); return; }
+						app.querySelector('[data-role=done]').innerHTML = esc(res.data.message);
+						show(4);
+					}).catch(function(){ e.target.disabled=false; err('Er ging iets mis. Probeer het later opnieuw.'); show(2); });
+				}
+			});
+		})();
+		</script>
+		<?php
+		return ob_get_clean();
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  AJAX: order ophalen.
+	 * --------------------------------------------------------------------- */
+
+	public function ajax_lookup_order() {
+		check_ajax_referer( 'wch_nonce', 'nonce' );
+
+		$order_number = isset( $_POST['order_number'] ) ? sanitize_text_field( wp_unslash( $_POST['order_number'] ) ) : '';
+		$email        = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+
+		if ( '' === $order_number || '' === $email || ! is_email( $email ) ) {
+			wp_send_json_error( array( 'message' => __( 'Vul een geldig ordernummer en e-mailadres in.', 'wc-herroepingsfunctie' ) ) );
+		}
+
+		$order = $this->find_order( $order_number );
+
+		// Bewust generieke melding om order-enumeratie te voorkomen.
+		$generic = __( 'We konden geen bestelling vinden met deze gegevens. Controleer uw ordernummer en e-mailadres.', 'wc-herroepingsfunctie' );
+
+		if ( ! $order || ! $this->email_matches( $order, $email ) ) {
+			wp_send_json_error( array( 'message' => $generic ) );
+		}
+
+		$items = $this->get_eligible_items( $order );
+
+		if ( empty( $items ) ) {
+			wp_send_json_error( array(
+				'message' => __( 'Voor de producten in deze bestelling geldt geen wettelijk herroepingsrecht (bijvoorbeeld maatwerk, verzegelde of digitale producten). Neem bij vragen contact met ons op.', 'wc-herroepingsfunctie' ),
+			) );
+		}
+
+		wp_send_json_success( array( 'items' => $items ) );
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  AJAX: herroeping verwerken.
+	 * --------------------------------------------------------------------- */
+
+	public function ajax_submit_withdrawal() {
+		check_ajax_referer( 'wch_nonce', 'nonce' );
+
+		$order_number = isset( $_POST['order_number'] ) ? sanitize_text_field( wp_unslash( $_POST['order_number'] ) ) : '';
+		$email        = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+		$reason       = isset( $_POST['reason'] ) ? sanitize_textarea_field( wp_unslash( $_POST['reason'] ) ) : '';
+		$item_ids     = isset( $_POST['item_ids'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['item_ids'] ) ) : array();
+
+		if ( '' === $order_number || '' === $email || ! is_email( $email ) || empty( $item_ids ) ) {
+			wp_send_json_error( array( 'message' => __( 'Onvolledige aanvraag. Probeer het opnieuw.', 'wc-herroepingsfunctie' ) ) );
+		}
+
+		// Server-side opnieuw verifiëren (vertrouw de client niet).
+		$order = $this->find_order( $order_number );
+		if ( ! $order || ! $this->email_matches( $order, $email ) ) {
+			wp_send_json_error( array( 'message' => __( 'We konden uw bestelling niet verifiëren.', 'wc-herroepingsfunctie' ) ) );
+		}
+
+		// Alleen herroepbare items toestaan; herleid naam/aantal uit de order.
+		$eligible = $this->get_eligible_items( $order );
+		$eligible_map = array();
+		foreach ( $eligible as $it ) {
+			$eligible_map[ (int) $it['id'] ] = $it;
+		}
+
+		$selected = array();
+		foreach ( $item_ids as $iid ) {
+			if ( isset( $eligible_map[ $iid ] ) ) {
+				$selected[] = $eligible_map[ $iid ];
+			}
+		}
+
+		if ( empty( $selected ) ) {
+			wp_send_json_error( array( 'message' => __( 'Geen geldige producten geselecteerd.', 'wc-herroepingsfunctie' ) ) );
+		}
+
+		$settings = $this->get_settings();
+
+		$submitted_utc = gmdate( 'Y-m-d H:i:s' );
+		$display_time  = wp_date( 'd-m-Y H:i' ); // Lokale weergave in site-tijdzone.
+		$name          = trim( $order->get_formatted_billing_full_name() );
+		$ip            = ( 'yes' === $settings['bewaar_ip'] ) ? $this->get_ip() : '';
+
+		// 1. Loggen in eigen tabel.
+		global $wpdb;
+		$wpdb->insert(
+			$wpdb->prefix . WCH_TABLE,
+			array(
+				'order_id'         => $order->get_id(),
+				'order_number'     => $order->get_order_number(),
+				'customer_name'    => $name,
+				'customer_email'   => $email,
+				'items'            => wp_json_encode( $selected ),
+				'reason'           => $reason,
+				'ip_address'       => $ip,
+				'submitted_at_utc' => $submitted_utc,
+				'created_at'       => current_time( 'mysql' ),
+			),
+			array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
+		);
+
+		// 2. Ordernotitie toevoegen (bewijslast + zichtbaar in beheer).
+		$lines = array();
+		foreach ( $selected as $it ) {
+			$lines[] = $it['name'] . ' x ' . $it['qty'];
+		}
+		$note = sprintf(
+			/* translators: 1: timestamp, 2: items, 3: reason */
+			__( "Herroeping ontvangen op %1\$s via de online herroepingsfunctie.\nProducten: %2\$s\nReden: %3\$s", 'wc-herroepingsfunctie' ),
+			$display_time,
+			implode( '; ', $lines ),
+			'' !== $reason ? $reason : __( '(geen opgegeven)', 'wc-herroepingsfunctie' )
+		);
+		$order->add_order_note( $note );
+
+		// 3. Optioneel orderstatus aanpassen (alleen flaggen, geen automatische refund).
+		if ( 'yes' === $settings['order_status'] && ! $order->has_status( array( 'cancelled', 'refunded' ) ) ) {
+			$order->update_status( 'on-hold', __( 'In afwachting van afhandeling herroeping. ', 'wc-herroepingsfunctie' ) );
+		}
+
+		// 4. Ontvangstbevestiging naar klant (duurzame drager).
+		$this->send_customer_confirmation( $order, $email, $name, $selected, $reason, $display_time, $settings );
+
+		// 5. Interne melding.
+		$this->send_admin_notification( $order, $name, $email, $selected, $reason, $display_time, $settings );
+
+		wp_send_json_success( array(
+			'message' => sprintf(
+				/* translators: %s: e-mailadres */
+				__( 'Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd naar %2$s. We nemen uw verzoek verder in behandeling.', 'wc-herroepingsfunctie' ),
+				$display_time,
+				$email
+			),
+		) );
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  Helpers.
+	 * --------------------------------------------------------------------- */
+
+	/**
+	 * Zoek order op ordernummer (ID of _order_number meta).
+	 *
+	 * @return WC_Order|false
+	 */
+	private function find_order( $order_number ) {
+		$order = false;
+
+		if ( is_numeric( $order_number ) ) {
+			$maybe = wc_get_order( (int) $order_number );
+			if ( $maybe instanceof WC_Order ) {
+				$order = $maybe;
+			}
+		}
+
+		if ( ! $order ) {
+			$orders = wc_get_orders( array(
+				'limit'      => 1,
+				'meta_key'   => '_order_number',
+				'meta_value' => $order_number,
+				'return'     => 'objects',
+			) );
+			if ( ! empty( $orders ) && $orders[0] instanceof WC_Order ) {
+				$order = $orders[0];
+			}
+		}
+
+		return $order;
+	}
+
+	private function email_matches( $order, $email ) {
+		return strtolower( trim( $order->get_billing_email() ) ) === strtolower( trim( $email ) );
+	}
+
+	/**
+	 * Geef de herroepbare regelitems van een order terug.
+	 *
+	 * @return array[] [ ['id'=>line_item_id, 'name'=>..., 'qty'=>...], ... ]
+	 */
+	private function get_eligible_items( $order ) {
+		$settings   = $this->get_settings();
+		$excl_cats  = array_map( 'absint', (array) $settings['uitgesloten_cats'] );
+		$excl_ids   = array_filter( array_map( 'absint', array_map( 'trim', explode( ',', (string) $settings['uitgesloten_ids'] ) ) ) );
+		$skip_virt  = ( 'yes' === $settings['sluit_virtueel_uit'] );
+
+		$result = array();
+
+		foreach ( $order->get_items() as $item_id => $item ) {
+			if ( ! is_a( $item, 'WC_Order_Item_Product' ) ) {
+				continue;
+			}
+			$product_id = $item->get_product_id();
+			$product    = $item->get_product();
+
+			// Uitsluitingen.
+			if ( in_array( $product_id, $excl_ids, true ) ) {
+				continue;
+			}
+			if ( $product && $skip_virt && ( $product->is_virtual() || $product->is_downloadable() ) ) {
+				continue;
+			}
+			if ( ! empty( $excl_cats ) ) {
+				$terms = wc_get_product_term_ids( $product_id, 'product_cat' );
+				if ( array_intersect( $excl_cats, (array) $terms ) ) {
+					continue;
+				}
+			}
+
+			$result[] = array(
+				'id'   => (int) $item_id,
+				'name' => $item->get_name(),
+				'qty'  => (int) $item->get_quantity(),
+			);
+		}
+
+		/**
+		 * Filter om de herroepbare items aan te passen (bijv. eigen logica voor
+		 * bederfelijke producten of bedenktijd op basis van leverdatum).
+		 */
+		return apply_filters( 'wch_eligible_items', $result, $order );
+	}
+
+	private function get_ip() {
+		$ip = '';
+		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+			$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+		}
+		return $ip;
+	}
+
+	private function items_to_html( $items ) {
+		$html = '<ul>';
+		foreach ( $items as $it ) {
+			$html .= '<li>' . esc_html( $it['name'] ) . ' &times; ' . esc_html( $it['qty'] ) . '</li>';
+		}
+		$html .= '</ul>';
+		return $html;
+	}
+
+	private function send_html_mail( $to, $subject, $body ) {
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		$wrapped = '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#222;line-height:1.5;">' . $body . '</div>';
+		return wp_mail( $to, $subject, $wrapped, $headers );
+	}
+
+	private function send_customer_confirmation( $order, $email, $name, $items, $reason, $time, $settings ) {
+		$subject = $settings['email_onderwerp'];
+
+		$body  = '<p>' . esc_html__( 'Beste', 'wc-herroepingsfunctie' ) . ' ' . esc_html( $name ) . ',</p>';
+		$body .= '<p>' . esc_html__( 'We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als bewijs.', 'wc-herroepingsfunctie' ) . '</p>';
+		$body .= '<p><strong>' . esc_html__( 'Ingediend op:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $time ) . '<br>';
+		$body .= '<strong>' . esc_html__( 'Bestelling:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $order->get_order_number() ) . '</p>';
+		$body .= '<p><strong>' . esc_html__( 'Herroepen producten:', 'wc-herroepingsfunctie' ) . '</strong></p>';
+		$body .= $this->items_to_html( $items );
+		if ( '' !== $reason ) {
+			$body .= '<p><strong>' . esc_html__( 'Door u opgegeven reden:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $reason ) . '</p>';
+		}
+		$body .= '<p>' . esc_html__( 'We nemen uw verzoek verder in behandeling, inclusief een eventuele terugbetaling conform de wettelijke termijnen.', 'wc-herroepingsfunctie' ) . '</p>';
+		$body .= '<p>' . esc_html( get_bloginfo( 'name' ) ) . '</p>';
+
+		$this->send_html_mail( $email, $subject, $body );
+	}
+
+	private function send_admin_notification( $order, $name, $email, $items, $reason, $time, $settings ) {
+		$to      = $settings['admin_email'] ? $settings['admin_email'] : get_option( 'admin_email' );
+		$subject = sprintf(
+			/* translators: %s: order number */
+			__( 'Nieuwe herroeping voor bestelling %s', 'wc-herroepingsfunctie' ),
+			$order->get_order_number()
+		);
+
+		$body  = '<p>' . esc_html__( 'Er is een herroeping ingediend via de online herroepingsfunctie.', 'wc-herroepingsfunctie' ) . '</p>';
+		$body .= '<p><strong>' . esc_html__( 'Bestelling:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $order->get_order_number() ) . '<br>';
+		$body .= '<strong>' . esc_html__( 'Klant:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $name ) . ' (' . esc_html( $email ) . ')<br>';
+		$body .= '<strong>' . esc_html__( 'Ingediend op:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $time ) . '</p>';
+		$body .= $this->items_to_html( $items );
+		if ( '' !== $reason ) {
+			$body .= '<p><strong>' . esc_html__( 'Reden:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $reason ) . '</p>';
+		}
+		$edit = $order->get_edit_order_url();
+		if ( $edit ) {
+			$body .= '<p><a href="' . esc_url( $edit ) . '">' . esc_html__( 'Bekijk de bestelling', 'wc-herroepingsfunctie' ) . '</a></p>';
+		}
+
+		$this->send_html_mail( $to, $subject, $body );
+	}
+
+	/* --------------------------------------------------------------------- *
+	 *  Beheer: instellingen + overzicht.
+	 * --------------------------------------------------------------------- */
+
+	public function admin_menu() {
+		add_submenu_page(
+			'woocommerce',
+			__( 'Herroepingen', 'wc-herroepingsfunctie' ),
+			__( 'Herroepingen', 'wc-herroepingsfunctie' ),
+			'manage_woocommerce',
+			'wch-herroepingen',
+			array( $this, 'render_list_page' )
+		);
+
+		add_submenu_page(
+			'woocommerce',
+			__( 'Herroepingsfunctie instellingen', 'wc-herroepingsfunctie' ),
+			__( 'Herroeping instellingen', 'wc-herroepingsfunctie' ),
+			'manage_woocommerce',
+			'wch-instellingen',
+			array( $this, 'render_settings_page' )
+		);
+	}
+
+	public function register_settings() {
+		register_setting( 'wch_settings_group', WCH_OPTION, array( $this, 'sanitize_settings' ) );
+	}
+
+	public function sanitize_settings( $input ) {
+		$out = $this->default_settings();
+		$out['intro_tekst']        = isset( $input['intro_tekst'] ) ? sanitize_textarea_field( $input['intro_tekst'] ) : $out['intro_tekst'];
+		$out['confirm_knop_tekst'] = isset( $input['confirm_knop_tekst'] ) ? sanitize_text_field( $input['confirm_knop_tekst'] ) : $out['confirm_knop_tekst'];
+		$out['email_onderwerp']    = isset( $input['email_onderwerp'] ) ? sanitize_text_field( $input['email_onderwerp'] ) : $out['email_onderwerp'];
+		$out['admin_email']        = isset( $input['admin_email'] ) ? sanitize_email( $input['admin_email'] ) : $out['admin_email'];
+		$out['uitgesloten_cats']   = isset( $input['uitgesloten_cats'] ) ? array_map( 'absint', (array) $input['uitgesloten_cats'] ) : array();
+		$out['uitgesloten_ids']    = isset( $input['uitgesloten_ids'] ) ? sanitize_text_field( $input['uitgesloten_ids'] ) : '';
+		$out['sluit_virtueel_uit'] = ( isset( $input['sluit_virtueel_uit'] ) && 'yes' === $input['sluit_virtueel_uit'] ) ? 'yes' : 'no';
+		$out['order_status']       = ( isset( $input['order_status'] ) && 'yes' === $input['order_status'] ) ? 'yes' : 'no';
+		$out['bewaar_ip']          = ( isset( $input['bewaar_ip'] ) && 'yes' === $input['bewaar_ip'] ) ? 'yes' : 'no';
+		return $out;
+	}
+
+	public function render_settings_page() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
+		$s    = $this->get_settings();
+		$cats = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => false ) );
+		?>
+		<div class="wrap">
+			<h1><?php esc_html_e( 'Herroepingsfunctie – instellingen', 'wc-herroepingsfunctie' ); ?></h1>
+			<p><?php esc_html_e( 'Plaats het formulier op een goed vindbare pagina met de shortcode', 'wc-herroepingsfunctie' ); ?> <code>[herroepingsfunctie]</code>. <?php esc_html_e( 'Het staat ook automatisch in "Mijn account" onder "Herroepen". Zet bovendien een duidelijke link in de footer.', 'wc-herroepingsfunctie' ); ?></p>
+			<form method="post" action="options.php">
+				<?php settings_fields( 'wch_settings_group' ); ?>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th><label for="wch_intro"><?php esc_html_e( 'Introductietekst', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><textarea id="wch_intro" name="<?php echo esc_attr( WCH_OPTION ); ?>[intro_tekst]" rows="3" class="large-text"><?php echo esc_textarea( $s['intro_tekst'] ); ?></textarea></td>
+					</tr>
+					<tr>
+						<th><label for="wch_btn"><?php esc_html_e( 'Tekst bevestigingsknop', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><input id="wch_btn" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[confirm_knop_tekst]" value="<?php echo esc_attr( $s['confirm_knop_tekst'] ); ?>" class="regular-text"></td>
+					</tr>
+					<tr>
+						<th><label for="wch_subj"><?php esc_html_e( 'Onderwerp bevestigingsmail', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><input id="wch_subj" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[email_onderwerp]" value="<?php echo esc_attr( $s['email_onderwerp'] ); ?>" class="regular-text"></td>
+					</tr>
+					<tr>
+						<th><label for="wch_admin"><?php esc_html_e( 'Interne meldingen naar', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><input id="wch_admin" type="email" name="<?php echo esc_attr( WCH_OPTION ); ?>[admin_email]" value="<?php echo esc_attr( $s['admin_email'] ); ?>" class="regular-text"></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Uitgesloten categorieën', 'wc-herroepingsfunctie' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( WCH_OPTION ); ?>[uitgesloten_cats][]" multiple size="6" style="min-width:280px;">
+								<?php
+								if ( ! is_wp_error( $cats ) ) {
+									foreach ( $cats as $cat ) {
+										printf(
+											'<option value="%1$d" %2$s>%3$s</option>',
+											(int) $cat->term_id,
+											in_array( (int) $cat->term_id, (array) $s['uitgesloten_cats'], true ) ? 'selected' : '',
+											esc_html( $cat->name )
+										);
+									}
+								}
+								?>
+							</select>
+							<p class="description"><?php esc_html_e( 'Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – producten zonder herroepingsrecht.', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="wch_ids"><?php esc_html_e( 'Uitgesloten product-ID\'s', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><input id="wch_ids" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[uitgesloten_ids]" value="<?php echo esc_attr( $s['uitgesloten_ids'] ); ?>" class="regular-text" placeholder="123, 456, 789"></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Digitale producten uitsluiten', 'wc-herroepingsfunctie' ); ?></th>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[sluit_virtueel_uit]" value="yes" <?php checked( 'yes', $s['sluit_virtueel_uit'] ); ?>> <?php esc_html_e( 'Virtuele/downloadbare producten niet tonen in de herroepingsfunctie', 'wc-herroepingsfunctie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Orderstatus aanpassen', 'wc-herroepingsfunctie' ); ?></th>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[order_status]" value="yes" <?php checked( 'yes', $s['order_status'] ); ?>> <?php esc_html_e( 'Order op "in afwachting" zetten bij een herroeping (geen automatische terugbetaling)', 'wc-herroepingsfunctie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'IP-adres bewaren', 'wc-herroepingsfunctie' ); ?></th>
+						<td><label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[bewaar_ip]" value="yes" <?php checked( 'yes', $s['bewaar_ip'] ); ?>> <?php esc_html_e( 'IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)', 'wc-herroepingsfunctie' ); ?></label></td>
+					</tr>
+				</table>
+				<?php submit_button(); ?>
+			</form>
+		</div>
+		<?php
+	}
+
+	public function render_list_page() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
+		global $wpdb;
+		$table = $wpdb->prefix . WCH_TABLE;
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$rows = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY id DESC LIMIT 200" );
+		?>
+		<div class="wrap">
+			<h1><?php esc_html_e( 'Ontvangen herroepingen', 'wc-herroepingsfunctie' ); ?></h1>
+			<table class="widefat striped">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Datum', 'wc-herroepingsfunctie' ); ?></th>
+						<th><?php esc_html_e( 'Order', 'wc-herroepingsfunctie' ); ?></th>
+						<th><?php esc_html_e( 'Klant', 'wc-herroepingsfunctie' ); ?></th>
+						<th><?php esc_html_e( 'Producten', 'wc-herroepingsfunctie' ); ?></th>
+						<th><?php esc_html_e( 'Reden', 'wc-herroepingsfunctie' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if ( empty( $rows ) ) : ?>
+					<tr><td colspan="5"><?php esc_html_e( 'Nog geen herroepingen ontvangen.', 'wc-herroepingsfunctie' ); ?></td></tr>
+				<?php else : foreach ( $rows as $r ) :
+					$items = json_decode( (string) $r->items, true );
+					$names = array();
+					if ( is_array( $items ) ) {
+						foreach ( $items as $it ) {
+							$names[] = ( isset( $it['name'] ) ? $it['name'] : '' ) . ' x ' . ( isset( $it['qty'] ) ? $it['qty'] : '' );
+						}
+					}
+					?>
+					<tr>
+						<td><?php echo esc_html( $r->created_at ); ?></td>
+						<td>
+							<?php
+							$o = wc_get_order( (int) $r->order_id );
+							if ( $o ) {
+								printf( '<a href="%s">#%s</a>', esc_url( $o->get_edit_order_url() ), esc_html( $r->order_number ) );
+							} else {
+								echo esc_html( $r->order_number );
+							}
+							?>
+						</td>
+						<td><?php echo esc_html( $r->customer_name ); ?><br><span class="description"><?php echo esc_html( $r->customer_email ); ?></span></td>
+						<td><?php echo esc_html( implode( '; ', $names ) ); ?></td>
+						<td><?php echo esc_html( $r->reason ); ?></td>
+					</tr>
+				<?php endforeach; endif; ?>
+				</tbody>
+			</table>
+		</div>
+		<?php
+	}
+}
+
+WC_Herroepingsfunctie::instance();
