@@ -31,7 +31,7 @@ build/
 coverage/
 
 # Archives and packaged plugin zips
+releases/
 *.zip
 *.tar
 *.tar.gz
-
