@@ -377,6 +377,16 @@ final class WC_Herroepingsfunctie {
 			wp_send_json_error( array( 'message' => __( 'Vul een geldig ordernummer en e-mailadres in.', 'wc-herroepingsfunctie' ) ) );
 		}
 
+		$rate_limited = $this->check_rate_limit( 'lookup_ip', $this->get_ip(), 30, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $rate_limited ) ) {
+			wp_send_json_error( array( 'message' => $rate_limited->get_error_message() ) );
+		}
+
+		$rate_limited = $this->check_rate_limit( 'lookup_email_ip', $this->get_ip() . '|' . $email, 10, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $rate_limited ) ) {
+			wp_send_json_error( array( 'message' => $rate_limited->get_error_message() ) );
+		}
+
 		$order = $this->find_order( $order_number );
 
 		// Bewust generieke melding om order-enumeratie te voorkomen.
@@ -411,6 +421,16 @@ final class WC_Herroepingsfunctie {
 
 		if ( '' === $order_number || '' === $email || ! is_email( $email ) || empty( $item_ids ) ) {
 			wp_send_json_error( array( 'message' => __( 'Onvolledige aanvraag. Probeer het opnieuw.', 'wc-herroepingsfunctie' ) ) );
+		}
+
+		$rate_limited = $this->check_rate_limit( 'submit_ip', $this->get_ip(), 20, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $rate_limited ) ) {
+			wp_send_json_error( array( 'message' => $rate_limited->get_error_message() ) );
+		}
+
+		$rate_limited = $this->check_rate_limit( 'submit_email_ip', $this->get_ip() . '|' . $email, 6, 10 * MINUTE_IN_SECONDS );
+		if ( is_wp_error( $rate_limited ) ) {
+			wp_send_json_error( array( 'message' => $rate_limited->get_error_message() ) );
 		}
 
 		// Server-side opnieuw verifiëren (vertrouw de client niet).
@@ -589,6 +609,26 @@ final class WC_Herroepingsfunctie {
 			$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		}
 		return $ip;
+	}
+
+	private function check_rate_limit( $scope, $identifier, $limit, $window ) {
+		$identifier = strtolower( trim( (string) $identifier ) );
+		if ( '' === $identifier ) {
+			$identifier = 'unknown';
+		}
+
+		$key    = 'wch_rate_' . md5( $scope . '|' . $identifier . '|' . wp_salt( 'nonce' ) );
+		$record = get_transient( $key );
+		$count  = is_array( $record ) && isset( $record['count'] ) ? (int) $record['count'] : 0;
+		$count++;
+
+		set_transient( $key, array( 'count' => $count ), absint( $window ) );
+
+		if ( $count > absint( $limit ) ) {
+			return new WP_Error( 'wch_rate_limited', __( 'Te veel pogingen. Wacht even en probeer het later opnieuw.', 'wc-herroepingsfunctie' ) );
+		}
+
+		return false;
 	}
 
 	private function items_to_html( $items ) {
