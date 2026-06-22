@@ -3,7 +3,7 @@ Contributors: aronprins
 Tags: woocommerce, withdrawal, refunds, compliance, checkout
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -117,6 +117,9 @@ De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert 
 
 = Unreleased =
 
+= 1.1.6 =
+* Updated plugin author metadata and public plugin URL to Aron & Sharon.
+
 = 1.1.5 =
 * Cleared the GitHub release metadata cache when an authorized admin uses WordPress' forced update check.
 
@@ -148,6 +151,9 @@ De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert 
 * Initial online herroepingsfunctie with shortcode, account endpoint, email confirmation and admin log.
 
 == Upgrade Notice ==
+
+= 1.1.6 =
+Updates the plugin author metadata to Aron & Sharon.
 
 = 1.1.5 =
 Improves GitHub Releases updater freshness when an admin clicks Dashboard > Updates > Check again.
