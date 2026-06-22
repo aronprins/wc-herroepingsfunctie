@@ -3,7 +3,7 @@
  * Plugin Name:       WooCommerce Herroepingsfunctie (NL)
  * Plugin URI:        https://example.com/
  * Description:        Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt gedeeltelijke herroeping, tweestapsbevestiging, automatische ontvangstbevestiging en logging.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            Custom
  * License:           GPL-2.0-or-later
  * Text Domain:       wc-herroepingsfunctie
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Directe toegang verbieden.
 }
 
-define( 'WCH_VERSION', '1.1.1' );
+define( 'WCH_VERSION', '1.1.2' );
 define( 'WCH_OPTION', 'wch_settings' );
 define( 'WCH_TABLE', 'wch_herroepingen' );
 define( 'WCH_FILE', __FILE__ );
@@ -163,11 +163,13 @@ final class WC_Herroepingsfunctie {
 			'sluit_virtueel_uit' => 'no',
 			'order_status'       => 'no', // 'yes' = order op 'in afwachting' zetten.
 			'bewaar_ip'          => 'no',
-			'waiver_enabled'     => 'yes',
-			'waiver_text'        => 'I agree that the product is delivered immediately after payment, and I acknowledge that I thereby waive my statutory 14-day right of withdrawal.',
-			'waiver_version'     => '1.0',
-			'waiver_error'       => 'Please agree to immediate digital delivery and acknowledge that you waive your right of withdrawal to complete this order.',
-			'waiver_button_text' => 'Buy now (payment required)',
+			'waiver_enabled'                  => 'yes',
+			'waiver_text'                     => 'I agree that the product is delivered immediately after payment, and I acknowledge that I thereby waive my statutory 14-day right of withdrawal.',
+			'waiver_version'                  => '1.0',
+			'waiver_error'                    => 'Please agree to immediate digital delivery and acknowledge that you waive your right of withdrawal to complete this order.',
+			'waiver_button_text'              => 'Buy now (payment required)',
+			'waiver_countries'                => $this->get_default_waiver_countries_string(),
+			'waiver_unknown_country_requires' => 'yes',
 		);
 	}
 
@@ -600,16 +602,6 @@ final class WC_Herroepingsfunctie {
 			return $args;
 		}
 
-		$digital_cart_schema = array(
-			'cart' => array(
-				'properties' => array(
-					'needs_shipping' => array(
-						'const' => false,
-					),
-				),
-			),
-		);
-
 		$physical_cart_schema = array(
 			'cart' => array(
 				'properties' => array(
@@ -620,15 +612,14 @@ final class WC_Herroepingsfunctie {
 			),
 		);
 
-		$args['required'] = $digital_cart_schema;
-		$args['hidden']   = $physical_cart_schema;
+		$args['hidden'] = $physical_cart_schema;
 
 		return $args;
 	}
 
 	public function enqueue_checkout_block_assets() {
 		$settings = $this->get_settings();
-		if ( 'yes' !== $settings['waiver_enabled'] || '' === trim( (string) $settings['waiver_button_text'] ) ) {
+		if ( 'yes' !== $settings['waiver_enabled'] ) {
 			return;
 		}
 		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) ) {
@@ -646,7 +637,9 @@ final class WC_Herroepingsfunctie {
 			'wch-checkout-blocks',
 			'window.wchCheckoutWaiver = ' . wp_json_encode(
 				array(
-					'buttonText' => $settings['waiver_button_text'],
+					'buttonText'             => $settings['waiver_button_text'],
+					'countryCodes'           => $this->get_waiver_country_codes(),
+					'unknownCountryRequires' => 'yes' === $settings['waiver_unknown_country_requires'],
 				)
 			) . ';',
 			'before'
@@ -692,7 +685,15 @@ final class WC_Herroepingsfunctie {
 	}
 
 	public function save_block_checkout_waiver_field( $field_key, $field_value, $group, $wc_object ) {
-		if ( self::WAIVER_FIELD_ID !== $field_key || ! in_array( $group, array( 'other', 'additional' ), true ) || ! $wc_object instanceof WC_Order || ! $this->is_truthy( $field_value ) ) {
+		$billing_country = $this->get_checkout_billing_country();
+		if (
+			'' === $this->normalize_country_code( $billing_country ) ||
+			self::WAIVER_FIELD_ID !== $field_key ||
+			! in_array( $group, array( 'other', 'additional' ), true ) ||
+			! ( $wc_object instanceof WC_Order ) ||
+			! $this->cart_requires_checkout_waiver_for_country( $billing_country ) ||
+			! $this->is_truthy( $field_value )
+		) {
 			return;
 		}
 
@@ -704,8 +705,15 @@ final class WC_Herroepingsfunctie {
 			return;
 		}
 
-		$additional_fields = $request instanceof WP_REST_Request ? $request->get_param( 'additional_fields' ) : array();
-		if ( is_array( $additional_fields ) && isset( $additional_fields[ self::WAIVER_FIELD_ID ] ) && $this->is_truthy( $additional_fields[ self::WAIVER_FIELD_ID ] ) ) {
+		$billing_country = $this->get_checkout_billing_country_from_request( $request );
+		$requires        = $this->cart_requires_checkout_waiver_for_country( $billing_country );
+		$has_agreement   = $this->request_has_block_waiver_agreement( $request );
+
+		if ( $requires && ! $has_agreement ) {
+			$this->throw_store_api_checkout_error();
+		}
+
+		if ( $requires && $has_agreement ) {
 			$this->store_withdrawal_waiver_on_order( $order, 'checkout_block' );
 		}
 	}
@@ -715,7 +723,7 @@ final class WC_Herroepingsfunctie {
 			return;
 		}
 
-		if ( $this->order_has_block_waiver_value( $order ) ) {
+		if ( $this->cart_requires_checkout_waiver() && $this->order_has_block_waiver_value( $order ) ) {
 			$this->store_withdrawal_waiver_on_order( $order, 'checkout_block' );
 		}
 	}
@@ -725,14 +733,20 @@ final class WC_Herroepingsfunctie {
 	}
 
 	public function validate_block_waiver_checkbox_value( $field_value ) {
-		if ( $this->cart_requires_checkout_waiver() && ! $this->is_truthy( $field_value ) ) {
+		$billing_country = $this->get_checkout_billing_country();
+		if (
+			'' !== $this->normalize_country_code( $billing_country ) &&
+			$this->cart_requires_checkout_waiver_for_country( $billing_country ) &&
+			! $this->is_truthy( $field_value )
+		) {
 			$settings = $this->get_settings();
 			return new WP_Error( 'wch_withdrawal_waiver_required', $settings['waiver_error'] );
 		}
 	}
 
 	public function validate_experimental_block_waiver_fields( $errors, $fields, $group ) {
-		if ( ! $errors instanceof WP_Error || ! $this->cart_requires_checkout_waiver() ) {
+		$billing_country = $this->get_checkout_billing_country();
+		if ( '' === $this->normalize_country_code( $billing_country ) || ! ( $errors instanceof WP_Error ) || ! $this->cart_requires_checkout_waiver_for_country( $billing_country ) ) {
 			return;
 		}
 
@@ -820,6 +834,23 @@ final class WC_Herroepingsfunctie {
 			return false;
 		}
 
+		return $this->cart_requires_checkout_waiver_for_country( $this->get_checkout_billing_country() );
+	}
+
+	private function cart_requires_checkout_waiver_for_country( $country ) {
+		$settings = $this->get_settings();
+		if ( 'yes' !== $settings['waiver_enabled'] || ! $this->cart_has_only_digital_products() ) {
+			return false;
+		}
+
+		return $this->country_requires_checkout_waiver( $country );
+	}
+
+	private function cart_has_only_digital_products() {
+		if ( ! function_exists( 'WC' ) || ! WC()->cart || WC()->cart->is_empty() ) {
+			return false;
+		}
+
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
 			$product = isset( $cart_item['data'] ) ? $cart_item['data'] : null;
 			if ( ! $product || ( ! $product->is_downloadable() && ! $product->is_virtual() ) ) {
@@ -828,6 +859,57 @@ final class WC_Herroepingsfunctie {
 		}
 
 		return true;
+	}
+
+	private function country_requires_checkout_waiver( $country ) {
+		$country = $this->normalize_country_code( $country );
+		if ( '' === $country ) {
+			$settings = $this->get_settings();
+			return 'yes' === $settings['waiver_unknown_country_requires'];
+		}
+
+		return in_array( $country, $this->get_waiver_country_codes(), true );
+	}
+
+	private function get_checkout_billing_country() {
+		if ( isset( $_POST['billing_country'] ) ) {
+			return $this->normalize_country_code( wp_unslash( $_POST['billing_country'] ) );
+		}
+
+		if ( function_exists( 'WC' ) && WC()->customer ) {
+			$billing_country = WC()->customer->get_billing_country();
+			if ( '' !== $this->normalize_country_code( $billing_country ) ) {
+				return $billing_country;
+			}
+
+			return WC()->customer->get_shipping_country();
+		}
+
+		return '';
+	}
+
+	private function get_checkout_billing_country_from_request( $request ) {
+		if ( ! $request instanceof WP_REST_Request ) {
+			return $this->get_checkout_billing_country();
+		}
+
+		$billing_address = $request->get_param( 'billing_address' );
+		if ( is_array( $billing_address ) && isset( $billing_address['country'] ) ) {
+			$country = $this->normalize_country_code( $billing_address['country'] );
+			if ( '' !== $country ) {
+				return $country;
+			}
+		}
+
+		$shipping_address = $request->get_param( 'shipping_address' );
+		if ( is_array( $shipping_address ) && isset( $shipping_address['country'] ) ) {
+			$country = $this->normalize_country_code( $shipping_address['country'] );
+			if ( '' !== $country ) {
+				return $country;
+			}
+		}
+
+		return $this->get_checkout_billing_country();
 	}
 
 	private function order_has_block_waiver_value( $order ) {
@@ -860,6 +942,109 @@ final class WC_Herroepingsfunctie {
 	private function request_has_waiver_agreement() {
 		$value = isset( $_POST['wch_withdrawal_waiver_agreed'] ) ? sanitize_text_field( wp_unslash( $_POST['wch_withdrawal_waiver_agreed'] ) ) : '';
 		return $this->is_truthy( $value );
+	}
+
+	private function request_has_block_waiver_agreement( $request ) {
+		if ( ! $request instanceof WP_REST_Request ) {
+			return false;
+		}
+
+		$additional_fields = $request->get_param( 'additional_fields' );
+		if ( is_array( $additional_fields ) && isset( $additional_fields[ self::WAIVER_FIELD_ID ] ) ) {
+			return $this->is_truthy( $additional_fields[ self::WAIVER_FIELD_ID ] );
+		}
+
+		$extensions = $request->get_param( 'extensions' );
+		if ( is_array( $extensions ) && isset( $extensions['wc-herroepingsfunctie'][ self::WAIVER_FIELD_ID ] ) ) {
+			return $this->is_truthy( $extensions['wc-herroepingsfunctie'][ self::WAIVER_FIELD_ID ] );
+		}
+
+		return false;
+	}
+
+	private function throw_store_api_checkout_error() {
+		$settings = $this->get_settings();
+		if ( class_exists( '\Automattic\WooCommerce\StoreApi\Exceptions\RouteException' ) ) {
+			throw new \Automattic\WooCommerce\StoreApi\Exceptions\RouteException(
+				'wch_withdrawal_waiver_required',
+				$settings['waiver_error'],
+				400
+			);
+		}
+
+		throw new Exception( esc_html( $settings['waiver_error'] ) );
+	}
+
+	private function get_default_waiver_country_codes() {
+		return array(
+			'AT',
+			'BE',
+			'BG',
+			'HR',
+			'CY',
+			'CZ',
+			'DK',
+			'EE',
+			'FI',
+			'FR',
+			'DE',
+			'GR',
+			'HU',
+			'IE',
+			'IT',
+			'LV',
+			'LT',
+			'LU',
+			'MT',
+			'NL',
+			'PL',
+			'PT',
+			'RO',
+			'SK',
+			'SI',
+			'ES',
+			'SE',
+			'IS',
+			'LI',
+			'NO',
+		);
+	}
+
+	private function get_default_waiver_countries_string() {
+		return implode( ',', $this->get_default_waiver_country_codes() );
+	}
+
+	private function get_waiver_country_codes() {
+		$settings = $this->get_settings();
+		$codes    = $this->parse_country_codes( $settings['waiver_countries'] );
+		return ! empty( $codes ) ? $codes : $this->get_default_waiver_country_codes();
+	}
+
+	private function sanitize_waiver_country_codes( $value ) {
+		$codes = $this->parse_country_codes( $value );
+		return ! empty( $codes ) ? implode( ',', $codes ) : $this->get_default_waiver_countries_string();
+	}
+
+	private function parse_country_codes( $value ) {
+		if ( is_array( $value ) ) {
+			$value = implode( ',', $value );
+		}
+
+		$parts = preg_split( '/[\s,;]+/', strtoupper( (string) $value ) );
+		$codes = array();
+		foreach ( (array) $parts as $part ) {
+			$code = $this->normalize_country_code( $part );
+			if ( '' !== $code ) {
+				$codes[] = $code;
+			}
+		}
+
+		return array_values( array_unique( $codes ) );
+	}
+
+	private function normalize_country_code( $country ) {
+		$country = strtoupper( trim( sanitize_text_field( (string) $country ) ) );
+		return preg_match( '/^[A-Z]{2}$/', $country ) ? $country : '';
 	}
 
 	/* --------------------------------------------------------------------- *
@@ -1119,11 +1304,13 @@ final class WC_Herroepingsfunctie {
 		$out['sluit_virtueel_uit'] = ( isset( $input['sluit_virtueel_uit'] ) && 'yes' === $input['sluit_virtueel_uit'] ) ? 'yes' : 'no';
 		$out['order_status']       = ( isset( $input['order_status'] ) && 'yes' === $input['order_status'] ) ? 'yes' : 'no';
 		$out['bewaar_ip']          = ( isset( $input['bewaar_ip'] ) && 'yes' === $input['bewaar_ip'] ) ? 'yes' : 'no';
-		$out['waiver_enabled']     = ( isset( $input['waiver_enabled'] ) && 'yes' === $input['waiver_enabled'] ) ? 'yes' : 'no';
-		$out['waiver_text']        = isset( $input['waiver_text'] ) ? sanitize_textarea_field( $input['waiver_text'] ) : $out['waiver_text'];
-		$out['waiver_version']     = isset( $input['waiver_version'] ) ? sanitize_text_field( $input['waiver_version'] ) : $out['waiver_version'];
-		$out['waiver_error']       = isset( $input['waiver_error'] ) ? sanitize_text_field( $input['waiver_error'] ) : $out['waiver_error'];
-		$out['waiver_button_text'] = isset( $input['waiver_button_text'] ) ? sanitize_text_field( $input['waiver_button_text'] ) : $out['waiver_button_text'];
+		$out['waiver_enabled']                  = ( isset( $input['waiver_enabled'] ) && 'yes' === $input['waiver_enabled'] ) ? 'yes' : 'no';
+		$out['waiver_text']                     = isset( $input['waiver_text'] ) ? sanitize_textarea_field( $input['waiver_text'] ) : $out['waiver_text'];
+		$out['waiver_version']                  = isset( $input['waiver_version'] ) ? sanitize_text_field( $input['waiver_version'] ) : $out['waiver_version'];
+		$out['waiver_error']                    = isset( $input['waiver_error'] ) ? sanitize_text_field( $input['waiver_error'] ) : $out['waiver_error'];
+		$out['waiver_button_text']              = isset( $input['waiver_button_text'] ) ? sanitize_text_field( $input['waiver_button_text'] ) : $out['waiver_button_text'];
+		$out['waiver_countries']                = isset( $input['waiver_countries'] ) ? $this->sanitize_waiver_country_codes( $input['waiver_countries'] ) : $out['waiver_countries'];
+		$out['waiver_unknown_country_requires'] = ( isset( $input['waiver_unknown_country_requires'] ) && 'yes' === $input['waiver_unknown_country_requires'] ) ? 'yes' : 'no';
 		return $out;
 	}
 
@@ -1199,7 +1386,21 @@ final class WC_Herroepingsfunctie {
 						<th><?php esc_html_e( 'Afstandsverklaring inschakelen', 'wc-herroepingsfunctie' ); ?></th>
 						<td>
 							<label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_enabled]" value="yes" <?php checked( 'yes', $s['waiver_enabled'] ); ?>> <?php esc_html_e( 'Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare producten bevatten', 'wc-herroepingsfunctie' ); ?></label>
-							<p class="description"><?php esc_html_e( 'Werkt met classic checkout en met de WooCommerce Checkout Block. WooCommerce 8.6-8.8 gebruikt de oudere experimentele Blocks API; WooCommerce 8.9+ gebruikt de stabiele Additional Checkout Fields API. Voor conditioneel tonen in blocks is WooCommerce 9.9+ nodig; oudere block-checkouts kunnen het veld mogelijk altijd tonen.', 'wc-herroepingsfunctie' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin verplicht de checkbox server-side alleen voor volledig digitale carts en de hieronder ingestelde factuurlanden.', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="wch_waiver_countries"><?php esc_html_e( 'Landen waarvoor afstandsverklaring geldt', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td>
+							<textarea id="wch_waiver_countries" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_countries]" rows="3" class="large-text code"><?php echo esc_textarea( $s['waiver_countries'] ); ?></textarea>
+							<p class="description"><?php esc_html_e( 'Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO).', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Onbekend factuurland', 'wc-herroepingsfunctie' ); ?></th>
+						<td>
+							<label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_unknown_country_requires]" value="yes" <?php checked( 'yes', $s['waiver_unknown_country_requires'] ); ?>> <?php esc_html_e( 'Checkbox verplichten zolang het factuurland nog leeg of onbekend is', 'wc-herroepingsfunctie' ); ?></label>
+							<p class="description"><?php esc_html_e( 'Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht.', 'wc-herroepingsfunctie' ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -1221,7 +1422,7 @@ final class WC_Herroepingsfunctie {
 						<th><label for="wch_waiver_button"><?php esc_html_e( 'Betaalknoptekst', 'wc-herroepingsfunctie' ); ?></label></th>
 						<td>
 							<input id="wch_waiver_button" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_button_text]" value="<?php echo esc_attr( $s['waiver_button_text'] ); ?>" class="regular-text">
-							<p class="description"><?php esc_html_e( 'Classic checkout gebruikt deze tekst alleen voor digitale carts. De Checkout Block-filter kan de betaalknop alleen globaal aanpassen wanneer dit script geladen is.', 'wc-herroepingsfunctie' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de digitale-cart en factuurlandregels gelden.', 'wc-herroepingsfunctie' ); ?></p>
 						</td>
 					</tr>
 				</table>

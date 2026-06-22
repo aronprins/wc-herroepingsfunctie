@@ -136,6 +136,12 @@ Voor digitale inhoud die niet op een materiële drager wordt geleverd, vervalt h
 
 Dit staat los van de nieuwe online herroepingsfunctie. De herroepingsfunctie is de route waarmee consumenten na aankoop hun recht kunnen uitoefenen waar dat recht nog bestaat. De checkout-afstandsverklaring is de route waarmee bij directe levering van digitale inhoud wordt vastgelegd dat het recht onder voorwaarden vervalt.
 
+### Landenscope voor de digitale checkout-afstandsverklaring
+
+De Consumentenrechtenrichtlijn is EU-consumentenrecht. Voor de checkout-afstandsverklaring bij directe levering van digitale inhoud is het daarom verdedigbaar om de verplichting standaard te beperken tot consumenten met een factuurland binnen de EU/EER. Gebruik hiervoor het WooCommerce-factuurland, niet het verzendland: digitale carts hebben vaak geen verzendadres en het factuurland sluit beter aan bij de consumentpositie in checkout.
+
+De plugin hanteert daarom standaard EU + EER als scope: AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI en NO. Zolang het factuurland nog leeg of onbekend is, is fail-closed gedrag aanbevolen: toon/verplicht de checkbox totdat een niet-gescopeerd land is geselecteerd. Controleer apart of je ook landen buiten de EU/EER wilt opnemen, zoals het Verenigd Koninkrijk of Zwitserland, omdat die eigen of vergelijkbare regels kunnen hebben.
+
 ---
 
 ## 8. Handhaving
@@ -188,7 +194,7 @@ Keten & techniek:
 | Tijdigheid (timestamp) | Indientijdstip wordt geregistreerd en in de mail opgenomen |
 | Logging/bewijslast | Eigen databasetabel + ordernotitie; overzicht in WooCommerce-beheer |
 | Uitzonderingen | Uitsluiting per categorie, product-ID of virtueel/downloadbaar |
-| Digitale checkout-afstandsverklaring | Verplichte checkbox voor carts met uitsluitend virtuele/downloadbare producten; tekst, versie, timestamp en bron worden op de order bewaard en in de klantmail bevestigd |
+| Digitale checkout-afstandsverklaring | Verplichte checkbox voor carts met uitsluitend virtuele/downloadbare producten en een factuurland binnen de ingestelde scope (standaard EU/EER); tekst, versie, timestamp en bron worden op de order bewaard en in de klantmail bevestigd |
 | Privacy/AVG | Ordergegevens pas na e-mailverificatie; IP-logging optioneel |
 
 ---

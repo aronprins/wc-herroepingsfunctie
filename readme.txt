@@ -10,7 +10,10 @@ INSTALLATIE
 4. Controleer in dezelfde instellingen de sectie
    "Checkout-afstandsverklaring voor digitale producten". Deze toont een
    verplichte checkbox bij carts die uitsluitend virtuele/downloadbare
-   producten bevatten en bewaart tekst, versie en tijdstip op de order.
+   producten bevatten voor ingestelde factuurlanden. Standaard is dit EU + EER
+   (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU,
+   MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO). De plugin bewaart tekst,
+   versie en tijdstip op de order.
 5. Maak een goed vindbare pagina (bv. "Herroepen / Annuleren") en zet daar
    de shortcode [herroepingsfunctie] op. Plaats een link in je footer.
    Het formulier staat ook automatisch in Mijn account onder "Herroepen".
@@ -21,13 +24,17 @@ CHECKOUT-BLOCK
 De afstandsverklaring werkt met classic checkout en met de WooCommerce
 Checkout Block. WooCommerce 8.6-8.8 gebruikt hiervoor de oudere experimentele
 Blocks API; WooCommerce 8.9+ gebruikt de stabiele Additional Checkout Fields
-API. Voor conditioneel tonen alleen bij digitale carts gebruikt WooCommerce
-9.9+ het cart-schema; op oudere block-checkouts kan het veld daardoor ruimer
-zichtbaar zijn. Server-side validatie verplicht de checkbox alleen voor carts
-die uitsluitend virtuele/downloadbare producten bevatten. De betaalknoptekst kan
-in classic checkout per digitale cart worden aangepast; in Checkout Block is de
-Woo-filter alleen globaal beschikbaar wanneer het script is geladen.
+API. Voor conditioneel tonen bij fysieke carts gebruikt WooCommerce 9.9+ het
+cart-schema; oudere block-checkouts worden aanvullend door het meegeleverde
+checkout-script verborgen/aangestuurd. Server-side validatie verplicht de
+checkbox alleen voor carts die uitsluitend virtuele/downloadbare producten
+bevatten en waarvan het geselecteerde factuurland in de ingestelde landenlijst
+staat. Zolang het factuurland leeg of onbekend is, geldt standaard fail-closed
+gedrag en blijft de checkbox verplicht. Dit kan in de instellingen worden
+uitgezet. De betaalknoptekst wordt alleen aangepast wanneer dezelfde
+digitale-cart en factuurlandregels gelden.
 
 LET OP
-Test op staging. Laat juridische teksten en de lijst met uitzonderingen
-controleren door een jurist voor livegang.
+Test op staging. Laat juridische teksten, de landenlijst en de lijst met
+uitzonderingen controleren door een jurist voor livegang. Niet-EU landen kunnen
+eigen of vergelijkbare regels hebben.
