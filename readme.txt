@@ -3,7 +3,7 @@ Contributors: aronprins
 Tags: woocommerce, withdrawal, refunds, compliance, checkout
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -117,6 +117,9 @@ De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert 
 
 = Unreleased =
 
+= 1.1.5 =
+* Cleared the GitHub release metadata cache when an authorized admin uses WordPress' forced update check.
+
 = 1.1.4 =
 * Added a settings-page dropdown for loading bundled translated defaults into editable text fields before saving.
 * Preserved explicitly selected bundled default translations when they match the raw built-in defaults.
@@ -145,6 +148,9 @@ De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert 
 * Initial online herroepingsfunctie with shortcode, account endpoint, email confirmation and admin log.
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Improves GitHub Releases updater freshness when an admin clicks Dashboard > Updates > Check again.
 
 = 1.1.4 =
 Adds a review-before-save translation selector for default legal text settings.

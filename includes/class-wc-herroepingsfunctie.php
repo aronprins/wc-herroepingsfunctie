@@ -56,6 +56,7 @@ final class WC_Herroepingsfunctie {
 		// WordPress update metadata voor GitHub Releases. Dit staat los van WooCommerce.
 		add_filter( 'update_plugins_github.com', array( $this, 'filter_github_release_update' ), 10, 4 );
 		add_filter( 'plugins_api', array( $this, 'filter_github_release_plugin_information' ), 10, 3 );
+		add_action( 'load-update-core.php', array( $this, 'clear_github_release_cache_for_forced_update_check' ), 1 );
 	}
 
 	/**

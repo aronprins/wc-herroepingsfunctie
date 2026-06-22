@@ -13,6 +13,11 @@ define( 'HOUR_IN_SECONDS', 3600 );
 
 $wch_test_filters    = array();
 $wch_test_transients = array();
+$wch_test_deleted_transients = array();
+$wch_test_is_admin = true;
+$wch_test_caps = array(
+	'update_plugins' => true,
+);
 
 function register_activation_hook( $file, $callback ) {
 	unset( $file, $callback );
@@ -58,6 +63,14 @@ function set_site_transient( $key, $value, $expiration = 0 ) {
 	return true;
 }
 
+function delete_site_transient( $key ) {
+	global $wch_test_transients, $wch_test_deleted_transients;
+
+	$wch_test_deleted_transients[] = $key;
+	unset( $wch_test_transients[ $key ] );
+	return true;
+}
+
 function wp_remote_get( $url, $args = array() ) {
 	unset( $url, $args );
 
@@ -79,6 +92,18 @@ function is_wp_error( $value ) {
 	return false;
 }
 
+function is_admin() {
+	global $wch_test_is_admin;
+
+	return $wch_test_is_admin;
+}
+
+function current_user_can( $capability ) {
+	global $wch_test_caps;
+
+	return ! empty( $wch_test_caps[ $capability ] );
+}
+
 function home_url( $path = '' ) {
 	return 'https://example.test/' . ltrim( $path, '/' );
 }
@@ -89,6 +114,10 @@ function esc_url_raw( $url ) {
 
 function sanitize_text_field( $value ) {
 	return trim( preg_replace( '/[\r\n\t]+/', ' ', (string) $value ) );
+}
+
+function wp_unslash( $value ) {
+	return $value;
 }
 
 function absint( $value ) {
@@ -154,6 +183,13 @@ $plugin_data = array(
 	'Version'   => WCH_VERSION,
 	'UpdateURI' => WCH_UPDATE_URI,
 );
+
+$wch_test_transients[ WCH_GITHUB_RELEASE_TRANSIENT ] = array( 'version' => WCH_VERSION );
+$_GET['force-check'] = '1';
+$plugin->clear_github_release_cache_for_forced_update_check();
+wch_assert_true( ! isset( $wch_test_transients[ WCH_GITHUB_RELEASE_TRANSIENT ] ), 'forced update checks clear the GitHub release cache' );
+wch_assert_same( array( WCH_GITHUB_RELEASE_TRANSIENT ), $wch_test_deleted_transients, 'forced update check deletes the expected transient once' );
+unset( $_GET['force-check'] );
 
 $version_parts = array_map( 'absint', explode( '.', WCH_VERSION ) );
 while ( count( $version_parts ) < 3 ) {

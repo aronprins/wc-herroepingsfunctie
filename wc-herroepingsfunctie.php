@@ -3,7 +3,7 @@
  * Plugin Name:       WooCommerce Herroepingsfunctie (NL)
  * Plugin URI:        https://github.com/aronprins/wc-herroepingsfunctie
  * Description:        Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt gedeeltelijke herroeping, tweestapsbevestiging, automatische ontvangstbevestiging en logging.
- * Version:           1.1.4
+ * Version:           1.1.5
  * Author:            Custom
  * License:           GPL-2.0-or-later
  * Text Domain:       wc-herroepingsfunctie
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Directe toegang verbieden.
 }
 
-define( 'WCH_VERSION', '1.1.4' );
+define( 'WCH_VERSION', '1.1.5' );
 define( 'WCH_OPTION', 'wch_settings' );
 define( 'WCH_TABLE', 'wch_herroepingen' );
 define( 'WCH_FILE', __FILE__ );

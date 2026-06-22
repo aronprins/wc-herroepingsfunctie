@@ -136,8 +136,8 @@ To publish a release:
 
 ```bash
 git status --short
-git tag v1.1.4
-git push origin v1.1.4
+git tag v1.1.5
+git push origin v1.1.5
 ```
 
 Users can download `wc-herroepingsfunctie-<version>.zip` from the GitHub Release and install it directly through `Plugins > Add New > Upload Plugin` in WordPress.
@@ -159,6 +159,10 @@ For staging verification inside WordPress without publishing a real release, add
 ## Changelog
 
 ### Unreleased
+
+### 1.1.5
+
+- Cleared the GitHub release metadata cache when an authorized admin uses WordPress' forced update check.
 
 ### 1.1.4
 

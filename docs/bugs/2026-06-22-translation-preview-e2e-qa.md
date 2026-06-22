@@ -45,6 +45,7 @@
 | Final checkout restoration | Digital cart after Dutch restore | Pass | Checkout showed Dutch waiver text and `Nu kopen (betaling verplicht)`. |
 | Final cleanup | Cart and product state | Pass | Cart emptied; product `Test` restored to virtual and downloadable. |
 | Older release baseline | Install published `v1.1.3` ZIP locally, then test settings and checkout | Pass | wp-admin showed version `1.1.3`, translation dropdown/admin script were absent, Dutch digital waiver rendered, validation blocked unchecked checkout, and cart was emptied. |
+| Update baseline from `v1.1.3` | Dashboard > Updates > Opnieuw controleren | Blocked as expected | The published `v1.1.3` ZIP does not include `Update URI` or the GitHub updater code, so WordPress cannot discover `v1.1.4` from that install. |
 
 ## Bugs Found And Fixed
 
@@ -59,12 +60,23 @@
 - Fix: Added hidden settings provenance fields (`_default_translation_locale` and `_default_translation_fields`) that the admin script updates when a bundled translation is selected. Sanitization validates the provenance against the selected `.mo` translation values, and `get_settings()` skips auto-localization only for those explicitly selected default-translation fields.
 - Verification: Browser retest showed saved `en_GB` waiver text and `Buy now (payment required)` persisted on the settings page and appeared in Checkout Block. After testing, selecting `nl_NL` restored the Dutch defaults.
 
+### 2. Forced WordPress update checks could reuse stale GitHub release metadata
+
+- Status: Fixed in follow-up release `1.1.5`.
+- Severity: Medium update UX issue.
+- Reproduction: Install a release that includes the GitHub updater, let it cache the current latest GitHub Release, publish a newer release, then open `Dashboard > Updates` and click `Opnieuw controleren`.
+- Actual before fix: WordPress refreshes its own `update_plugins` transient, but the plugin's separate `wch_github_release_latest` transient can still return the earlier GitHub Release for up to six hours.
+- Expected: An authorized admin's forced WordPress update check should also refresh this plugin's GitHub release metadata.
+- Fix: Added a `load-update-core.php` hook and a defensive updater-level check that deletes `wch_github_release_latest` once per request when an admin with `update_plugins` visits `update-core.php?force-check=1`.
+- Verification: Added coverage to `php tests/github-release-updater-test.php`; full browser update verification is run from `v1.1.4` to `v1.1.5` because the published `v1.1.3` ZIP predates the updater.
+
 ## Observations
 
 - Browser console logs included a few generic `InvalidStateError: Transition was aborted because of invalid state` entries on wp-admin pages and two unattributed `MutationObserver` errors. No user-facing workflow failure accompanied them, and the `MutationObserver` entries were not clearly attributable to this plugin. No code change was made for those logs.
 - The withdrawal endpoint body picked up the saved English intro/confirmation texts while the plugin's fixed field labels and some transactional body copy remained Dutch. That matches the current design because only configured text fields are translated through settings.
 - The run intentionally created order `#29` and withdrawal evidence for order `#29` in the Local WP site.
 - After the branch E2E pass, the active Local plugin copy was replaced with the published `v1.1.3` ZIP and smoke-tested as the baseline for updater verification.
+- The published `v1.1.3` ZIP cannot be used for GitHub updater E2E because it does not contain the updater header or code. The updater E2E baseline must therefore be `v1.1.4` or newer.
 
 ## Verification Commands
 
