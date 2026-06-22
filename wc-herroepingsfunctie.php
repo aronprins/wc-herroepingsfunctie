@@ -271,7 +271,7 @@ final class WC_Herroepingsfunctie {
 
 			var ajaxUrl = <?php echo wp_json_encode( $ajax_url ); ?>;
 			var nonce   = <?php echo wp_json_encode( $nonce ); ?>;
-			var state   = { order:'', email:'', items:[], selected:[] };
+			var state   = { order:'', email:'', customerName:'', items:[], selected:[] };
 
 			function $(sel){ return app.querySelector(sel); }
 			function show(step){
@@ -309,6 +309,7 @@ final class WC_Herroepingsfunctie {
 					post('wch_lookup', {order_number:state.order, email:state.email}).then(function(res){
 						e.target.disabled = false;
 						if(!res || !res.success){ err(res && res.data ? res.data.message : 'Er ging iets mis.'); return; }
+						state.customerName = res.data.customer_name || '';
 						state.items = res.data.items;
 						var html = '';
 						state.items.forEach(function(it){
@@ -331,7 +332,9 @@ final class WC_Herroepingsfunctie {
 					if(cbs.length === 0){ err('Selecteer minimaal één product om te herroepen.'); return; }
 					state.selected = Array.prototype.map.call(cbs, function(c){ return c.value; });
 					var names = state.items.filter(function(it){ return state.selected.indexOf(String(it.id)) > -1; });
-					var sum = '<ul style="margin:.5em 0 .5em 1.2em;">';
+					var sum = '<p><strong>Naam:</strong> '+esc(state.customerName || '-')+'<br>'
+						+ '<strong>E-mailadres voor bevestiging:</strong> '+esc(state.email)+'</p>';
+					sum += '<ul style="margin:.5em 0 .5em 1.2em;">';
 					names.forEach(function(it){ sum += '<li>'+esc(it.name)+' &times; '+esc(it.qty)+'</li>'; });
 					sum += '</ul>';
 					var reason = $('#wch-reason').value.trim();
@@ -404,7 +407,10 @@ final class WC_Herroepingsfunctie {
 			) );
 		}
 
-		wp_send_json_success( array( 'items' => $items ) );
+		wp_send_json_success( array(
+			'customer_name' => trim( $order->get_formatted_billing_full_name() ),
+			'items'         => $items,
+		) );
 	}
 
 	/* --------------------------------------------------------------------- *
@@ -652,6 +658,8 @@ final class WC_Herroepingsfunctie {
 		$body  = '<p>' . esc_html__( 'Beste', 'wc-herroepingsfunctie' ) . ' ' . esc_html( $name ) . ',</p>';
 		$body .= '<p>' . esc_html__( 'We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als bewijs.', 'wc-herroepingsfunctie' ) . '</p>';
 		$body .= '<p><strong>' . esc_html__( 'Ingediend op:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $time ) . '<br>';
+		$body .= '<strong>' . esc_html__( 'Naam:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $name ) . '<br>';
+		$body .= '<strong>' . esc_html__( 'E-mailadres voor bevestiging:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $email ) . '<br>';
 		$body .= '<strong>' . esc_html__( 'Bestelling:', 'wc-herroepingsfunctie' ) . '</strong> ' . esc_html( $order->get_order_number() ) . '</p>';
 		$body .= '<p><strong>' . esc_html__( 'Herroepen producten:', 'wc-herroepingsfunctie' ) . '</strong></p>';
 		$body .= $this->items_to_html( $items );
