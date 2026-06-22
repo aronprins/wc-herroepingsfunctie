@@ -30,6 +30,7 @@ jobs:
           set -euo pipefail
 
           php -l wc-herroepingsfunctie.php
+          php tests/github-release-updater-test.php
           node --check assets/js/checkout-blocks.js
           empty_tree="$(git hash-object -t tree /dev/null)"
           git diff --check "$empty_tree" HEAD

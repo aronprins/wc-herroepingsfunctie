@@ -33,6 +33,7 @@ De plugin is gebouwd voor B2C-compliance rondom het herroepingsrecht. Hij toont 
 * Digitale checkout-afstandsverklaring voor virtual/downloadable-only carts.
 * EU/EER billing-country scope voor de digitale checkout-afstandsverklaring.
 * Machine-assisted vertalingen voor EU-officiele talen, EER-talen en Engels.
+* WordPress-updatecontrole via installable ZIP-assets uit GitHub Releases.
 
 = Digitale checkout-afstandsverklaring =
 
@@ -107,7 +108,15 @@ Ja. Bij een herroeping bewaart de plugin de verklaring, geselecteerde producten,
 
 Ja. De plugin declareert compatibiliteit met WooCommerce High-Performance Order Storage en gebruikt WooCommerce order-API's voor ordermeta.
 
+= Hoe werken automatische updates? =
+
+De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert de nieuwste gepubliceerde niet-prerelease GitHub Release en accepteert alleen het exacte ZIP-asset `wc-herroepingsfunctie-<versie>.zip`. Drafts, prereleases, releases zonder exact ZIP-asset en niet-GitHub download-URL's worden genegeerd. De plugin forceert automatische updates niet; bestaande WordPress/site-instellingen blijven leidend.
+
 == Changelog ==
+
+= Unreleased =
+* Added a built-in WordPress updater that uses published GitHub Release ZIP assets.
+* Added an offline PHP test harness for updater release parsing and safety checks.
 
 = 1.1.3 =
 * Added WordPress textdomain loading.
