@@ -403,7 +403,7 @@ final class WC_Herroepingsfunctie {
 
 		if ( empty( $items ) ) {
 			wp_send_json_error( array(
-				'message' => __( 'Voor de producten in deze bestelling geldt geen wettelijk herroepingsrecht (bijvoorbeeld maatwerk, verzegelde of digitale producten). Neem bij vragen contact met ons op.', 'wc-herroepingsfunctie' ),
+				'message' => __( 'Voor de producten in deze bestelling is herroeping via dit formulier niet beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). Neem bij vragen contact met ons op.', 'wc-herroepingsfunctie' ),
 			) );
 		}
 
@@ -423,7 +423,7 @@ final class WC_Herroepingsfunctie {
 		$order_number = isset( $_POST['order_number'] ) ? sanitize_text_field( wp_unslash( $_POST['order_number'] ) ) : '';
 		$email        = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
 		$reason       = isset( $_POST['reason'] ) ? sanitize_textarea_field( wp_unslash( $_POST['reason'] ) ) : '';
-		$item_ids     = isset( $_POST['item_ids'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['item_ids'] ) ) : array();
+		$item_ids     = isset( $_POST['item_ids'] ) ? array_values( array_unique( array_filter( array_map( 'absint', (array) wp_unslash( $_POST['item_ids'] ) ) ) ) ) : array();
 
 		if ( '' === $order_number || '' === $email || ! is_email( $email ) || empty( $item_ids ) ) {
 			wp_send_json_error( array( 'message' => __( 'Onvolledige aanvraag. Probeer het opnieuw.', 'wc-herroepingsfunctie' ) ) );
@@ -561,6 +561,30 @@ final class WC_Herroepingsfunctie {
 		return strtolower( trim( $order->get_billing_email() ) ) === strtolower( trim( $email ) );
 	}
 
+	private function get_withdrawn_item_ids( $order_id ) {
+		global $wpdb;
+
+		$table = $wpdb->prefix . WCH_TABLE;
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows = $wpdb->get_col( $wpdb->prepare( "SELECT items FROM {$table} WHERE order_id = %d", $order_id ) );
+
+		$item_ids = array();
+		foreach ( (array) $rows as $row ) {
+			$items = json_decode( (string) $row, true );
+			if ( ! is_array( $items ) ) {
+				continue;
+			}
+
+			foreach ( $items as $item ) {
+				if ( isset( $item['id'] ) ) {
+					$item_ids[] = absint( $item['id'] );
+				}
+			}
+		}
+
+		return array_unique( array_filter( $item_ids ) );
+	}
+
 	/**
 	 * Geef de herroepbare regelitems van een order terug.
 	 *
@@ -571,11 +595,15 @@ final class WC_Herroepingsfunctie {
 		$excl_cats  = array_map( 'absint', (array) $settings['uitgesloten_cats'] );
 		$excl_ids   = array_filter( array_map( 'absint', array_map( 'trim', explode( ',', (string) $settings['uitgesloten_ids'] ) ) ) );
 		$skip_virt  = ( 'yes' === $settings['sluit_virtueel_uit'] );
+		$withdrawn  = $this->get_withdrawn_item_ids( $order->get_id() );
 
 		$result = array();
 
 		foreach ( $order->get_items() as $item_id => $item ) {
 			if ( ! is_a( $item, 'WC_Order_Item_Product' ) ) {
+				continue;
+			}
+			if ( in_array( (int) $item_id, $withdrawn, true ) ) {
 				continue;
 			}
 			$product_id = $item->get_product_id();
