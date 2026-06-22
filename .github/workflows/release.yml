@@ -1,6 +1,6 @@
 name: Build and release plugin
 
-on:
+"on":
   push:
     tags:
       - "v*"
