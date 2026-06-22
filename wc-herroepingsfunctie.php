@@ -8,6 +8,8 @@
  * License:           GPL-2.0-or-later
  * Text Domain:       wc-herroepingsfunctie
  * Domain Path:       /languages
+ * Requires at least: 6.5
+ * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
  *
  * LET OP: dit is een vertrekpunt. Test op een staging-omgeving en laat de
