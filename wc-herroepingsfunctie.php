@@ -868,8 +868,8 @@ final class WC_Herroepingsfunctie {
 		}
 		global $wpdb;
 		$table = $wpdb->prefix . WCH_TABLE;
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$rows = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY id DESC LIMIT 200" );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} ORDER BY id DESC LIMIT %d", 200 ) );
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Ontvangen herroepingen', 'wc-herroepingsfunctie' ); ?></h1>
