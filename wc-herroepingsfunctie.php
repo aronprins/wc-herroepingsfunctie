@@ -473,7 +473,7 @@ final class WC_Herroepingsfunctie {
 
 		// 1. Loggen in eigen tabel.
 		global $wpdb;
-		$wpdb->insert(
+		$inserted = $wpdb->insert(
 			$wpdb->prefix . WCH_TABLE,
 			array(
 				'order_id'         => $order->get_id(),
@@ -488,6 +488,10 @@ final class WC_Herroepingsfunctie {
 			),
 			array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
 		);
+
+		if ( false === $inserted ) {
+			wp_send_json_error( array( 'message' => __( 'We konden uw herroeping niet registreren. Probeer het later opnieuw of neem contact met ons op.', 'wc-herroepingsfunctie' ) ) );
+		}
 
 		// 2. Ordernotitie toevoegen (bewijslast + zichtbaar in beheer).
 		$lines = array();
