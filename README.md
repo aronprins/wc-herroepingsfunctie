@@ -81,7 +81,8 @@ The bundled translations are machine-assisted drafts. Review them before product
 
 ## Repository Files
 
-- `wc-herroepingsfunctie.php` - main plugin file.
+- `wc-herroepingsfunctie.php` - plugin bootstrap, constants, includes, and initialization.
+- `includes/` - focused PHP modules for updater, settings, checkout waiver, public withdrawal flow, admin screens, order helpers, and mail handling.
 - `assets/js/checkout-blocks.js` - Checkout Block waiver UI controller.
 - `languages/` - bundled POT/PO/MO files.
 - `readme.txt` - WordPress.org-compatible plugin readme.
@@ -95,6 +96,7 @@ Run the relevant subset before committing:
 
 ```bash
 php -l wc-herroepingsfunctie.php
+find includes -name '*.php' -print -exec php -l {} \;
 php tests/github-release-updater-test.php
 node --check assets/js/checkout-blocks.js
 git diff --check
