@@ -46,6 +46,10 @@
 | Final cleanup | Cart and product state | Pass | Cart emptied; product `Test` restored to virtual and downloadable. |
 | Older release baseline | Install published `v1.1.3` ZIP locally, then test settings and checkout | Pass | wp-admin showed version `1.1.3`, translation dropdown/admin script were absent, Dutch digital waiver rendered, validation blocked unchecked checkout, and cart was emptied. |
 | Update baseline from `v1.1.3` | Dashboard > Updates > Opnieuw controleren | Blocked as expected | The published `v1.1.3` ZIP does not include `Update URI` or the GitHub updater code, so WordPress cannot discover `v1.1.4` from that install. |
+| GitHub Release `v1.1.5` | GitHub Actions tag workflow | Pass | Release `v1.1.5` published with `wc-herroepingsfunctie-1.1.5.zip` at `2026-06-22T15:43:04Z`; asset digest `sha256:29450d55d754cf78d77e8d858092b659f85b9ee5d9b8b7acb1fcfce691f94bee`. |
+| Update-capable older baseline | Install published `v1.1.4` ZIP locally | Pass | Active Local plugin copy showed header `Version: 1.1.4`, `WCH_VERSION` `1.1.4`, and `Update URI: https://github.com/aronprins/wc-herroepingsfunctie`. |
+| Automatic updater E2E | Dashboard > Updates, select only WooCommerce Herroepingsfunctie, Plugins updaten | Pass | WordPress showed `1.1.4` installed and `1.1.5` available; updater reported `WooCommerce Herroepingsfunctie (NL) succesvol geüpdatet.` |
+| Updated install verification | wp-admin Plugins screen and active plugin header | Pass | Plugins screen showed `Versie 1.1.5`, no stale `1.1.5` update notice remained, and active plugin header/constant both showed `1.1.5`. |
 
 ## Bugs Found And Fixed
 
@@ -68,7 +72,7 @@
 - Actual before fix: WordPress refreshes its own `update_plugins` transient, but the plugin's separate `wch_github_release_latest` transient can still return the earlier GitHub Release for up to six hours.
 - Expected: An authorized admin's forced WordPress update check should also refresh this plugin's GitHub release metadata.
 - Fix: Added a `load-update-core.php` hook and a defensive updater-level check that deletes `wch_github_release_latest` once per request when an admin with `update_plugins` visits `update-core.php?force-check=1`.
-- Verification: Added coverage to `php tests/github-release-updater-test.php`; full browser update verification is run from `v1.1.4` to `v1.1.5` because the published `v1.1.3` ZIP predates the updater.
+- Verification: Added coverage to `php tests/github-release-updater-test.php`; browser update verification passed from `v1.1.4` to `v1.1.5` because the published `v1.1.3` ZIP predates the updater.
 
 ## Observations
 
@@ -77,6 +81,7 @@
 - The run intentionally created order `#29` and withdrawal evidence for order `#29` in the Local WP site.
 - After the branch E2E pass, the active Local plugin copy was replaced with the published `v1.1.3` ZIP and smoke-tested as the baseline for updater verification.
 - The published `v1.1.3` ZIP cannot be used for GitHub updater E2E because it does not contain the updater header or code. The updater E2E baseline must therefore be `v1.1.4` or newer.
+- For the `v1.1.4` to `v1.1.5` local updater test, stale `wch_github_release_latest` and `update_plugins` transient rows were cleared once before the browser update check. This was necessary because `v1.1.4` can cache pre-`v1.1.5` GitHub metadata; the `v1.1.5` fix is intended to prevent that same issue on future forced update checks.
 
 ## Verification Commands
 
