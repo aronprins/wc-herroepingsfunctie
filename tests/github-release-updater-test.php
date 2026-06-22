@@ -155,10 +155,17 @@ $plugin_data = array(
 	'UpdateURI' => WCH_UPDATE_URI,
 );
 
-wch_set_release_fixture( wch_release_fixture( '1.1.4' ) );
+$version_parts = array_map( 'absint', explode( '.', WCH_VERSION ) );
+while ( count( $version_parts ) < 3 ) {
+	$version_parts[] = 0;
+}
+$version_parts[2]++;
+$future_version = implode( '.', array_slice( $version_parts, 0, 3 ) );
+
+wch_set_release_fixture( wch_release_fixture( $future_version ) );
 $payload = $plugin->filter_github_release_update( false, $plugin_data, $plugin_file, array() );
-wch_assert_same( '1.1.4', $payload['version'], 'newer release version is exposed' );
-wch_assert_same( WCH_UPDATE_URI . '/releases/download/v1.1.4/wc-herroepingsfunctie-1.1.4.zip', $payload['package'], 'newer release package URL is exposed' );
+wch_assert_same( $future_version, $payload['version'], 'newer release version is exposed' );
+wch_assert_same( WCH_UPDATE_URI . '/releases/download/v' . $future_version . '/wc-herroepingsfunctie-' . $future_version . '.zip', $payload['package'], 'newer release package URL is exposed' );
 wch_assert_same( false, $payload['autoupdate'], 'updater does not force automatic updates' );
 
 $sentinel = array( 'existing' => true );
@@ -170,21 +177,21 @@ $payload = $plugin->filter_github_release_update( false, $plugin_data, $plugin_f
 wch_assert_same( WCH_VERSION, $payload['version'], 'current release can populate no-update metadata' );
 wch_assert_same( '', $payload['package'], 'current release does not expose an install package as an update' );
 
-wch_set_release_fixture( wch_release_fixture( '1.1.4', array( 'prerelease' => true ) ) );
+wch_set_release_fixture( wch_release_fixture( $future_version, array( 'prerelease' => true ) ) );
 $payload = $plugin->filter_github_release_update( false, $plugin_data, $plugin_file, array() );
 wch_assert_same( false, $payload, 'prereleases are ignored' );
 
 wch_set_release_fixture(
 	wch_release_fixture(
-		'1.1.4',
-		array(
-			'assets' => array(
-				array(
-					'name'                 => 'source.zip',
-					'browser_download_url' => WCH_UPDATE_URI . '/releases/download/v1.1.4/source.zip',
+			$future_version,
+			array(
+				'assets' => array(
+					array(
+						'name'                 => 'source.zip',
+						'browser_download_url' => WCH_UPDATE_URI . '/releases/download/v' . $future_version . '/source.zip',
+					),
 				),
-			),
-		)
+			)
 	)
 );
 $payload = $plugin->filter_github_release_update( false, $plugin_data, $plugin_file, array() );
@@ -192,24 +199,24 @@ wch_assert_same( false, $payload, 'release without exact installable ZIP is igno
 
 wch_set_release_fixture(
 	wch_release_fixture(
-		'1.1.4',
-		array(
-			'assets' => array(
-				array(
-					'name'                 => 'wc-herroepingsfunctie-1.1.4.zip',
-					'browser_download_url' => 'https://example.test/wc-herroepingsfunctie-1.1.4.zip',
+			$future_version,
+			array(
+				'assets' => array(
+					array(
+						'name'                 => 'wc-herroepingsfunctie-' . $future_version . '.zip',
+						'browser_download_url' => 'https://example.test/wc-herroepingsfunctie-' . $future_version . '.zip',
+					),
 				),
-			),
-		)
+			)
 	)
 );
 $payload = $plugin->filter_github_release_update( false, $plugin_data, $plugin_file, array() );
 wch_assert_same( false, $payload, 'non-GitHub asset URL is ignored' );
 
-wch_set_release_fixture( wch_release_fixture( '1.1.4' ) );
+wch_set_release_fixture( wch_release_fixture( $future_version ) );
 $info = $plugin->filter_github_release_plugin_information( false, 'plugin_information', (object) array( 'slug' => WCH_PLUGIN_SLUG ) );
 wch_assert_true( is_object( $info ), 'plugin information returns an object' );
-wch_assert_same( '1.1.4', $info->version, 'plugin information reports latest version' );
+wch_assert_same( $future_version, $info->version, 'plugin information reports latest version' );
 wch_assert_true( false !== strpos( $info->sections['changelog'], 'Updater test fixture' ), 'plugin information includes release notes' );
 
 $info = $plugin->filter_github_release_plugin_information( false, 'plugin_information', (object) array( 'slug' => 'other-plugin' ) );

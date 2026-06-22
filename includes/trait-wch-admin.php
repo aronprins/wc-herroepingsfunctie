@@ -36,6 +36,37 @@ trait WCH_Admin {
 		return 'manage_woocommerce';
 	}
 
+	public function enqueue_admin_assets( $hook_suffix ) {
+		unset( $hook_suffix );
+
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		if ( 'wch-instellingen' !== $page ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'wch-admin-settings',
+			plugins_url( 'assets/js/admin-settings.js', WCH_FILE ),
+			array(),
+			WCH_VERSION,
+			true
+		);
+
+		$preview_data = array(
+			'fields' => $this->get_default_translation_preview_fields(),
+			'sets'   => $this->get_available_default_translation_sets(),
+		);
+		$encoded      = wp_json_encode( $preview_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
+
+		if ( false !== $encoded ) {
+			wp_add_inline_script(
+				'wch-admin-settings',
+				'window.wchDefaultTranslationPreview = ' . $encoded . ';',
+				'before'
+			);
+		}
+	}
+
 	public function sanitize_settings( $input ) {
 		$out = $this->default_settings( false );
 		if ( ! is_array( $input ) ) {
@@ -59,6 +90,11 @@ trait WCH_Admin {
 		$out['waiver_button_text']              = isset( $input['waiver_button_text'] ) ? sanitize_text_field( $input['waiver_button_text'] ) : $out['waiver_button_text'];
 		$out['waiver_countries']                = isset( $input['waiver_countries'] ) ? $this->sanitize_waiver_country_codes( $input['waiver_countries'] ) : $out['waiver_countries'];
 		$out['waiver_unknown_country_requires'] = ( isset( $input['waiver_unknown_country_requires'] ) && 'yes' === $input['waiver_unknown_country_requires'] ) ? 'yes' : 'no';
+		$translation_state                      = $this->get_submitted_default_translation_preview_state( $input, $out );
+		if ( '' !== $translation_state['locale'] ) {
+			$out['_default_translation_locale'] = $translation_state['locale'];
+			$out['_default_translation_fields'] = $translation_state['fields'];
+		}
 		return $out;
 	}
 
@@ -66,8 +102,10 @@ trait WCH_Admin {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			return;
 		}
-		$s    = $this->get_settings();
-		$cats = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => false ) );
+		$s                = $this->get_settings();
+		$cats             = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => false ) );
+		$translation_sets = $this->get_available_default_translation_sets();
+		$translation_meta = $this->get_saved_default_translation_preview_state();
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Herroepingsfunctie – instellingen', 'wc-herroepingsfunctie' ); ?></h1>
@@ -79,7 +117,25 @@ trait WCH_Admin {
 			</div>
 			<form method="post" action="options.php">
 				<?php settings_fields( 'wch_settings_group' ); ?>
+				<input id="wch_default_translation_applied_locale" type="hidden" name="<?php echo esc_attr( WCH_OPTION ); ?>[_default_translation_locale]" value="<?php echo esc_attr( $translation_meta['locale'] ); ?>">
+				<?php foreach ( $translation_meta['fields'] as $field ) : ?>
+					<input type="hidden" name="<?php echo esc_attr( WCH_OPTION ); ?>[_default_translation_fields][]" value="<?php echo esc_attr( $field ); ?>" data-wch-default-translation-field>
+				<?php endforeach; ?>
 				<table class="form-table" role="presentation">
+					<?php if ( ! empty( $translation_sets ) ) : ?>
+					<tr>
+						<th><label for="wch_default_translation_locale"><?php esc_html_e( 'Standaardteksten vooraf invullen', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td>
+							<select id="wch_default_translation_locale" class="regular-text">
+								<option value=""><?php esc_html_e( 'Selecteer een vertaling', 'wc-herroepingsfunctie' ); ?></option>
+								<?php foreach ( $translation_sets as $locale => $set ) : ?>
+									<option value="<?php echo esc_attr( $locale ); ?>"><?php echo esc_html( $set['label'] ); ?></option>
+								<?php endforeach; ?>
+							</select>
+							<p class="description"><?php esc_html_e( 'Vult de tekstvelden met de meegeleverde vertaling. Opslaan gebeurt pas wanneer u de instellingen opslaat; u kunt de tekst eerst aanpassen.', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
+					</tr>
+					<?php endif; ?>
 					<tr>
 						<th><label for="wch_intro"><?php esc_html_e( 'Introductietekst', 'wc-herroepingsfunctie' ); ?></label></th>
 						<td><textarea id="wch_intro" name="<?php echo esc_attr( WCH_OPTION ); ?>[intro_tekst]" rows="3" class="large-text"><?php echo esc_textarea( $s['intro_tekst'] ); ?></textarea></td>
