@@ -19,10 +19,12 @@ INSTALLATIE
 
 CHECKOUT-BLOCK
 De afstandsverklaring werkt met classic checkout en met de WooCommerce
-Checkout Block via de Additional Checkout Fields API. WooCommerce 8.9+ is
-nodig voor extra checkoutvelden in blocks. Voor conditioneel tonen alleen bij
-digitale carts gebruikt WooCommerce 9.9+ het cart-schema; op oudere block-
-checkouts kan het veld daardoor ruimer zichtbaar zijn. De betaalknoptekst kan
+Checkout Block. WooCommerce 8.6-8.8 gebruikt hiervoor de oudere experimentele
+Blocks API; WooCommerce 8.9+ gebruikt de stabiele Additional Checkout Fields
+API. Voor conditioneel tonen alleen bij digitale carts gebruikt WooCommerce
+9.9+ het cart-schema; op oudere block-checkouts kan het veld daardoor ruimer
+zichtbaar zijn. Server-side validatie verplicht de checkbox alleen voor carts
+die uitsluitend virtuele/downloadbare producten bevatten. De betaalknoptekst kan
 in classic checkout per digitale cart worden aangepast; in Checkout Block is de
 Woo-filter alleen globaal beschikbaar wanneer het script is geladen.
 

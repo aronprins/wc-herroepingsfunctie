@@ -3,7 +3,7 @@
  * Plugin Name:       WooCommerce Herroepingsfunctie (NL)
  * Plugin URI:        https://example.com/
  * Description:        Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt gedeeltelijke herroeping, tweestapsbevestiging, automatische ontvangstbevestiging en logging.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            Custom
  * License:           GPL-2.0-or-later
  * Text Domain:       wc-herroepingsfunctie
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Directe toegang verbieden.
 }
 
-define( 'WCH_VERSION', '1.1.0' );
+define( 'WCH_VERSION', '1.1.1' );
 define( 'WCH_OPTION', 'wch_settings' );
 define( 'WCH_TABLE', 'wch_herroepingen' );
 define( 'WCH_FILE', __FILE__ );
@@ -102,7 +102,9 @@ final class WC_Herroepingsfunctie {
 		add_action( 'woocommerce_checkout_process', array( $this, 'validate_classic_checkout_waiver' ) );
 		add_action( 'woocommerce_checkout_create_order', array( $this, 'save_classic_checkout_waiver' ), 10, 2 );
 		add_action( 'woocommerce_set_additional_field_value', array( $this, 'save_block_checkout_waiver_field' ), 10, 4 );
+		add_action( 'woocommerce_store_api_checkout_update_order_from_request', array( $this, 'save_block_checkout_waiver_from_request' ), 10, 2 );
 		add_action( 'woocommerce_store_api_checkout_update_order_meta', array( $this, 'save_block_checkout_waiver_order_meta' ) );
+		add_action( '__experimental_woocommerce_blocks_validate_location_additional_fields', array( $this, 'validate_experimental_block_waiver_fields' ), 10, 3 );
 		add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'render_waiver_admin_order_meta' ) );
 		add_action( 'woocommerce_email_after_order_table', array( $this, 'render_waiver_email_block' ), 10, 4 );
 		add_filter( 'woocommerce_order_button_text', array( $this, 'filter_classic_order_button_text' ) );
@@ -566,8 +568,36 @@ final class WC_Herroepingsfunctie {
 
 	public function register_checkout_block_waiver_field() {
 		$settings = $this->get_settings();
-		if ( 'yes' !== $settings['waiver_enabled'] || ! function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
+		if ( 'yes' !== $settings['waiver_enabled'] ) {
 			return;
+		}
+
+		if ( function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
+			woocommerce_register_additional_checkout_field( $this->get_block_waiver_field_args( 'order', true ) );
+			return;
+		}
+
+		if ( function_exists( '__experimental_woocommerce_blocks_register_checkout_field' ) ) {
+			__experimental_woocommerce_blocks_register_checkout_field( $this->get_block_waiver_field_args( 'additional', false ) );
+		}
+	}
+
+	private function get_block_waiver_field_args( $location, $supports_conditional_schema ) {
+		$settings = $this->get_settings();
+
+		$args = array(
+			'id'                => self::WAIVER_FIELD_ID,
+			'label'             => $settings['waiver_text'],
+			'optionalLabel'     => $settings['waiver_text'],
+			'location'          => $location,
+			'type'              => 'checkbox',
+			'error_message'     => $settings['waiver_error'],
+			'sanitize_callback' => array( $this, 'sanitize_waiver_checkbox_value' ),
+			'validate_callback' => array( $this, 'validate_block_waiver_checkbox_value' ),
+		);
+
+		if ( ! $supports_conditional_schema ) {
+			return $args;
 		}
 
 		$digital_cart_schema = array(
@@ -590,20 +620,10 @@ final class WC_Herroepingsfunctie {
 			),
 		);
 
-		woocommerce_register_additional_checkout_field(
-			array(
-				'id'                => self::WAIVER_FIELD_ID,
-				'label'             => $settings['waiver_text'],
-				'optionalLabel'     => $settings['waiver_text'],
-				'location'          => 'order',
-				'type'              => 'checkbox',
-				'required'          => $digital_cart_schema,
-				'hidden'            => $physical_cart_schema,
-				'error_message'     => $settings['waiver_error'],
-				'sanitize_callback' => array( $this, 'sanitize_waiver_checkbox_value' ),
-				'validate_callback' => array( $this, 'validate_block_waiver_checkbox_value' ),
-			)
-		);
+		$args['required'] = $digital_cart_schema;
+		$args['hidden']   = $physical_cart_schema;
+
+		return $args;
 	}
 
 	public function enqueue_checkout_block_assets() {
@@ -672,11 +692,22 @@ final class WC_Herroepingsfunctie {
 	}
 
 	public function save_block_checkout_waiver_field( $field_key, $field_value, $group, $wc_object ) {
-		if ( self::WAIVER_FIELD_ID !== $field_key || 'other' !== $group || ! $wc_object instanceof WC_Order || ! $this->is_truthy( $field_value ) ) {
+		if ( self::WAIVER_FIELD_ID !== $field_key || ! in_array( $group, array( 'other', 'additional' ), true ) || ! $wc_object instanceof WC_Order || ! $this->is_truthy( $field_value ) ) {
 			return;
 		}
 
 		$this->store_withdrawal_waiver_on_order( $wc_object, 'checkout_block' );
+	}
+
+	public function save_block_checkout_waiver_from_request( $order, $request ) {
+		if ( ! $order instanceof WC_Order || 'yes' === $order->get_meta( self::WAIVER_META_AGREED, true ) ) {
+			return;
+		}
+
+		$additional_fields = $request instanceof WP_REST_Request ? $request->get_param( 'additional_fields' ) : array();
+		if ( is_array( $additional_fields ) && isset( $additional_fields[ self::WAIVER_FIELD_ID ] ) && $this->is_truthy( $additional_fields[ self::WAIVER_FIELD_ID ] ) ) {
+			$this->store_withdrawal_waiver_on_order( $order, 'checkout_block' );
+		}
 	}
 
 	public function save_block_checkout_waiver_order_meta( $order ) {
@@ -684,8 +715,7 @@ final class WC_Herroepingsfunctie {
 			return;
 		}
 
-		$value = $order->get_meta( '_wc_other/' . self::WAIVER_FIELD_ID, true );
-		if ( $this->is_truthy( $value ) ) {
+		if ( $this->order_has_block_waiver_value( $order ) ) {
 			$this->store_withdrawal_waiver_on_order( $order, 'checkout_block' );
 		}
 	}
@@ -698,6 +728,18 @@ final class WC_Herroepingsfunctie {
 		if ( $this->cart_requires_checkout_waiver() && ! $this->is_truthy( $field_value ) ) {
 			$settings = $this->get_settings();
 			return new WP_Error( 'wch_withdrawal_waiver_required', $settings['waiver_error'] );
+		}
+	}
+
+	public function validate_experimental_block_waiver_fields( $errors, $fields, $group ) {
+		if ( ! $errors instanceof WP_Error || ! $this->cart_requires_checkout_waiver() ) {
+			return;
+		}
+
+		$value = is_array( $fields ) && isset( $fields[ self::WAIVER_FIELD_ID ] ) ? $fields[ self::WAIVER_FIELD_ID ] : '';
+		if ( ! $this->is_truthy( $value ) ) {
+			$settings = $this->get_settings();
+			$errors->add( 'wch_withdrawal_waiver_required', $settings['waiver_error'] );
 		}
 	}
 
@@ -786,6 +828,16 @@ final class WC_Herroepingsfunctie {
 		}
 
 		return true;
+	}
+
+	private function order_has_block_waiver_value( $order ) {
+		$value = $order->get_meta( '_wc_other/' . self::WAIVER_FIELD_ID, true );
+		if ( $this->is_truthy( $value ) ) {
+			return true;
+		}
+
+		$legacy_fields = $order->get_meta( '_additional_fields', true );
+		return is_array( $legacy_fields ) && isset( $legacy_fields[ self::WAIVER_FIELD_ID ] ) && $this->is_truthy( $legacy_fields[ self::WAIVER_FIELD_ID ] );
 	}
 
 	private function store_withdrawal_waiver_on_order( $order, $source ) {
@@ -1147,7 +1199,7 @@ final class WC_Herroepingsfunctie {
 						<th><?php esc_html_e( 'Afstandsverklaring inschakelen', 'wc-herroepingsfunctie' ); ?></th>
 						<td>
 							<label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_enabled]" value="yes" <?php checked( 'yes', $s['waiver_enabled'] ); ?>> <?php esc_html_e( 'Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare producten bevatten', 'wc-herroepingsfunctie' ); ?></label>
-							<p class="description"><?php esc_html_e( 'Werkt met classic checkout en met de WooCommerce Checkout Block via de Additional Checkout Fields API. Voor conditioneel tonen in blocks is WooCommerce 9.9+ nodig; oudere block-checkouts kunnen het veld mogelijk altijd tonen.', 'wc-herroepingsfunctie' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Werkt met classic checkout en met de WooCommerce Checkout Block. WooCommerce 8.6-8.8 gebruikt de oudere experimentele Blocks API; WooCommerce 8.9+ gebruikt de stabiele Additional Checkout Fields API. Voor conditioneel tonen in blocks is WooCommerce 9.9+ nodig; oudere block-checkouts kunnen het veld mogelijk altijd tonen.', 'wc-herroepingsfunctie' ); ?></p>
 						</td>
 					</tr>
 					<tr>
