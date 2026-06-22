@@ -190,10 +190,11 @@ final class WC_Herroepingsfunctie {
 		$settings = $this->get_settings();
 		$nonce    = wp_create_nonce( 'wch_nonce' );
 		$ajax_url = admin_url( 'admin-ajax.php' );
+		$app_id   = wp_unique_id( 'wch-app-' );
 
 		ob_start();
 		?>
-		<div class="wch-wrap" id="wch-app">
+		<div class="wch-wrap" id="<?php echo esc_attr( $app_id ); ?>">
 			<style>
 				.wch-wrap{max-width:640px;margin:1.5em 0;font-size:16px;line-height:1.5;}
 				.wch-wrap h3{margin:0 0 .5em;}
@@ -266,7 +267,7 @@ final class WC_Herroepingsfunctie {
 
 		<script>
 		(function(){
-			var app = document.getElementById('wch-app');
+			var app = document.getElementById(<?php echo wp_json_encode( $app_id ); ?>);
 			if(!app || app.dataset.init){ return; }
 			app.dataset.init = '1';
 
