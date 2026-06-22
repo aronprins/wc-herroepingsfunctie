@@ -71,6 +71,7 @@ trait WCH_Admin {
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Herroepingsfunctie – instellingen', 'wc-herroepingsfunctie' ); ?></h1>
+			<?php settings_errors(); ?>
 			<p><?php esc_html_e( 'Plaats het formulier op een goed vindbare pagina met de shortcode', 'wc-herroepingsfunctie' ); ?> <code>[herroepingsfunctie]</code>. <?php esc_html_e( 'Het staat ook automatisch in "Mijn account" onder "Herroepen". Zet bovendien een duidelijke link in de footer.', 'wc-herroepingsfunctie' ); ?></p>
 			<div class="notice notice-warning inline">
 				<p><strong><?php esc_html_e( 'Juridische disclaimer', 'wc-herroepingsfunctie' ); ?></strong></p>
