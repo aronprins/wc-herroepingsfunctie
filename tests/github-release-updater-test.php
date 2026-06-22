@@ -253,6 +253,8 @@ wch_set_release_fixture( wch_release_fixture( $future_version ) );
 $info = $plugin->filter_github_release_plugin_information( false, 'plugin_information', (object) array( 'slug' => WCH_PLUGIN_SLUG ) );
 wch_assert_true( is_object( $info ), 'plugin information returns an object' );
 wch_assert_same( $future_version, $info->version, 'plugin information reports latest version' );
+wch_assert_same( 'Aron & Sharon', $info->author, 'plugin information reports configured author' );
+wch_assert_same( WCH_PLUGIN_HOMEPAGE, $info->homepage, 'plugin information reports configured homepage' );
 wch_assert_true( false !== strpos( $info->sections['changelog'], 'Updater test fixture' ), 'plugin information includes release notes' );
 
 $info = $plugin->filter_github_release_plugin_information( false, 'plugin_information', (object) array( 'slug' => 'other-plugin' ) );
