@@ -4,9 +4,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 trait WCH_Github_Updater {
+	/**
+	 * Tracks whether the per-request forced-check cache clear already ran.
+	 *
+	 * @var bool
+	 */
+	private $github_release_cache_cleared_for_forced_check = false;
+
 	/* --------------------------------------------------------------------- *
 	 *  GitHub Releases updater.
 	 * --------------------------------------------------------------------- */
+
+	public function clear_github_release_cache_for_forced_update_check() {
+		if ( $this->github_release_cache_cleared_for_forced_check || ! $this->is_forced_github_release_update_check() ) {
+			return;
+		}
+
+		delete_site_transient( WCH_GITHUB_RELEASE_TRANSIENT );
+		$this->github_release_cache_cleared_for_forced_check = true;
+	}
 
 	public function filter_github_release_update( $update, $plugin_data, $plugin_file, $locales ) {
 		unset( $locales );
@@ -57,6 +73,8 @@ trait WCH_Github_Updater {
 			return $this->normalize_github_release_response( $filtered_response );
 		}
 
+		$this->clear_github_release_cache_for_forced_update_check();
+
 		$cached = get_site_transient( WCH_GITHUB_RELEASE_TRANSIENT );
 		if ( is_array( $cached ) ) {
 			return $cached;
@@ -87,6 +105,20 @@ trait WCH_Github_Updater {
 		set_site_transient( WCH_GITHUB_RELEASE_TRANSIENT, $release, $ttl );
 
 		return $release;
+	}
+
+	private function is_forced_github_release_update_check() {
+		if ( ! is_admin() || ! current_user_can( 'update_plugins' ) || ! isset( $_GET['force-check'] ) ) {
+			return false;
+		}
+
+		$force_check = wp_unslash( $_GET['force-check'] );
+		if ( is_array( $force_check ) ) {
+			return false;
+		}
+
+		$force_check = sanitize_text_field( $force_check );
+		return '' !== $force_check && '0' !== $force_check;
 	}
 
 	private function normalize_github_release_response( $response ) {
