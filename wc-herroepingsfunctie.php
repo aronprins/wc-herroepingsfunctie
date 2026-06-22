@@ -3,10 +3,11 @@
  * Plugin Name:       WooCommerce Herroepingsfunctie (NL)
  * Plugin URI:        https://example.com/
  * Description:        Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt gedeeltelijke herroeping, tweestapsbevestiging, automatische ontvangstbevestiging en logging.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Author:            Custom
  * License:           GPL-2.0-or-later
  * Text Domain:       wc-herroepingsfunctie
+ * Domain Path:       /languages
  * Requires Plugins:  woocommerce
  *
  * LET OP: dit is een vertrekpunt. Test op een staging-omgeving en laat de
@@ -17,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Directe toegang verbieden.
 }
 
-define( 'WCH_VERSION', '1.1.2' );
+define( 'WCH_VERSION', '1.1.3' );
 define( 'WCH_OPTION', 'wch_settings' );
 define( 'WCH_TABLE', 'wch_herroepingen' );
 define( 'WCH_FILE', __FILE__ );
@@ -57,7 +58,62 @@ final class WC_Herroepingsfunctie {
 		} );
 
 		// Zorg dat WooCommerce actief is.
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ), 0 );
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
+	}
+
+	public function load_textdomain() {
+		load_plugin_textdomain( 'wc-herroepingsfunctie', false, dirname( plugin_basename( WCH_FILE ) ) . '/languages' );
+
+		if ( is_textdomain_loaded( 'wc-herroepingsfunctie' ) ) {
+			return;
+		}
+
+		$locale   = function_exists( 'determine_locale' ) ? determine_locale() : get_locale();
+		$fallback = $this->get_locale_translation_fallback( $locale );
+		if ( '' === $fallback || $fallback === $locale ) {
+			return;
+		}
+
+		$mofile = plugin_dir_path( WCH_FILE ) . 'languages/wc-herroepingsfunctie-' . $fallback . '.mo';
+		if ( is_readable( $mofile ) ) {
+			load_textdomain( 'wc-herroepingsfunctie', $mofile );
+		}
+	}
+
+	private function get_locale_translation_fallback( $locale ) {
+		$language = strtolower( strtok( (string) $locale, '_' ) );
+		$map      = array(
+			'bg' => 'bg_BG',
+			'cs' => 'cs_CZ',
+			'da' => 'da_DK',
+			'de' => 'de_DE',
+			'el' => 'el',
+			'en' => 'en_GB',
+			'es' => 'es_ES',
+			'et' => 'et',
+			'fi' => 'fi',
+			'fr' => 'fr_FR',
+			'ga' => 'ga_IE',
+			'hr' => 'hr',
+			'hu' => 'hu_HU',
+			'is' => 'is_IS',
+			'it' => 'it_IT',
+			'lt' => 'lt_LT',
+			'lv' => 'lv',
+			'mt' => 'mt_MT',
+			'nb' => 'nb_NO',
+			'nl' => 'nl_NL',
+			'no' => 'nb_NO',
+			'pl' => 'pl_PL',
+			'pt' => 'pt_PT',
+			'ro' => 'ro_RO',
+			'sk' => 'sk_SK',
+			'sl' => 'sl_SI',
+			'sv' => 'sv_SE',
+		);
+
+		return isset( $map[ $language ] ) ? $map[ $language ] : '';
 	}
 
 	/**
@@ -140,7 +196,7 @@ final class WC_Herroepingsfunctie {
 
 		// Standaardinstellingen zetten als ze nog niet bestaan.
 		if ( false === get_option( WCH_OPTION ) ) {
-			add_option( WCH_OPTION, $this->default_settings() );
+			add_option( WCH_OPTION, $this->default_settings( false ) );
 		}
 
 		// Endpoint registreren en permalinks verversen.
@@ -152,8 +208,8 @@ final class WC_Herroepingsfunctie {
 		flush_rewrite_rules();
 	}
 
-	private function default_settings() {
-		return array(
+	private function default_settings( $translate = true ) {
+		$settings = array(
 			'intro_tekst'        => 'Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in.',
 			'confirm_knop_tekst' => 'Herroeping bevestigen',
 			'email_onderwerp'    => 'Bevestiging van uw herroeping',
@@ -171,11 +227,66 @@ final class WC_Herroepingsfunctie {
 			'waiver_countries'                => $this->get_default_waiver_countries_string(),
 			'waiver_unknown_country_requires' => 'yes',
 		);
+
+		if ( ! $translate ) {
+			return $settings;
+		}
+
+		foreach ( $this->get_translatable_setting_keys() as $key ) {
+			$settings[ $key ] = $this->translate_default_setting_value( $key, $settings[ $key ] );
+		}
+
+		return $settings;
 	}
 
 	private function get_settings() {
-		$saved = get_option( WCH_OPTION, array() );
-		return wp_parse_args( is_array( $saved ) ? $saved : array(), $this->default_settings() );
+		$saved    = get_option( WCH_OPTION, array() );
+		$saved    = is_array( $saved ) ? $saved : array();
+		$settings = wp_parse_args( $saved, $this->default_settings( false ) );
+		return $this->localize_default_setting_values( $settings, $saved );
+	}
+
+	private function localize_default_setting_values( $settings, $saved ) {
+		$localized_defaults = $this->default_settings( true );
+		$raw_defaults       = $this->default_settings( false );
+
+		foreach ( $this->get_translatable_setting_keys() as $key ) {
+			if ( ! array_key_exists( $key, $saved ) || ( isset( $raw_defaults[ $key ] ) && (string) $saved[ $key ] === (string) $raw_defaults[ $key ] ) ) {
+				$settings[ $key ] = $localized_defaults[ $key ];
+			}
+		}
+
+		return $settings;
+	}
+
+	private function get_translatable_setting_keys() {
+		return array(
+			'intro_tekst',
+			'confirm_knop_tekst',
+			'email_onderwerp',
+			'waiver_text',
+			'waiver_error',
+			'waiver_button_text',
+		);
+	}
+
+	private function translate_default_setting_value( $key, $fallback ) {
+		switch ( $key ) {
+			case 'intro_tekst':
+				return __( 'Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in.', 'wc-herroepingsfunctie' );
+			case 'confirm_knop_tekst':
+				return __( 'Herroeping bevestigen', 'wc-herroepingsfunctie' );
+			case 'email_onderwerp':
+				return __( 'Bevestiging van uw herroeping', 'wc-herroepingsfunctie' );
+			case 'waiver_text':
+				return __( 'I agree that the product is delivered immediately after payment, and I acknowledge that I thereby waive my statutory 14-day right of withdrawal.', 'wc-herroepingsfunctie' );
+			case 'waiver_error':
+				return __( 'Please agree to immediate digital delivery and acknowledge that you waive your right of withdrawal to complete this order.', 'wc-herroepingsfunctie' );
+			case 'waiver_button_text':
+				return __( 'Buy now (payment required)', 'wc-herroepingsfunctie' );
+			default:
+				return $fallback;
+		}
 	}
 
 	/* --------------------------------------------------------------------- *
@@ -550,9 +661,13 @@ final class WC_Herroepingsfunctie {
 		// 5. Interne melding.
 		$this->send_admin_notification( $order, $name, $email, $selected, $reason, $display_time, $settings );
 
-		$message = $customer_mail_sent
-			? __( 'Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd naar %2$s. We nemen uw verzoek verder in behandeling.', 'wc-herroepingsfunctie' )
-			: __( 'Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s kon niet automatisch worden verzonden. Neem contact met ons op als u geen bevestiging ontvangt.', 'wc-herroepingsfunctie' );
+		if ( $customer_mail_sent ) {
+			/* translators: 1: timestamp, 2: customer email address */
+			$message = __( 'Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd naar %2$s. We nemen uw verzoek verder in behandeling.', 'wc-herroepingsfunctie' );
+		} else {
+			/* translators: 1: timestamp, 2: customer email address */
+			$message = __( 'Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s kon niet automatisch worden verzonden. Neem contact met ons op als u geen bevestiging ontvangt.', 'wc-herroepingsfunctie' );
+		}
 
 		wp_send_json_success( array(
 			'message' => sprintf(
@@ -638,6 +753,7 @@ final class WC_Herroepingsfunctie {
 			'window.wchCheckoutWaiver = ' . wp_json_encode(
 				array(
 					'buttonText'             => $settings['waiver_button_text'],
+					'fallbackButtonText'     => __( 'Place Order', 'woocommerce' ),
 					'countryCodes'           => $this->get_waiver_country_codes(),
 					'unknownCountryRequires' => 'yes' === $settings['waiver_unknown_country_requires'],
 				)
@@ -1289,7 +1405,7 @@ final class WC_Herroepingsfunctie {
 	}
 
 	public function sanitize_settings( $input ) {
-		$out = $this->default_settings();
+		$out = $this->default_settings( false );
 		if ( ! is_array( $input ) ) {
 			return $out;
 		}

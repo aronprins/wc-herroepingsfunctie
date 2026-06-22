@@ -1,0 +1,541 @@
+# Machine-assisted draft translations. Review legal and checkout copy before production use.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Herroepingsfunctie (NL) 1.1.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-herroepingsfunctie\n"
+"POT-Creation-Date: 2026-06-22T10:00:12+00:00\n"
+"PO-Revision-Date: 2026-06-22 00:00+0000\n"
+"Last-Translator: Machine-assisted draft <noreply@example.com>\n"
+"Language-Team: ro_RO <noreply@example.com>\n"
+"Language: ro_RO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-herroepingsfunctie\n"
+"X-Generator: Codex machine-assisted draft; review legal copy before production\n"
+
+#. Plugin Name of the plugin
+#: wc-herroepingsfunctie.php
+msgid "WooCommerce Herroepingsfunctie (NL)"
+msgstr "WooCommerce Funcția de revocare (NL)"
+
+#. Plugin URI of the plugin
+#: wc-herroepingsfunctie.php
+msgid "https://example.com/"
+msgstr "https://example.com/"
+
+#. Description of the plugin
+#: wc-herroepingsfunctie.php
+msgid ""
+"Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa "
+"BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt "
+"gedeeltelijke herroeping, tweestapsbevestiging, automatische "
+"ontvangstbevestiging en logging."
+msgstr ""
+"Funcția de revocare online obligatorie legal pentru magazinele web (art. "
+"6:230oa BW / Directiva (UE) 2023/2673). Afișează comanda reală, acceptă "
+"revocarea parțială, confirmarea în doi pași, confirmarea automată a primirii"
+" și înregistrarea în jurnal."
+
+#. Author of the plugin
+#: wc-herroepingsfunctie.php
+msgid "Custom"
+msgstr "Custom"
+
+#: wc-herroepingsfunctie.php:126
+msgid "WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is."
+msgstr "WooCommerce Funcția de revocare necesită ca WooCommerce să fie activ."
+
+#: wc-herroepingsfunctie.php:276
+msgid ""
+"Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke "
+"bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in."
+msgstr ""
+"Doriți să anulați (o parte din) comanda dumneavoastră în perioada legală de "
+"14 zile? Introduceți numărul comenzii și adresa de e-mail mai jos."
+
+#: wc-herroepingsfunctie.php:278 wc-herroepingsfunctie.php:392
+msgid "Herroeping bevestigen"
+msgstr "Confirmați revocarea"
+
+#: wc-herroepingsfunctie.php:280
+msgid "Bevestiging van uw herroeping"
+msgstr "Confirmarea revocării dvs"
+
+#: wc-herroepingsfunctie.php:282
+msgid ""
+"I agree that the product is delivered immediately after payment, and I "
+"acknowledge that I thereby waive my statutory 14-day right of withdrawal."
+msgstr ""
+"Sunt de acord ca produsul să fie livrat imediat după plată și recunosc că, "
+"prin urmare, renunț la dreptul meu legal de retragere de 14 zile."
+
+#: wc-herroepingsfunctie.php:284
+msgid ""
+"Please agree to immediate digital delivery and acknowledge that you waive "
+"your right of withdrawal to complete this order."
+msgstr ""
+"Vă rugăm să fiți de acord cu livrarea digitală imediată și să recunoașteți "
+"că renunțați la dreptul de retragere pentru a finaliza această comandă."
+
+#: wc-herroepingsfunctie.php:286
+msgid "Buy now (payment required)"
+msgstr "Cumpărați acum (se solicită plata)"
+
+#: wc-herroepingsfunctie.php:310 wc-herroepingsfunctie.php:315
+msgid "Herroepen"
+msgstr "Revocat"
+
+#: wc-herroepingsfunctie.php:362
+msgid "Bestelling herroepen"
+msgstr "Ordin revocat"
+
+#: wc-herroepingsfunctie.php:365
+msgid "Ordernummer"
+msgstr "Număr de comandă"
+
+#: wc-herroepingsfunctie.php:369
+msgid "E-mailadres van de bestelling"
+msgstr "Adresa de email pentru comanda"
+
+#: wc-herroepingsfunctie.php:373
+msgid "Bestelling ophalen"
+msgstr "Comanda de ridicare"
+
+#: wc-herroepingsfunctie.php:379
+msgid "Wat wilt u herroepen?"
+msgstr "Ce vrei să revoci?"
+
+#: wc-herroepingsfunctie.php:380
+msgid ""
+"Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent "
+"niet verplicht een reden op te geven."
+msgstr ""
+"Selectați produsele pentru care doriți să revocați acordul. Nu sunteți "
+"obligat să furnizați un motiv."
+
+#: wc-herroepingsfunctie.php:383
+msgid "Reden (optioneel)"
+msgstr "Motiv (opțional)"
+
+#: wc-herroepingsfunctie.php:386 wc-herroepingsfunctie.php:396
+msgid "Terug"
+msgstr "Înapoi"
+
+#: wc-herroepingsfunctie.php:387
+msgid "Doorgaan"
+msgstr "Continuă"
+
+#: wc-herroepingsfunctie.php:393
+msgid ""
+"Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten "
+"herroept. U ontvangt direct een ontvangstbevestiging per e-mail."
+msgstr ""
+"Prin prezenta ne informați că revocați acordul pentru produsele de mai jos. "
+"Veți primi imediat o confirmare de primire prin e-mail."
+
+#: wc-herroepingsfunctie.php:521
+msgid "Vul een geldig ordernummer en e-mailadres in."
+msgstr "Introduceți un număr de comandă și o adresă de e-mail valide."
+
+#: wc-herroepingsfunctie.php:537
+msgid ""
+"We konden geen bestelling vinden met deze gegevens. Controleer uw "
+"ordernummer en e-mailadres."
+msgstr ""
+"Nu am putut găsi o comandă cu aceste informații. Vă rugăm să verificați "
+"numărul comenzii și adresa de e-mail."
+
+#: wc-herroepingsfunctie.php:547
+msgid ""
+"Voor de producten in deze bestelling is herroeping via dit formulier niet "
+"beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). "
+"Neem bij vragen contact met ons op."
+msgstr ""
+"Pentru produsele din această comandă, retragerea prin acest formular nu este"
+" disponibilă (de exemplu, deoarece acestea au fost deja retrase sau "
+"excluse). Dacă aveți întrebări, vă rugăm să ne contactați."
+
+#: wc-herroepingsfunctie.php:570
+msgid "Onvolledige aanvraag. Probeer het opnieuw."
+msgstr "Aplicație incompletă. Vă rugăm să încercați din nou."
+
+#: wc-herroepingsfunctie.php:586
+msgid "We konden uw bestelling niet verifiëren."
+msgstr "Nu am putut verifica comanda dvs."
+
+#: wc-herroepingsfunctie.php:604
+msgid "Geen geldige producten geselecteerd."
+msgstr "Niciun produs valid selectat."
+
+#: wc-herroepingsfunctie.php:633
+msgid ""
+"We konden uw herroeping niet registreren. Probeer het later opnieuw of neem "
+"contact met ons op."
+msgstr ""
+"Nu am putut să vă înregistrăm revocarea. Vă rugăm să încercați din nou mai "
+"târziu sau să ne contactați."
+
+#. translators: 1: timestamp, 2: items, 3: reason
+#: wc-herroepingsfunctie.php:643
+#, php-format
+msgid ""
+"Herroeping ontvangen op %1$s via de online herroepingsfunctie.\n"
+"Producten: %2$s\n"
+"Reden: %3$s"
+msgstr ""
+"Revocare primită pe %1$s prin intermediul funcției de revocare online.\n"
+"Produse: %2$s\n"
+"Motiv: %3$s"
+
+#: wc-herroepingsfunctie.php:646
+msgid "(geen opgegeven)"
+msgstr "(niciuna specificat)"
+
+#: wc-herroepingsfunctie.php:652
+msgid "In afwachting van afhandeling herroeping. "
+msgstr "Se așteaptă procesarea anulării."
+
+#: wc-herroepingsfunctie.php:658
+msgid ""
+"Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet "
+"worden verzonden."
+msgstr ""
+"Vă rugăm să rețineți: confirmarea automată de primire pentru această "
+"revocare nu a putut fi trimisă."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:666
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd "
+"naar %2$s. We nemen uw verzoek verder in behandeling."
+msgstr ""
+"Revocarea dvs. a fost înregistrată pe %1$s. Am trimis o confirmare către "
+"%2$s. Vom procesa în continuare cererea dvs."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:669
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s "
+"kon niet automatisch worden verzonden. Neem contact met ons op als u geen "
+"bevestiging ontvangt."
+msgstr ""
+"Revocarea dvs. a fost înregistrată pe %1$s, dar e-mailul de confirmare către"
+" %2$s nu a putut fi trimis automat. Dacă nu primiți confirmarea, vă rugăm să"
+" ne contactați."
+
+#: wc-herroepingsfunctie.php:892
+msgid "Afstandsverklaring herroepingsrecht:"
+msgstr "Renunțarea la dreptul de retragere:"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:896
+#, php-format
+msgid "Akkoord vastgelegd (versie %1$s) op %2$s."
+msgstr "Acord înregistrat (versiunea %1$s) pe %2$s."
+
+#. translators: %s: source
+#: wc-herroepingsfunctie.php:905
+#, php-format
+msgid "Bron: %s"
+msgstr "Sursa: %s"
+
+#: wc-herroepingsfunctie.php:922 wc-herroepingsfunctie.php:935
+msgid "Waiver of the right of withdrawal"
+msgstr "Renunțarea la dreptul de retragere"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:927 wc-herroepingsfunctie.php:940
+#, php-format
+msgid "Recorded as version %1$s on %2$s."
+msgstr "Înregistrat ca versiunea %1$s pe %2$s."
+
+#: wc-herroepingsfunctie.php:1310
+msgid "Te veel pogingen. Wacht even en probeer het later opnieuw."
+msgstr ""
+"Prea multe încercări. Vă rugăm să așteptați un moment și să încercați din "
+"nou mai târziu."
+
+#: wc-herroepingsfunctie.php:1334
+msgid "Beste"
+msgstr "dragă"
+
+#: wc-herroepingsfunctie.php:1335
+msgid ""
+"We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud "
+"van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als "
+"bewijs."
+msgstr ""
+"Confirmăm primirea revocării dumneavoastră. Mai jos veți găsi conținutul "
+"declarației dvs. și ora transmiterii. Păstrați acest e-mail ca dovadă."
+
+#: wc-herroepingsfunctie.php:1336 wc-herroepingsfunctie.php:1362
+msgid "Ingediend op:"
+msgstr "Trimis la:"
+
+#: wc-herroepingsfunctie.php:1337
+msgid "Naam:"
+msgstr "Nume:"
+
+#: wc-herroepingsfunctie.php:1338
+msgid "E-mailadres voor bevestiging:"
+msgstr "Adresa de email pentru confirmare:"
+
+#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1360
+msgid "Bestelling:"
+msgstr "Comanda:"
+
+#: wc-herroepingsfunctie.php:1340
+msgid "Herroepen producten:"
+msgstr "Produse rechemate:"
+
+#: wc-herroepingsfunctie.php:1343
+msgid "Door u opgegeven reden:"
+msgstr "Motivul dat de tine:"
+
+#: wc-herroepingsfunctie.php:1345
+msgid ""
+"We nemen uw verzoek verder in behandeling, inclusief een eventuele "
+"terugbetaling conform de wettelijke termijnen."
+msgstr ""
+"Vom procesa în continuare solicitarea dvs., inclusiv o posibilă rambursare "
+"în conformitate cu termenele legale."
+
+#. translators: %s: order number
+#: wc-herroepingsfunctie.php:1355
+#, php-format
+msgid "Nieuwe herroeping voor bestelling %s"
+msgstr "Noua revocare pentru comanda %s"
+
+#: wc-herroepingsfunctie.php:1359
+msgid "Er is een herroeping ingediend via de online herroepingsfunctie."
+msgstr ""
+"O revocare a fost trimisă prin intermediul funcției de revocare online."
+
+#: wc-herroepingsfunctie.php:1361
+msgid "Klant:"
+msgstr "Client:"
+
+#: wc-herroepingsfunctie.php:1365
+msgid "Reden:"
+msgstr "Motiv:"
+
+#: wc-herroepingsfunctie.php:1369
+msgid "Bekijk de bestelling"
+msgstr "Vezi comanda"
+
+#: wc-herroepingsfunctie.php:1382 wc-herroepingsfunctie.php:1383
+msgid "Herroepingen"
+msgstr "Revocări"
+
+#: wc-herroepingsfunctie.php:1391
+msgid "Herroepingsfunctie instellingen"
+msgstr "Setările funcției de revocare"
+
+#: wc-herroepingsfunctie.php:1392
+msgid "Herroeping instellingen"
+msgstr "Revocarea setărilor"
+
+#: wc-herroepingsfunctie.php:1441
+msgid "Herroepingsfunctie – instellingen"
+msgstr "Funcția de revocare – setări"
+
+#: wc-herroepingsfunctie.php:1442
+msgid "Plaats het formulier op een goed vindbare pagina met de shortcode"
+msgstr "Plasați formularul pe o pagină ușor de găsit cu codul scurt"
+
+#: wc-herroepingsfunctie.php:1442
+msgid ""
+"Het staat ook automatisch in \"Mijn account\" onder \"Herroepen\". Zet "
+"bovendien een duidelijke link in de footer."
+msgstr ""
+"De asemenea, este listat automat în „Contul meu” sub „Revocat”. Mai mult, "
+"puneți un link clar în subsol."
+
+#: wc-herroepingsfunctie.php:1447
+msgid "Introductietekst"
+msgstr "Text introductiv"
+
+#: wc-herroepingsfunctie.php:1451
+msgid "Tekst bevestigingsknop"
+msgstr "Buton de confirmare text"
+
+#: wc-herroepingsfunctie.php:1455
+msgid "Onderwerp bevestigingsmail"
+msgstr "E-mail de confirmare a subiectului"
+
+#: wc-herroepingsfunctie.php:1459
+msgid "Interne meldingen naar"
+msgstr "Notificări interne către"
+
+#: wc-herroepingsfunctie.php:1463
+msgid "Uitgesloten categorieën"
+msgstr "Categoriile excluse"
+
+#: wc-herroepingsfunctie.php:1479
+msgid ""
+"Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – "
+"producten zonder herroepingsrecht."
+msgstr ""
+"de ex. produse de igienă la comandă, sigilate sau mărfuri perisabile – "
+"produse fără drept de retragere."
+
+#: wc-herroepingsfunctie.php:1483
+msgid "Uitgesloten product-ID's"
+msgstr "Identificatori de produs excluși"
+
+#: wc-herroepingsfunctie.php:1487
+msgid "Digitale producten uitsluiten"
+msgstr "Excludeți produsele digitale"
+
+#: wc-herroepingsfunctie.php:1488
+msgid "Virtuele/downloadbare producten niet tonen in de herroepingsfunctie"
+msgstr "Nu afișați produse virtuale/descărcabile în funcția de retragere"
+
+#: wc-herroepingsfunctie.php:1491
+msgid "Orderstatus aanpassen"
+msgstr "Ajustați starea comenzii"
+
+#: wc-herroepingsfunctie.php:1492
+msgid ""
+"Order op \"in afwachting\" zetten bij een herroeping (geen automatische "
+"terugbetaling)"
+msgstr ""
+"Setați comanda la „în așteptare” în caz de anulare (fără rambursare "
+"automată)"
+
+#: wc-herroepingsfunctie.php:1495
+msgid "IP-adres bewaren"
+msgstr "Salvați adresa IP"
+
+#: wc-herroepingsfunctie.php:1496
+msgid "IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)"
+msgstr ""
+"Înregistrați adresa IP ca dovadă suplimentară (menționați acest lucru în "
+"declarația dvs. de confidențialitate)"
+
+#: wc-herroepingsfunctie.php:1499
+msgid "Checkout-afstandsverklaring voor digitale producten"
+msgstr "Exonerare de plată pentru produse digitale"
+
+#: wc-herroepingsfunctie.php:1502
+msgid "Afstandsverklaring inschakelen"
+msgstr "Activați renunțarea"
+
+#: wc-herroepingsfunctie.php:1504
+msgid ""
+"Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare "
+"producten bevatten"
+msgstr ""
+"Afișați caseta de selectare obligatorie pentru cărucioarele care conțin "
+"numai produse virtuale/descărcabile"
+
+#: wc-herroepingsfunctie.php:1505
+msgid ""
+"Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin "
+"verplicht de checkbox server-side alleen voor volledig digitale carts en de "
+"hieronder ingestelde factuurlanden."
+msgstr ""
+"Funcționează cu plata clasică și cu WooCommerce Checkout Block. Pluginul "
+"necesită caseta de selectare pe partea serverului numai pentru cărucioarele "
+"complet digitale și țările de facturare stabilite mai jos."
+
+#: wc-herroepingsfunctie.php:1509
+msgid "Landen waarvoor afstandsverklaring geldt"
+msgstr "Țările care fac obiectul derogării"
+
+#: wc-herroepingsfunctie.php:1512
+msgid ""
+"Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. "
+"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
+" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+msgstr ""
+"Coduri de țară ISO 3166-1 alpha-2 separate prin virgulă, punct și virgulă "
+"sau spațiu. Standard: UE + SEE. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE,"
+" GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, "
+"NO)."
+
+#: wc-herroepingsfunctie.php:1516
+msgid "Onbekend factuurland"
+msgstr "Țara de facturare necunoscută"
+
+#: wc-herroepingsfunctie.php:1518
+msgid "Checkbox verplichten zolang het factuurland nog leeg of onbekend is"
+msgstr ""
+"Caseta de selectare Solicitare, atâta timp cât țara de facturare este încă "
+"goală sau necunoscută"
+
+#: wc-herroepingsfunctie.php:1519
+msgid ""
+"Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is "
+"geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht."
+msgstr ""
+"Comportament recomandat de închidere eșuată: odată ce este selectată o țară "
+"nesetată, caseta de selectare dispare și devine neobligatorie."
+
+#: wc-herroepingsfunctie.php:1523
+msgid "Checkboxtekst"
+msgstr "Textul casetei de selectare"
+
+#: wc-herroepingsfunctie.php:1526
+msgid ""
+"Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als "
+"duurzame bevestiging."
+msgstr ""
+"Acest text este stocat în comandă și inclus în e-mailul clientului ca o "
+"confirmare permanentă."
+
+#: wc-herroepingsfunctie.php:1530
+msgid "Tekstversie"
+msgstr "Versiune text"
+
+#: wc-herroepingsfunctie.php:1531
+msgid "Verhoog deze versie wanneer de checkboxtekst wijzigt."
+msgstr "Măriți această versiune când textul casetei de selectare se schimbă."
+
+#: wc-herroepingsfunctie.php:1534
+msgid "Validatiemelding"
+msgstr "Notificare de validare"
+
+#: wc-herroepingsfunctie.php:1538
+msgid "Betaalknoptekst"
+msgstr "Textul butonului de plată"
+
+#: wc-herroepingsfunctie.php:1541
+msgid ""
+"Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de "
+"digitale-cart en factuurlandregels gelden."
+msgstr ""
+"Cumpărarea clasică și Checkout Block folosesc acest text numai atunci când "
+"se aplică coșul digital și regulile țării de facturare."
+
+#: wc-herroepingsfunctie.php:1561
+msgid "Ontvangen herroepingen"
+msgstr "Revocări primite"
+
+#: wc-herroepingsfunctie.php:1565
+msgid "Datum"
+msgstr "Data"
+
+#: wc-herroepingsfunctie.php:1566
+msgid "Order"
+msgstr "Comanda"
+
+#: wc-herroepingsfunctie.php:1567
+msgid "Klant"
+msgstr "Client"
+
+#: wc-herroepingsfunctie.php:1568
+msgid "Producten"
+msgstr "Produse"
+
+#: wc-herroepingsfunctie.php:1569
+msgid "Reden"
+msgstr "Motivul"
+
+#: wc-herroepingsfunctie.php:1574
+msgid "Nog geen herroepingen ontvangen."
+msgstr "Nu s-au primit încă anulări."

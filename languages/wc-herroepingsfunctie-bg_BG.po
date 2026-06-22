@@ -1,0 +1,544 @@
+# Machine-assisted draft translations. Review legal and checkout copy before production use.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Herroepingsfunctie (NL) 1.1.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-herroepingsfunctie\n"
+"POT-Creation-Date: 2026-06-22T10:00:12+00:00\n"
+"PO-Revision-Date: 2026-06-22 00:00+0000\n"
+"Last-Translator: Machine-assisted draft <noreply@example.com>\n"
+"Language-Team: bg_BG <noreply@example.com>\n"
+"Language: bg_BG\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-herroepingsfunctie\n"
+"X-Generator: Codex machine-assisted draft; review legal copy before production\n"
+
+#. Plugin Name of the plugin
+#: wc-herroepingsfunctie.php
+msgid "WooCommerce Herroepingsfunctie (NL)"
+msgstr "WooCommerce Функция за анулиране (NL)"
+
+#. Plugin URI of the plugin
+#: wc-herroepingsfunctie.php
+msgid "https://example.com/"
+msgstr "https://example.com/"
+
+#. Description of the plugin
+#: wc-herroepingsfunctie.php
+msgid ""
+"Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa "
+"BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt "
+"gedeeltelijke herroeping, tweestapsbevestiging, automatische "
+"ontvangstbevestiging en logging."
+msgstr ""
+"Законово изисквана функция за онлайн отмяна за уеб магазини (чл. 6:230oa BW "
+"/ Директива (ЕС) 2023/2673). Показва истинската поръчка, поддържа частично "
+"оттегляне, потвърждение в две стъпки, автоматично потвърждение на получаване"
+" и регистриране."
+
+#. Author of the plugin
+#: wc-herroepingsfunctie.php
+msgid "Custom"
+msgstr "Custom"
+
+#: wc-herroepingsfunctie.php:126
+msgid "WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is."
+msgstr "Функцията за отмяна на WooCommerce изисква WooCommerce да е активен."
+
+#: wc-herroepingsfunctie.php:276
+msgid ""
+"Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke "
+"bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in."
+msgstr ""
+"Искате ли да отмените (част от) поръчката си в рамките на законовия период "
+"за размисъл от 14 дни? Въведете номера на поръчката и имейл адреса си по-"
+"долу."
+
+#: wc-herroepingsfunctie.php:278 wc-herroepingsfunctie.php:392
+msgid "Herroeping bevestigen"
+msgstr "Потвърдете оттеглянето"
+
+#: wc-herroepingsfunctie.php:280
+msgid "Bevestiging van uw herroeping"
+msgstr "Потвърждение на вашето оттегляне"
+
+#: wc-herroepingsfunctie.php:282
+msgid ""
+"I agree that the product is delivered immediately after payment, and I "
+"acknowledge that I thereby waive my statutory 14-day right of withdrawal."
+msgstr ""
+"Съгласен съм продуктът да бъде доставен веднага след плащането и "
+"потвърждавам, че по този начин се отказвам от законовото си 14-дневно право "
+"на отказ."
+
+#: wc-herroepingsfunctie.php:284
+msgid ""
+"Please agree to immediate digital delivery and acknowledge that you waive "
+"your right of withdrawal to complete this order."
+msgstr ""
+"Моля, съгласете се с незабавна дигитална доставка и потвърдете, че се "
+"отказвате от правото си на отказ, за да завършите тази поръчка."
+
+#: wc-herroepingsfunctie.php:286
+msgid "Buy now (payment required)"
+msgstr "Купете сега (изисква се плащане)"
+
+#: wc-herroepingsfunctie.php:310 wc-herroepingsfunctie.php:315
+msgid "Herroepen"
+msgstr "Отменено"
+
+#: wc-herroepingsfunctie.php:362
+msgid "Bestelling herroepen"
+msgstr "Заповедта е отменена"
+
+#: wc-herroepingsfunctie.php:365
+msgid "Ordernummer"
+msgstr "Номер на поръчката"
+
+#: wc-herroepingsfunctie.php:369
+msgid "E-mailadres van de bestelling"
+msgstr "Имейл адрес за поръчка"
+
+#: wc-herroepingsfunctie.php:373
+msgid "Bestelling ophalen"
+msgstr "Вземете поръчка"
+
+#: wc-herroepingsfunctie.php:379
+msgid "Wat wilt u herroepen?"
+msgstr "Какво искате да отмените?"
+
+#: wc-herroepingsfunctie.php:380
+msgid ""
+"Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent "
+"niet verplicht een reden op te geven."
+msgstr ""
+"Изберете продуктите, за които искате да отмените споразумението. Не сте "
+"длъжни да посочите причина."
+
+#: wc-herroepingsfunctie.php:383
+msgid "Reden (optioneel)"
+msgstr "Причина (по избор)"
+
+#: wc-herroepingsfunctie.php:386 wc-herroepingsfunctie.php:396
+msgid "Terug"
+msgstr "Назад"
+
+#: wc-herroepingsfunctie.php:387
+msgid "Doorgaan"
+msgstr "Продължи"
+
+#: wc-herroepingsfunctie.php:393
+msgid ""
+"Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten "
+"herroept. U ontvangt direct een ontvangstbevestiging per e-mail."
+msgstr ""
+"С настоящото ни информирате, че отменяте споразумението за продуктите по-"
+"долу. Веднага ще получите потвърждение за получаване по имейл."
+
+#: wc-herroepingsfunctie.php:521
+msgid "Vul een geldig ordernummer en e-mailadres in."
+msgstr "Въведете валиден номер на поръчка и имейл адрес."
+
+#: wc-herroepingsfunctie.php:537
+msgid ""
+"We konden geen bestelling vinden met deze gegevens. Controleer uw "
+"ordernummer en e-mailadres."
+msgstr ""
+"Не можахме да намерим поръчка с тази информация. Моля, проверете номера на "
+"поръчката и имейл адреса си."
+
+#: wc-herroepingsfunctie.php:547
+msgid ""
+"Voor de producten in deze bestelling is herroeping via dit formulier niet "
+"beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). "
+"Neem bij vragen contact met ons op."
+msgstr ""
+"За продуктите в тази поръчка тегленето чрез този формуляр не е налично "
+"(например защото вече са били изтеглени или изключени). Ако имате някакви "
+"въпроси, моля свържете се с нас."
+
+#: wc-herroepingsfunctie.php:570
+msgid "Onvolledige aanvraag. Probeer het opnieuw."
+msgstr "Непълно приложение. Моля, опитайте отново."
+
+#: wc-herroepingsfunctie.php:586
+msgid "We konden uw bestelling niet verifiëren."
+msgstr "Не успяхме да потвърдим вашата поръчка."
+
+#: wc-herroepingsfunctie.php:604
+msgid "Geen geldige producten geselecteerd."
+msgstr "Няма избрани валидни продукти."
+
+#: wc-herroepingsfunctie.php:633
+msgid ""
+"We konden uw herroeping niet registreren. Probeer het later opnieuw of neem "
+"contact met ons op."
+msgstr ""
+"Не успяхме да регистрираме вашето оттегляне. Моля, опитайте отново по-късно "
+"или се свържете с нас."
+
+#. translators: 1: timestamp, 2: items, 3: reason
+#: wc-herroepingsfunctie.php:643
+#, php-format
+msgid ""
+"Herroeping ontvangen op %1$s via de online herroepingsfunctie.\n"
+"Producten: %2$s\n"
+"Reden: %3$s"
+msgstr ""
+"Отмяната е получена на %1$s чрез функцията за онлайн отмяна.\n"
+"Продукти: %2$s\n"
+"Причина: %3$s"
+
+#: wc-herroepingsfunctie.php:646
+msgid "(geen opgegeven)"
+msgstr "(не е посочено)"
+
+#: wc-herroepingsfunctie.php:652
+msgid "In afwachting van afhandeling herroeping. "
+msgstr "Очаква се обработка на анулиране."
+
+#: wc-herroepingsfunctie.php:658
+msgid ""
+"Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet "
+"worden verzonden."
+msgstr ""
+"Моля, обърнете внимание: автоматичното потвърждение за получаване на това "
+"оттегляне не можа да бъде изпратено."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:666
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd "
+"naar %2$s. We nemen uw verzoek verder in behandeling."
+msgstr ""
+"Вашето оттегляне е регистрирано на %1$s. Изпратихме потвърждение до %2$s. "
+"Ние ще обработим допълнително вашата заявка."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:669
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s "
+"kon niet automatisch worden verzonden. Neem contact met ons op als u geen "
+"bevestiging ontvangt."
+msgstr ""
+"Вашето оттегляне е регистрирано на %1$s, но имейлът за потвърждение до %2$s "
+"не може да бъде изпратен автоматично. Ако не получите потвърждение, моля "
+"свържете се с нас."
+
+#: wc-herroepingsfunctie.php:892
+msgid "Afstandsverklaring herroepingsrecht:"
+msgstr "Отказ от право на отказ:"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:896
+#, php-format
+msgid "Akkoord vastgelegd (versie %1$s) op %2$s."
+msgstr "Споразумението е записано (версия %1$s) на %2$s."
+
+#. translators: %s: source
+#: wc-herroepingsfunctie.php:905
+#, php-format
+msgid "Bron: %s"
+msgstr "Източник: %s"
+
+#: wc-herroepingsfunctie.php:922 wc-herroepingsfunctie.php:935
+msgid "Waiver of the right of withdrawal"
+msgstr "Отказ от правото на отказ"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:927 wc-herroepingsfunctie.php:940
+#, php-format
+msgid "Recorded as version %1$s on %2$s."
+msgstr "Записано като версия %1$s на %2$s."
+
+#: wc-herroepingsfunctie.php:1310
+msgid "Te veel pogingen. Wacht even en probeer het later opnieuw."
+msgstr "Твърде много опити. Моля, изчакайте малко и опитайте отново по-късно."
+
+#: wc-herroepingsfunctie.php:1334
+msgid "Beste"
+msgstr "скъпи"
+
+#: wc-herroepingsfunctie.php:1335
+msgid ""
+"We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud "
+"van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als "
+"bewijs."
+msgstr ""
+"Ние потвърждаваме получаването на вашето оттегляне. По-долу ще намерите "
+"съдържанието на вашето изявление и часа на подаване. Запазете този имейл "
+"като доказателство."
+
+#: wc-herroepingsfunctie.php:1336 wc-herroepingsfunctie.php:1362
+msgid "Ingediend op:"
+msgstr "Изпратено до:"
+
+#: wc-herroepingsfunctie.php:1337
+msgid "Naam:"
+msgstr "Име:"
+
+#: wc-herroepingsfunctie.php:1338
+msgid "E-mailadres voor bevestiging:"
+msgstr "Имейл адрес за потвърждение:"
+
+#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1360
+msgid "Bestelling:"
+msgstr "поръчка:"
+
+#: wc-herroepingsfunctie.php:1340
+msgid "Herroepen producten:"
+msgstr "Изтеглени продукти:"
+
+#: wc-herroepingsfunctie.php:1343
+msgid "Door u opgegeven reden:"
+msgstr "Посочена от вас причина:"
+
+#: wc-herroepingsfunctie.php:1345
+msgid ""
+"We nemen uw verzoek verder in behandeling, inclusief een eventuele "
+"terugbetaling conform de wettelijke termijnen."
+msgstr ""
+"Ние ще обработим допълнително вашата заявка, включително евентуално "
+"възстановяване на сумата в съответствие със законовите срокове."
+
+#. translators: %s: order number
+#: wc-herroepingsfunctie.php:1355
+#, php-format
+msgid "Nieuwe herroeping voor bestelling %s"
+msgstr "Ново оттегляне за поръчка %s"
+
+#: wc-herroepingsfunctie.php:1359
+msgid "Er is een herroeping ingediend via de online herroepingsfunctie."
+msgstr "Подадено е оттегляне чрез функцията за онлайн отмяна."
+
+#: wc-herroepingsfunctie.php:1361
+msgid "Klant:"
+msgstr "Клиент:"
+
+#: wc-herroepingsfunctie.php:1365
+msgid "Reden:"
+msgstr "причина:"
+
+#: wc-herroepingsfunctie.php:1369
+msgid "Bekijk de bestelling"
+msgstr "Вижте поръчката"
+
+#: wc-herroepingsfunctie.php:1382 wc-herroepingsfunctie.php:1383
+msgid "Herroepingen"
+msgstr "Отменяния"
+
+#: wc-herroepingsfunctie.php:1391
+msgid "Herroepingsfunctie instellingen"
+msgstr "Настройки на функцията за отмяна"
+
+#: wc-herroepingsfunctie.php:1392
+msgid "Herroeping instellingen"
+msgstr "Отмяна на настройките"
+
+#: wc-herroepingsfunctie.php:1441
+msgid "Herroepingsfunctie – instellingen"
+msgstr "Функция за отмяна – настройки"
+
+#: wc-herroepingsfunctie.php:1442
+msgid "Plaats het formulier op een goed vindbare pagina met de shortcode"
+msgstr "Поставете формуляра на лесна за намиране страница с краткия код"
+
+#: wc-herroepingsfunctie.php:1442
+msgid ""
+"Het staat ook automatisch in \"Mijn account\" onder \"Herroepen\". Zet "
+"bovendien een duidelijke link in de footer."
+msgstr ""
+"Освен това автоматично се показва в „Моят акаунт“ под „Отменено“. Освен това"
+" поставете ясна връзка в долния колонтитул."
+
+#: wc-herroepingsfunctie.php:1447
+msgid "Introductietekst"
+msgstr "Уводен текст"
+
+#: wc-herroepingsfunctie.php:1451
+msgid "Tekst bevestigingsknop"
+msgstr "Бутон за потвърждение на текст"
+
+#: wc-herroepingsfunctie.php:1455
+msgid "Onderwerp bevestigingsmail"
+msgstr "Имейл за потвърждение на темата"
+
+#: wc-herroepingsfunctie.php:1459
+msgid "Interne meldingen naar"
+msgstr "Вътрешни известия до"
+
+#: wc-herroepingsfunctie.php:1463
+msgid "Uitgesloten categorieën"
+msgstr "Изключени категории"
+
+#: wc-herroepingsfunctie.php:1479
+msgid ""
+"Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – "
+"producten zonder herroepingsrecht."
+msgstr ""
+"напр. изработени по поръчка, запечатани хигиенни продукти или нетрайни стоки"
+" – продукти без право на отказ."
+
+#: wc-herroepingsfunctie.php:1483
+msgid "Uitgesloten product-ID's"
+msgstr "Изключени продуктови идентификатори"
+
+#: wc-herroepingsfunctie.php:1487
+msgid "Digitale producten uitsluiten"
+msgstr "Изключете цифровите продукти"
+
+#: wc-herroepingsfunctie.php:1488
+msgid "Virtuele/downloadbare producten niet tonen in de herroepingsfunctie"
+msgstr ""
+"Не показвайте виртуални продукти/продукти за изтегляне във функцията за "
+"теглене"
+
+#: wc-herroepingsfunctie.php:1491
+msgid "Orderstatus aanpassen"
+msgstr "Коригирайте състоянието на поръчката"
+
+#: wc-herroepingsfunctie.php:1492
+msgid ""
+"Order op \"in afwachting\" zetten bij een herroeping (geen automatische "
+"terugbetaling)"
+msgstr ""
+"Задайте поръчка на „чакаща“ в случай на анулиране (без автоматично "
+"възстановяване на сумата)"
+
+#: wc-herroepingsfunctie.php:1495
+msgid "IP-adres bewaren"
+msgstr "Запазете IP адреса"
+
+#: wc-herroepingsfunctie.php:1496
+msgid "IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)"
+msgstr ""
+"Регистрирайте IP адреса като допълнително доказателство (споменете това в "
+"декларацията си за поверителност)"
+
+#: wc-herroepingsfunctie.php:1499
+msgid "Checkout-afstandsverklaring voor digitale producten"
+msgstr "Освобождаване от плащане за цифрови продукти"
+
+#: wc-herroepingsfunctie.php:1502
+msgid "Afstandsverklaring inschakelen"
+msgstr "Активиране на отказ"
+
+#: wc-herroepingsfunctie.php:1504
+msgid ""
+"Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare "
+"producten bevatten"
+msgstr ""
+"Показване на задължително квадратче за отметка за колички, които съдържат "
+"само виртуални продукти/продукти за изтегляне"
+
+#: wc-herroepingsfunctie.php:1505
+msgid ""
+"Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin "
+"verplicht de checkbox server-side alleen voor volledig digitale carts en de "
+"hieronder ingestelde factuurlanden."
+msgstr ""
+"Работи с класическо плащане и с WooCommerce Checkout Block. Плъгинът изисква"
+" квадратчето за отметка от страна на сървъра само за напълно цифрови колички"
+" и държавите за фактуриране, зададени по-долу."
+
+#: wc-herroepingsfunctie.php:1509
+msgid "Landen waarvoor afstandsverklaring geldt"
+msgstr "Държави, подлежащи на освобождаване"
+
+#: wc-herroepingsfunctie.php:1512
+msgid ""
+"Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. "
+"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
+" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+msgstr ""
+"Кодове на държави със запетая, точка и запетая или разделени с интервал ISO "
+"3166-1 alpha-2. Стандарт: ЕС + ЕИП. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR,"
+" DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI,"
+" NO)."
+
+#: wc-herroepingsfunctie.php:1516
+msgid "Onbekend factuurland"
+msgstr "Неизвестна държава за фактуриране"
+
+#: wc-herroepingsfunctie.php:1518
+msgid "Checkbox verplichten zolang het factuurland nog leeg of onbekend is"
+msgstr ""
+"Изискване на квадратчето за отметка, стига държавата за фактуриране все още "
+"да е празна или неизвестна"
+
+#: wc-herroepingsfunctie.php:1519
+msgid ""
+"Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is "
+"geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht."
+msgstr ""
+"Препоръчително поведение при неуспешно затваряне: След като бъде избрана "
+"незададена държава, квадратчето за отметка изчезва и става незадължително."
+
+#: wc-herroepingsfunctie.php:1523
+msgid "Checkboxtekst"
+msgstr "Текст в квадратчето за отметка"
+
+#: wc-herroepingsfunctie.php:1526
+msgid ""
+"Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als "
+"duurzame bevestiging."
+msgstr ""
+"Този текст се съхранява в поръчката и се включва в имейла на клиента като "
+"постоянно потвърждение."
+
+#: wc-herroepingsfunctie.php:1530
+msgid "Tekstversie"
+msgstr "Текстова версия"
+
+#: wc-herroepingsfunctie.php:1531
+msgid "Verhoog deze versie wanneer de checkboxtekst wijzigt."
+msgstr ""
+"Увеличете тази версия, когато текстът на квадратчето за отметка се промени."
+
+#: wc-herroepingsfunctie.php:1534
+msgid "Validatiemelding"
+msgstr "Уведомление за валидиране"
+
+#: wc-herroepingsfunctie.php:1538
+msgid "Betaalknoptekst"
+msgstr "Текст на бутон за плащане"
+
+#: wc-herroepingsfunctie.php:1541
+msgid ""
+"Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de "
+"digitale-cart en factuurlandregels gelden."
+msgstr ""
+"Класическото плащане и Checkout Block използват този текст само когато се "
+"прилагат правилата за дигитална количка и държава за фактуриране."
+
+#: wc-herroepingsfunctie.php:1561
+msgid "Ontvangen herroepingen"
+msgstr "Получени отмени"
+
+#: wc-herroepingsfunctie.php:1565
+msgid "Datum"
+msgstr "Дата"
+
+#: wc-herroepingsfunctie.php:1566
+msgid "Order"
+msgstr "ред"
+
+#: wc-herroepingsfunctie.php:1567
+msgid "Klant"
+msgstr "Клиент"
+
+#: wc-herroepingsfunctie.php:1568
+msgid "Producten"
+msgstr "Продукти"
+
+#: wc-herroepingsfunctie.php:1569
+msgid "Reden"
+msgstr "Причина"
+
+#: wc-herroepingsfunctie.php:1574
+msgid "Nog geen herroepingen ontvangen."
+msgstr "Все още няма получени анулирания."

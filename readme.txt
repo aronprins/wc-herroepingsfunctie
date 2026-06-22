@@ -20,6 +20,20 @@ INSTALLATIE
 6. Ga eenmalig naar Instellingen > Permalinks en klik op Opslaan, zodat het
    account-endpoint /mijn-account/herroepen/ werkt.
 
+TALEN
+De plugin laadt automatisch de WordPress-site/gebruikerslocale via de standaard
+textdomain `wc-herroepingsfunctie`. Er zijn vertaalbestanden meegeleverd voor
+EU-officiele talen, EER-talen en Engels: bg_BG, cs_CZ, da_DK, de_DE, el,
+en_GB, en_US, es_ES, et, fi, fr_FR, ga_IE, hr, hu_HU, is_IS, it_IT, lt_LT, lv,
+mt_MT, nb_NO, nl_NL, pl_PL, pt_PT, ro_RO, sk_SK, sl_SI en sv_SE. Regionale
+varianten zoals nl_BE, fr_BE, de_AT of it_CH vallen automatisch terug op de
+bijbehorende basistaal.
+
+Standaardwaarden voor tekstvelden worden vertaald zolang ze nog exact gelijk
+zijn aan de meegeleverde standaardtekst. Zodra een merchant een instelling
+aanpast, blijft die aangepaste juridische tekst behouden en wordt deze niet
+stilzwijgend machine-vertaald.
+
 CHECKOUT-BLOCK
 De afstandsverklaring werkt met classic checkout en met de WooCommerce
 Checkout Block. WooCommerce 8.6-8.8 gebruikt hiervoor de oudere experimentele
@@ -36,5 +50,7 @@ digitale-cart en factuurlandregels gelden.
 
 LET OP
 Test op staging. Laat juridische teksten, de landenlijst en de lijst met
-uitzonderingen controleren door een jurist voor livegang. Niet-EU landen kunnen
-eigen of vergelijkbare regels hebben.
+uitzonderingen controleren door een jurist voor livegang. De meegeleverde
+vertalingen zijn machine-assisted conceptvertalingen en moeten juridisch worden
+gereviewd voordat ze productie-afhankelijk worden gebruikt. Niet-EU landen
+kunnen eigen of vergelijkbare regels hebben.

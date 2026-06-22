@@ -1,0 +1,544 @@
+# Machine-assisted draft translations. Review legal and checkout copy before production use.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Herroepingsfunctie (NL) 1.1.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-herroepingsfunctie\n"
+"POT-Creation-Date: 2026-06-22T10:00:12+00:00\n"
+"PO-Revision-Date: 2026-06-22 00:00+0000\n"
+"Last-Translator: Machine-assisted draft <noreply@example.com>\n"
+"Language-Team: el <noreply@example.com>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-herroepingsfunctie\n"
+"X-Generator: Codex machine-assisted draft; review legal copy before production\n"
+
+#. Plugin Name of the plugin
+#: wc-herroepingsfunctie.php
+msgid "WooCommerce Herroepingsfunctie (NL)"
+msgstr "WooCommerce Λειτουργία ανάκλησης (NL)"
+
+#. Plugin URI of the plugin
+#: wc-herroepingsfunctie.php
+msgid "https://example.com/"
+msgstr "https://example.com/"
+
+#. Description of the plugin
+#: wc-herroepingsfunctie.php
+msgid ""
+"Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa "
+"BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt "
+"gedeeltelijke herroeping, tweestapsbevestiging, automatische "
+"ontvangstbevestiging en logging."
+msgstr ""
+"Νομικά απαιτούμενη ηλεκτρονική λειτουργία ανάκλησης για διαδικτυακά "
+"καταστήματα (άρθρο 6:230oa BW / Οδηγία (ΕΕ) 2023/2673). Εμφανίζει την "
+"πραγματική παραγγελία, υποστηρίζει μερική ανάκληση, επιβεβαίωση σε δύο "
+"βήματα, αυτόματη επιβεβαίωση παραλαβής και καταγραφή."
+
+#. Author of the plugin
+#: wc-herroepingsfunctie.php
+msgid "Custom"
+msgstr "Custom"
+
+#: wc-herroepingsfunctie.php:126
+msgid "WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is."
+msgstr ""
+"WooCommerce Η λειτουργία ανάκλησης απαιτεί το WooCommerce να είναι ενεργό."
+
+#: wc-herroepingsfunctie.php:276
+msgid ""
+"Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke "
+"bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in."
+msgstr ""
+"Θα θέλατε να ακυρώσετε (μέρος) της παραγγελίας σας εντός της προβλεπόμενης "
+"περιόδου υπαναχώρησης των 14 ημερών; Εισαγάγετε τον αριθμό παραγγελίας και "
+"τη διεύθυνση email παρακάτω."
+
+#: wc-herroepingsfunctie.php:278 wc-herroepingsfunctie.php:392
+msgid "Herroeping bevestigen"
+msgstr "Επιβεβαιώστε την ανάκληση"
+
+#: wc-herroepingsfunctie.php:280
+msgid "Bevestiging van uw herroeping"
+msgstr "Επιβεβαίωση της ανάκλησής σας"
+
+#: wc-herroepingsfunctie.php:282
+msgid ""
+"I agree that the product is delivered immediately after payment, and I "
+"acknowledge that I thereby waive my statutory 14-day right of withdrawal."
+msgstr ""
+"Συμφωνώ ότι το προϊόν παραδίδεται αμέσως μετά την πληρωμή και αναγνωρίζω ότι"
+" παραιτούμαι ως εκ τούτου από το νόμιμο δικαίωμα υπαναχώρησης 14 ημερών."
+
+#: wc-herroepingsfunctie.php:284
+msgid ""
+"Please agree to immediate digital delivery and acknowledge that you waive "
+"your right of withdrawal to complete this order."
+msgstr ""
+"Συμφωνήστε με την άμεση ψηφιακή παράδοση και αναγνωρίστε ότι παραιτείστε από"
+" το δικαίωμα υπαναχώρησης για να ολοκληρώσετε αυτήν την παραγγελία."
+
+#: wc-herroepingsfunctie.php:286
+msgid "Buy now (payment required)"
+msgstr "Αγορά τώρα (απαιτείται πληρωμή)"
+
+#: wc-herroepingsfunctie.php:310 wc-herroepingsfunctie.php:315
+msgid "Herroepen"
+msgstr "Ανακλήθηκε"
+
+#: wc-herroepingsfunctie.php:362
+msgid "Bestelling herroepen"
+msgstr "Η εντολή ανακλήθηκε"
+
+#: wc-herroepingsfunctie.php:365
+msgid "Ordernummer"
+msgstr "Αριθμός παραγγελίας"
+
+#: wc-herroepingsfunctie.php:369
+msgid "E-mailadres van de bestelling"
+msgstr "Παραγγελία διεύθυνσης email"
+
+#: wc-herroepingsfunctie.php:373
+msgid "Bestelling ophalen"
+msgstr "Παραγγελία παραλαβής"
+
+#: wc-herroepingsfunctie.php:379
+msgid "Wat wilt u herroepen?"
+msgstr "Τι θέλετε να ανακαλέσετε;"
+
+#: wc-herroepingsfunctie.php:380
+msgid ""
+"Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent "
+"niet verplicht een reden op te geven."
+msgstr ""
+"Επιλέξτε τα προϊόντα για τα οποία θέλετε να ανακαλέσετε τη συμφωνία. Δεν "
+"είστε υποχρεωμένοι να δώσετε λόγο."
+
+#: wc-herroepingsfunctie.php:383
+msgid "Reden (optioneel)"
+msgstr "Αιτία (προαιρετικό)"
+
+#: wc-herroepingsfunctie.php:386 wc-herroepingsfunctie.php:396
+msgid "Terug"
+msgstr "Πίσω"
+
+#: wc-herroepingsfunctie.php:387
+msgid "Doorgaan"
+msgstr "Συνέχεια"
+
+#: wc-herroepingsfunctie.php:393
+msgid ""
+"Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten "
+"herroept. U ontvangt direct een ontvangstbevestiging per e-mail."
+msgstr ""
+"Με το παρόν μας ενημερώνετε ότι ανακαλείτε τη συμφωνία για τα παρακάτω "
+"προϊόντα. Θα λάβετε αμέσως επιβεβαίωση παραλαβής μέσω e-mail."
+
+#: wc-herroepingsfunctie.php:521
+msgid "Vul een geldig ordernummer en e-mailadres in."
+msgstr "Εισαγάγετε έναν έγκυρο αριθμό παραγγελίας και διεύθυνση email."
+
+#: wc-herroepingsfunctie.php:537
+msgid ""
+"We konden geen bestelling vinden met deze gegevens. Controleer uw "
+"ordernummer en e-mailadres."
+msgstr ""
+"Δεν μπορέσαμε να βρούμε παραγγελία με αυτές τις πληροφορίες. Ελέγξτε τον "
+"αριθμό παραγγελίας και τη διεύθυνση email σας."
+
+#: wc-herroepingsfunctie.php:547
+msgid ""
+"Voor de producten in deze bestelling is herroeping via dit formulier niet "
+"beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). "
+"Neem bij vragen contact met ons op."
+msgstr ""
+"Για τα προϊόντα αυτής της παραγγελίας, η ανάληψη μέσω αυτής της φόρμας δεν "
+"είναι διαθέσιμη (για παράδειγμα επειδή έχουν ήδη αποσυρθεί ή αποκλειστεί). "
+"Εάν έχετε οποιεσδήποτε ερωτήσεις, επικοινωνήστε μαζί μας."
+
+#: wc-herroepingsfunctie.php:570
+msgid "Onvolledige aanvraag. Probeer het opnieuw."
+msgstr "Ελλιπής αίτηση. Δοκιμάστε ξανά."
+
+#: wc-herroepingsfunctie.php:586
+msgid "We konden uw bestelling niet verifiëren."
+msgstr "Δεν μπορέσαμε να επαληθεύσουμε την παραγγελία σας."
+
+#: wc-herroepingsfunctie.php:604
+msgid "Geen geldige producten geselecteerd."
+msgstr "Δεν επιλέχθηκαν έγκυρα προϊόντα."
+
+#: wc-herroepingsfunctie.php:633
+msgid ""
+"We konden uw herroeping niet registreren. Probeer het later opnieuw of neem "
+"contact met ons op."
+msgstr ""
+"Δεν μπορέσαμε να καταχωρήσουμε την ανάκλησή σας. Δοκιμάστε ξανά αργότερα ή "
+"επικοινωνήστε μαζί μας."
+
+#. translators: 1: timestamp, 2: items, 3: reason
+#: wc-herroepingsfunctie.php:643
+#, php-format
+msgid ""
+"Herroeping ontvangen op %1$s via de online herroepingsfunctie.\n"
+"Producten: %2$s\n"
+"Reden: %3$s"
+msgstr ""
+"Η ανάκληση ελήφθη στις %1$s μέσω της ηλεκτρονικής λειτουργίας ανάκλησης.\n"
+"Προϊόντα: %2$s\n"
+"Αιτία: %3$s"
+
+#: wc-herroepingsfunctie.php:646
+msgid "(geen opgegeven)"
+msgstr "(δεν διευκρινίζεται)"
+
+#: wc-herroepingsfunctie.php:652
+msgid "In afwachting van afhandeling herroeping. "
+msgstr "Αναμονή επεξεργασίας ακύρωσης."
+
+#: wc-herroepingsfunctie.php:658
+msgid ""
+"Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet "
+"worden verzonden."
+msgstr ""
+"Σημείωση: δεν ήταν δυνατή η αποστολή της αυτόματης επιβεβαίωσης παραλαβής "
+"για αυτήν την ανάκληση."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:666
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd "
+"naar %2$s. We nemen uw verzoek verder in behandeling."
+msgstr ""
+"Η ανάκλησή σας έχει καταχωρηθεί στο %1$s. Έχουμε στείλει μια επιβεβαίωση στο"
+" %2$s. Θα επεξεργαστούμε περαιτέρω το αίτημά σας."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:669
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s "
+"kon niet automatisch worden verzonden. Neem contact met ons op als u geen "
+"bevestiging ontvangt."
+msgstr ""
+"Η ανάκλησή σας έχει καταχωρηθεί στις %1$s, αλλά το email επιβεβαίωσης στο "
+"%2$s δεν μπόρεσε να σταλεί αυτόματα. Εάν δεν λάβετε επιβεβαίωση, "
+"επικοινωνήστε μαζί μας."
+
+#: wc-herroepingsfunctie.php:892
+msgid "Afstandsverklaring herroepingsrecht:"
+msgstr "Παραίτηση από το δικαίωμα υπαναχώρησης:"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:896
+#, php-format
+msgid "Akkoord vastgelegd (versie %1$s) op %2$s."
+msgstr "Η συμφωνία καταγράφηκε (έκδοση %1$s) στο %2$s."
+
+#. translators: %s: source
+#: wc-herroepingsfunctie.php:905
+#, php-format
+msgid "Bron: %s"
+msgstr "Πηγή: %s"
+
+#: wc-herroepingsfunctie.php:922 wc-herroepingsfunctie.php:935
+msgid "Waiver of the right of withdrawal"
+msgstr "Παραίτηση από το δικαίωμα υπαναχώρησης"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:927 wc-herroepingsfunctie.php:940
+#, php-format
+msgid "Recorded as version %1$s on %2$s."
+msgstr "Ηχογραφήθηκε ως έκδοση %1$s στο %2$s."
+
+#: wc-herroepingsfunctie.php:1310
+msgid "Te veel pogingen. Wacht even en probeer het later opnieuw."
+msgstr "Πάρα πολλές προσπάθειες. Περιμένετε λίγο και δοκιμάστε ξανά αργότερα."
+
+#: wc-herroepingsfunctie.php:1334
+msgid "Beste"
+msgstr "Αγαπητέ"
+
+#: wc-herroepingsfunctie.php:1335
+msgid ""
+"We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud "
+"van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als "
+"bewijs."
+msgstr ""
+"Αναγνωρίζουμε τη λήψη της ανάκλησής σας. Παρακάτω θα βρείτε το περιεχόμενο "
+"της δήλωσής σας και τον χρόνο υποβολής. Κρατήστε αυτό το email ως "
+"αποδεικτικό στοιχείο."
+
+#: wc-herroepingsfunctie.php:1336 wc-herroepingsfunctie.php:1362
+msgid "Ingediend op:"
+msgstr "Υποβλήθηκε σε:"
+
+#: wc-herroepingsfunctie.php:1337
+msgid "Naam:"
+msgstr "Όνομα:"
+
+#: wc-herroepingsfunctie.php:1338
+msgid "E-mailadres voor bevestiging:"
+msgstr "Διεύθυνση email για επιβεβαίωση:"
+
+#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1360
+msgid "Bestelling:"
+msgstr "Παραγγελία:"
+
+#: wc-herroepingsfunctie.php:1340
+msgid "Herroepen producten:"
+msgstr "Ανακλήθηκαν προϊόντα:"
+
+#: wc-herroepingsfunctie.php:1343
+msgid "Door u opgegeven reden:"
+msgstr "Ο λόγος που δώσατε:"
+
+#: wc-herroepingsfunctie.php:1345
+msgid ""
+"We nemen uw verzoek verder in behandeling, inclusief een eventuele "
+"terugbetaling conform de wettelijke termijnen."
+msgstr ""
+"Θα επεξεργαστούμε περαιτέρω το αίτημά σας, συμπεριλαμβανομένης πιθανής "
+"επιστροφής χρημάτων σύμφωνα με τις νόμιμες προθεσμίες."
+
+#. translators: %s: order number
+#: wc-herroepingsfunctie.php:1355
+#, php-format
+msgid "Nieuwe herroeping voor bestelling %s"
+msgstr "Νέα ανάκληση για παραγγελία %s"
+
+#: wc-herroepingsfunctie.php:1359
+msgid "Er is een herroeping ingediend via de online herroepingsfunctie."
+msgstr "Έχει υποβληθεί ανάκληση μέσω της ηλεκτρονικής λειτουργίας ανάκλησης."
+
+#: wc-herroepingsfunctie.php:1361
+msgid "Klant:"
+msgstr "Πελάτης:"
+
+#: wc-herroepingsfunctie.php:1365
+msgid "Reden:"
+msgstr "Λόγος:"
+
+#: wc-herroepingsfunctie.php:1369
+msgid "Bekijk de bestelling"
+msgstr "Δείτε την παραγγελία"
+
+#: wc-herroepingsfunctie.php:1382 wc-herroepingsfunctie.php:1383
+msgid "Herroepingen"
+msgstr "Ανακλήσεις"
+
+#: wc-herroepingsfunctie.php:1391
+msgid "Herroepingsfunctie instellingen"
+msgstr "Ρυθμίσεις λειτουργίας ανάκλησης"
+
+#: wc-herroepingsfunctie.php:1392
+msgid "Herroeping instellingen"
+msgstr "Ανάκληση ρυθμίσεων"
+
+#: wc-herroepingsfunctie.php:1441
+msgid "Herroepingsfunctie – instellingen"
+msgstr "Λειτουργία ανάκλησης – ρυθμίσεις"
+
+#: wc-herroepingsfunctie.php:1442
+msgid "Plaats het formulier op een goed vindbare pagina met de shortcode"
+msgstr "Τοποθετήστε τη φόρμα σε μια ευδιάκριτη σελίδα με τον σύντομο κωδικό"
+
+#: wc-herroepingsfunctie.php:1442
+msgid ""
+"Het staat ook automatisch in \"Mijn account\" onder \"Herroepen\". Zet "
+"bovendien een duidelijke link in de footer."
+msgstr ""
+"Επίσης, εμφανίζεται αυτόματα στο \"Ο λογαριασμός μου\" στην ενότητα "
+"\"Ανακλήθηκε\". Επιπλέον, βάλτε έναν καθαρό σύνδεσμο στο υποσέλιδο."
+
+#: wc-herroepingsfunctie.php:1447
+msgid "Introductietekst"
+msgstr "Εισαγωγικό κείμενο"
+
+#: wc-herroepingsfunctie.php:1451
+msgid "Tekst bevestigingsknop"
+msgstr "Κουμπί επιβεβαίωσης κειμένου"
+
+#: wc-herroepingsfunctie.php:1455
+msgid "Onderwerp bevestigingsmail"
+msgstr "Email επιβεβαίωσης θέματος"
+
+#: wc-herroepingsfunctie.php:1459
+msgid "Interne meldingen naar"
+msgstr "Εσωτερικές ειδοποιήσεις προς"
+
+#: wc-herroepingsfunctie.php:1463
+msgid "Uitgesloten categorieën"
+msgstr "Εξαιρούμενες κατηγορίες"
+
+#: wc-herroepingsfunctie.php:1479
+msgid ""
+"Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – "
+"producten zonder herroepingsrecht."
+msgstr ""
+"Π.χ. κατά παραγγελία, σφραγισμένα προϊόντα υγιεινής ή ευπαθή προϊόντα – "
+"προϊόντα χωρίς δικαίωμα υπαναχώρησης."
+
+#: wc-herroepingsfunctie.php:1483
+msgid "Uitgesloten product-ID's"
+msgstr "Εξαιρούνται τα αναγνωριστικά προϊόντος"
+
+#: wc-herroepingsfunctie.php:1487
+msgid "Digitale producten uitsluiten"
+msgstr "Εξαίρεση ψηφιακών προϊόντων"
+
+#: wc-herroepingsfunctie.php:1488
+msgid "Virtuele/downloadbare producten niet tonen in de herroepingsfunctie"
+msgstr ""
+"Μην εμφανίζετε εικονικά/με δυνατότητα λήψης προϊόντων στη λειτουργία "
+"απόσυρσης"
+
+#: wc-herroepingsfunctie.php:1491
+msgid "Orderstatus aanpassen"
+msgstr "Προσαρμόστε την κατάσταση παραγγελίας"
+
+#: wc-herroepingsfunctie.php:1492
+msgid ""
+"Order op \"in afwachting\" zetten bij een herroeping (geen automatische "
+"terugbetaling)"
+msgstr ""
+"Ορίστε την παραγγελία σε \"εκκρεμότητα\" σε περίπτωση ακύρωσης (χωρίς "
+"αυτόματη επιστροφή χρημάτων)"
+
+#: wc-herroepingsfunctie.php:1495
+msgid "IP-adres bewaren"
+msgstr "Αποθήκευση διεύθυνσης IP"
+
+#: wc-herroepingsfunctie.php:1496
+msgid "IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)"
+msgstr ""
+"Καταγράψτε τη διεύθυνση IP ως πρόσθετη απόδειξη (αναφέρετε αυτό στη δήλωση "
+"απορρήτου σας)"
+
+#: wc-herroepingsfunctie.php:1499
+msgid "Checkout-afstandsverklaring voor digitale producten"
+msgstr "Αποποίηση ολοκλήρωσης αγοράς για ψηφιακά προϊόντα"
+
+#: wc-herroepingsfunctie.php:1502
+msgid "Afstandsverklaring inschakelen"
+msgstr "Ενεργοποίηση παραίτησης"
+
+#: wc-herroepingsfunctie.php:1504
+msgid ""
+"Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare "
+"producten bevatten"
+msgstr ""
+"Εμφάνιση υποχρεωτικού πλαισίου ελέγχου για καροτσάκια που περιέχουν μόνο "
+"εικονικά/με δυνατότητα λήψης προϊόντα"
+
+#: wc-herroepingsfunctie.php:1505
+msgid ""
+"Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin "
+"verplicht de checkbox server-side alleen voor volledig digitale carts en de "
+"hieronder ingestelde factuurlanden."
+msgstr ""
+"Λειτουργεί με το κλασικό ταμείο και με το WooCommerce Checkout Block. Η "
+"προσθήκη απαιτεί το πλαίσιο ελέγχου από την πλευρά του διακομιστή μόνο για "
+"πλήρως ψηφιακά καροτσάκια και τις χώρες χρέωσης που ορίζονται παρακάτω."
+
+#: wc-herroepingsfunctie.php:1509
+msgid "Landen waarvoor afstandsverklaring geldt"
+msgstr "Χώρες που υπόκεινται σε απαλλαγή"
+
+#: wc-herroepingsfunctie.php:1512
+msgid ""
+"Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. "
+"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
+" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+msgstr ""
+"Κωδικοί χωρών άλφα-2 ISO 3166-1 με κόμμα, ερωτηματικό ή διάστημα. Πρότυπο: "
+"ΕΕ + ΕΟΧ. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, "
+"LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+
+#: wc-herroepingsfunctie.php:1516
+msgid "Onbekend factuurland"
+msgstr "Άγνωστη χώρα χρέωσης"
+
+#: wc-herroepingsfunctie.php:1518
+msgid "Checkbox verplichten zolang het factuurland nog leeg of onbekend is"
+msgstr ""
+"Απαιτείται το πλαίσιο ελέγχου, εφόσον η χώρα χρέωσης είναι ακόμα κενή ή "
+"άγνωστη"
+
+#: wc-herroepingsfunctie.php:1519
+msgid ""
+"Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is "
+"geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht."
+msgstr ""
+"Προτεινόμενη συμπεριφορά κλεισίματος αποτυχίας: Μόλις επιλεγεί μια μη "
+"καθορισμένη χώρα, το πλαίσιο ελέγχου εξαφανίζεται και γίνεται μη "
+"υποχρεωτικό."
+
+#: wc-herroepingsfunctie.php:1523
+msgid "Checkboxtekst"
+msgstr "Κείμενο πλαισίου ελέγχου"
+
+#: wc-herroepingsfunctie.php:1526
+msgid ""
+"Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als "
+"duurzame bevestiging."
+msgstr ""
+"Αυτό το κείμενο αποθηκεύεται στην παραγγελία και περιλαμβάνεται στο email "
+"του πελάτη ως μόνιμη επιβεβαίωση."
+
+#: wc-herroepingsfunctie.php:1530
+msgid "Tekstversie"
+msgstr "Έκδοση κειμένου"
+
+#: wc-herroepingsfunctie.php:1531
+msgid "Verhoog deze versie wanneer de checkboxtekst wijzigt."
+msgstr ""
+"Αυξήστε αυτήν την έκδοση όταν αλλάξει το κείμενο του πλαισίου ελέγχου."
+
+#: wc-herroepingsfunctie.php:1534
+msgid "Validatiemelding"
+msgstr "Ειδοποίηση επικύρωσης"
+
+#: wc-herroepingsfunctie.php:1538
+msgid "Betaalknoptekst"
+msgstr "Κείμενο κουμπιού πληρωμής"
+
+#: wc-herroepingsfunctie.php:1541
+msgid ""
+"Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de "
+"digitale-cart en factuurlandregels gelden."
+msgstr ""
+"Το κλασικό ταμείο και το Checkout Block χρησιμοποιούν αυτό το κείμενο μόνο "
+"όταν ισχύουν οι κανόνες του ψηφιακού καλαθιού και της χώρας τιμολόγησης."
+
+#: wc-herroepingsfunctie.php:1561
+msgid "Ontvangen herroepingen"
+msgstr "Λήφθηκαν ανακλήσεις"
+
+#: wc-herroepingsfunctie.php:1565
+msgid "Datum"
+msgstr "Ημερομηνία"
+
+#: wc-herroepingsfunctie.php:1566
+msgid "Order"
+msgstr "Παραγγελία"
+
+#: wc-herroepingsfunctie.php:1567
+msgid "Klant"
+msgstr "Πελάτης"
+
+#: wc-herroepingsfunctie.php:1568
+msgid "Producten"
+msgstr "Προϊόντα"
+
+#: wc-herroepingsfunctie.php:1569
+msgid "Reden"
+msgstr "Λόγος"
+
+#: wc-herroepingsfunctie.php:1574
+msgid "Nog geen herroepingen ontvangen."
+msgstr "Δεν έχουν ληφθεί ακόμη ακυρώσεις."

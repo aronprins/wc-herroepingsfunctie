@@ -142,6 +142,12 @@ De Consumentenrechtenrichtlijn is EU-consumentenrecht. Voor de checkout-afstands
 
 De plugin hanteert daarom standaard EU + EER als scope: AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI en NO. Zolang het factuurland nog leeg of onbekend is, is fail-closed gedrag aanbevolen: toon/verplicht de checkbox totdat een niet-gescopeerd land is geselecteerd. Controleer apart of je ook landen buiten de EU/EER wilt opnemen, zoals het Verenigd Koninkrijk of Zwitserland, omdat die eigen of vergelijkbare regels kunnen hebben.
 
+### Talen en juridische tekstwaarden
+
+De plugin laadt vertalingen via de WordPress-textdomain `wc-herroepingsfunctie` en levert machine-assisted conceptvertalingen mee voor EU-officiële talen, EER-talen en Engels. De instellingenpagina, frontend-flow, mails en standaardwaarden voor tekstvelden kunnen daardoor automatisch met de WordPress-site/gebruikerslocale meekomen.
+
+Belangrijk: zodra een merchant juridische tekstwaarden in de instellingen wijzigt, behandelt de plugin die waarden als aangepaste tekst en vertaalt ze niet meer automatisch. Dat voorkomt dat juridisch beoordeelde copy stilzwijgend door machinevertaling wordt vervangen. Laat de meegeleverde vertalingen en alle aangepaste juridische teksten per doelmarkt reviewen voordat ze als productiecopy worden gebruikt.
+
 ---
 
 ## 8. Handhaving

@@ -213,6 +213,7 @@
 
 	function updatePlaceOrderButton( show ) {
 		var buttons;
+		var fallbackText = config.fallbackButtonText || 'Place Order';
 
 		if ( ! config.buttonText ) {
 			return;
@@ -232,7 +233,7 @@
 			var textNode = button.querySelector( '.wc-block-components-button__text' ) || button;
 
 			if ( ! button.dataset.wchOriginalText ) {
-				button.dataset.wchOriginalText = config.buttonText === ( textNode.textContent || '' ).trim() ? 'Place Order' : ( textNode.textContent || '' ).trim() || 'Place Order';
+				button.dataset.wchOriginalText = config.buttonText === ( textNode.textContent || '' ).trim() ? fallbackText : ( textNode.textContent || '' ).trim() || fallbackText;
 			}
 
 			textNode.textContent = show ? config.buttonText : button.dataset.wchOriginalText;

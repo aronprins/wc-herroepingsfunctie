@@ -1,0 +1,538 @@
+# Machine-assisted draft translations. Review legal and checkout copy before production use.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Herroepingsfunctie (NL) 1.1.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-herroepingsfunctie\n"
+"POT-Creation-Date: 2026-06-22T10:00:12+00:00\n"
+"PO-Revision-Date: 2026-06-22 00:00+0000\n"
+"Last-Translator: Machine-assisted draft <noreply@example.com>\n"
+"Language-Team: sk_SK <noreply@example.com>\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-herroepingsfunctie\n"
+"X-Generator: Codex machine-assisted draft; review legal copy before production\n"
+
+#. Plugin Name of the plugin
+#: wc-herroepingsfunctie.php
+msgid "WooCommerce Herroepingsfunctie (NL)"
+msgstr "Funkcia zrušenia WooCommerce (NL)"
+
+#. Plugin URI of the plugin
+#: wc-herroepingsfunctie.php
+msgid "https://example.com/"
+msgstr "https://example.com/"
+
+#. Description of the plugin
+#: wc-herroepingsfunctie.php
+msgid ""
+"Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa "
+"BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt "
+"gedeeltelijke herroeping, tweestapsbevestiging, automatische "
+"ontvangstbevestiging en logging."
+msgstr ""
+"Zákonom požadovaná funkcia online zrušenia pre internetové obchody (článok "
+"6:230oa BW / Smernica (EÚ) 2023/2673). Zobrazuje skutočnú objednávku, "
+"podporuje čiastočné zrušenie, dvojkrokové potvrdenie, automatické potvrdenie"
+" prijatia a protokolovanie."
+
+#. Author of the plugin
+#: wc-herroepingsfunctie.php
+msgid "Custom"
+msgstr "Custom"
+
+#: wc-herroepingsfunctie.php:126
+msgid "WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is."
+msgstr "Funkcia zrušenia WooCommerce vyžaduje, aby bola aktívna WooCommerce."
+
+#: wc-herroepingsfunctie.php:276
+msgid ""
+"Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke "
+"bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in."
+msgstr ""
+"Chceli by ste zrušiť (časť) vašej objednávky v rámci zákonnej lehoty na "
+"rozmyslenie 14 dní? Nižšie zadajte číslo objednávky a e-mailovú adresu."
+
+#: wc-herroepingsfunctie.php:278 wc-herroepingsfunctie.php:392
+msgid "Herroeping bevestigen"
+msgstr "Potvrďte zrušenie"
+
+#: wc-herroepingsfunctie.php:280
+msgid "Bevestiging van uw herroeping"
+msgstr "Potvrdenie vášho odvolania"
+
+#: wc-herroepingsfunctie.php:282
+msgid ""
+"I agree that the product is delivered immediately after payment, and I "
+"acknowledge that I thereby waive my statutory 14-day right of withdrawal."
+msgstr ""
+"Súhlasím s doručením produktu ihneď po zaplatení a beriem na vedomie, že sa "
+"týmto vzdávam svojho zákonného 14-dňového práva na odstúpenie od zmluvy."
+
+#: wc-herroepingsfunctie.php:284
+msgid ""
+"Please agree to immediate digital delivery and acknowledge that you waive "
+"your right of withdrawal to complete this order."
+msgstr ""
+"Súhlaste s okamžitým digitálnym doručením a potvrďte, že sa vzdávate práva "
+"na odstúpenie od zmluvy na dokončenie tejto objednávky."
+
+#: wc-herroepingsfunctie.php:286
+msgid "Buy now (payment required)"
+msgstr "Kúp teraz (vyžaduje sa platba)"
+
+#: wc-herroepingsfunctie.php:310 wc-herroepingsfunctie.php:315
+msgid "Herroepen"
+msgstr "Odvolané"
+
+#: wc-herroepingsfunctie.php:362
+msgid "Bestelling herroepen"
+msgstr "Objednávka odvolaná"
+
+#: wc-herroepingsfunctie.php:365
+msgid "Ordernummer"
+msgstr "Číslo objednávky"
+
+#: wc-herroepingsfunctie.php:369
+msgid "E-mailadres van de bestelling"
+msgstr "E-mailová adresa objednávky"
+
+#: wc-herroepingsfunctie.php:373
+msgid "Bestelling ophalen"
+msgstr "Vyzdvihnutie objednávky"
+
+#: wc-herroepingsfunctie.php:379
+msgid "Wat wilt u herroepen?"
+msgstr "Čo chcete odvolať?"
+
+#: wc-herroepingsfunctie.php:380
+msgid ""
+"Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent "
+"niet verplicht een reden op te geven."
+msgstr ""
+"Vyberte produkty, pre ktoré chcete odvolať zmluvu. Nie ste povinný uviesť "
+"dôvod."
+
+#: wc-herroepingsfunctie.php:383
+msgid "Reden (optioneel)"
+msgstr "Dôvod (voliteľné)"
+
+#: wc-herroepingsfunctie.php:386 wc-herroepingsfunctie.php:396
+msgid "Terug"
+msgstr "Späť"
+
+#: wc-herroepingsfunctie.php:387
+msgid "Doorgaan"
+msgstr "Pokračovať"
+
+#: wc-herroepingsfunctie.php:393
+msgid ""
+"Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten "
+"herroept. U ontvangt direct een ontvangstbevestiging per e-mail."
+msgstr ""
+"Týmto nás informujete, že odvolávate zmluvu na nižšie uvedené produkty. "
+"Okamžite dostanete potvrdenie o prijatí e-mailom."
+
+#: wc-herroepingsfunctie.php:521
+msgid "Vul een geldig ordernummer en e-mailadres in."
+msgstr "Zadajte platné číslo objednávky a e-mailovú adresu."
+
+#: wc-herroepingsfunctie.php:537
+msgid ""
+"We konden geen bestelling vinden met deze gegevens. Controleer uw "
+"ordernummer en e-mailadres."
+msgstr ""
+"Objednávku s týmito informáciami sme nenašli. Skontrolujte si prosím číslo "
+"objednávky a e-mailovú adresu."
+
+#: wc-herroepingsfunctie.php:547
+msgid ""
+"Voor de producten in deze bestelling is herroeping via dit formulier niet "
+"beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). "
+"Neem bij vragen contact met ons op."
+msgstr ""
+"Pre produkty v tejto objednávke nie je odstúpenie prostredníctvom tohto "
+"formulára dostupné (napríklad preto, že už boli stiahnuté alebo vylúčené). "
+"Ak máte nejaké otázky, kontaktujte nás."
+
+#: wc-herroepingsfunctie.php:570
+msgid "Onvolledige aanvraag. Probeer het opnieuw."
+msgstr "Neúplná žiadosť. Skúste to znova."
+
+#: wc-herroepingsfunctie.php:586
+msgid "We konden uw bestelling niet verifiëren."
+msgstr "Vašu objednávku sa nám nepodarilo overiť."
+
+#: wc-herroepingsfunctie.php:604
+msgid "Geen geldige producten geselecteerd."
+msgstr "Nie sú vybraté žiadne platné produkty."
+
+#: wc-herroepingsfunctie.php:633
+msgid ""
+"We konden uw herroeping niet registreren. Probeer het later opnieuw of neem "
+"contact met ons op."
+msgstr ""
+"Nepodarilo sa nám zaregistrovať vaše odvolanie. Skúste to znova neskôr alebo"
+" nás kontaktujte."
+
+#. translators: 1: timestamp, 2: items, 3: reason
+#: wc-herroepingsfunctie.php:643
+#, php-format
+msgid ""
+"Herroeping ontvangen op %1$s via de online herroepingsfunctie.\n"
+"Producten: %2$s\n"
+"Reden: %3$s"
+msgstr ""
+"Odvolanie prijaté dňa %1$s prostredníctvom funkcie online odvolania.\n"
+"Produkty: %2$s\n"
+"Dôvod: %3$s"
+
+#: wc-herroepingsfunctie.php:646
+msgid "(geen opgegeven)"
+msgstr "(žiadne špecifikované)"
+
+#: wc-herroepingsfunctie.php:652
+msgid "In afwachting van afhandeling herroeping. "
+msgstr "Čaká sa na spracovanie zrušenia."
+
+#: wc-herroepingsfunctie.php:658
+msgid ""
+"Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet "
+"worden verzonden."
+msgstr ""
+"Upozornenie: Automatické potvrdenie prijatia tohto odvolania nebolo možné "
+"odoslať."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:666
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd "
+"naar %2$s. We nemen uw verzoek verder in behandeling."
+msgstr ""
+"Vaše zrušenie bolo zaregistrované na %1$s. Poslali sme potvrdenie na %2$s. "
+"Vašu požiadavku budeme ďalej spracovávať."
+
+#. translators: 1: timestamp, 2: customer email address
+#: wc-herroepingsfunctie.php:669
+#, php-format
+msgid ""
+"Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s "
+"kon niet automatisch worden verzonden. Neem contact met ons op als u geen "
+"bevestiging ontvangt."
+msgstr ""
+"Vaše zrušenie bolo zaregistrované dňa %1$s, ale potvrdzujúci e-mail na "
+"adresu %2$s nebolo možné odoslať automaticky. Ak nedostanete potvrdenie, "
+"kontaktujte nás."
+
+#: wc-herroepingsfunctie.php:892
+msgid "Afstandsverklaring herroepingsrecht:"
+msgstr "Vzdanie sa práva na odstúpenie od zmluvy:"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:896
+#, php-format
+msgid "Akkoord vastgelegd (versie %1$s) op %2$s."
+msgstr "Dohoda zaznamenaná (verzia %1$s) dňa %2$s."
+
+#. translators: %s: source
+#: wc-herroepingsfunctie.php:905
+#, php-format
+msgid "Bron: %s"
+msgstr "Zdroj: %s"
+
+#: wc-herroepingsfunctie.php:922 wc-herroepingsfunctie.php:935
+msgid "Waiver of the right of withdrawal"
+msgstr "Vzdanie sa práva na odstúpenie od zmluvy"
+
+#. translators: 1: version, 2: timestamp
+#: wc-herroepingsfunctie.php:927 wc-herroepingsfunctie.php:940
+#, php-format
+msgid "Recorded as version %1$s on %2$s."
+msgstr "Zaznamenané ako verzia %1$s na %2$s."
+
+#: wc-herroepingsfunctie.php:1310
+msgid "Te veel pogingen. Wacht even en probeer het later opnieuw."
+msgstr "Príliš veľa pokusov. Počkajte chvíľu a skúste to znova neskôr."
+
+#: wc-herroepingsfunctie.php:1334
+msgid "Beste"
+msgstr "Vážení"
+
+#: wc-herroepingsfunctie.php:1335
+msgid ""
+"We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud "
+"van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als "
+"bewijs."
+msgstr ""
+"Potvrdzujeme prijatie vášho odvolania. Nižšie nájdete obsah vášho vyhlásenia"
+" a čas podania. Tento e-mail si ponechajte ako dôkaz."
+
+#: wc-herroepingsfunctie.php:1336 wc-herroepingsfunctie.php:1362
+msgid "Ingediend op:"
+msgstr "Odoslané na:"
+
+#: wc-herroepingsfunctie.php:1337
+msgid "Naam:"
+msgstr "meno:"
+
+#: wc-herroepingsfunctie.php:1338
+msgid "E-mailadres voor bevestiging:"
+msgstr "E-mailová adresa pre potvrdenie:"
+
+#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1360
+msgid "Bestelling:"
+msgstr "Objednávka:"
+
+#: wc-herroepingsfunctie.php:1340
+msgid "Herroepen producten:"
+msgstr "Stiahnuté produkty:"
+
+#: wc-herroepingsfunctie.php:1343
+msgid "Door u opgegeven reden:"
+msgstr "Vami uvedený dôvod:"
+
+#: wc-herroepingsfunctie.php:1345
+msgid ""
+"We nemen uw verzoek verder in behandeling, inclusief een eventuele "
+"terugbetaling conform de wettelijke termijnen."
+msgstr ""
+"Vašu žiadosť vrátane prípadného vrátenia peňazí ďalej spracujeme v súlade so"
+" zákonnými lehotami."
+
+#. translators: %s: order number
+#: wc-herroepingsfunctie.php:1355
+#, php-format
+msgid "Nieuwe herroeping voor bestelling %s"
+msgstr "Nové zrušenie objednávky %s"
+
+#: wc-herroepingsfunctie.php:1359
+msgid "Er is een herroeping ingediend via de online herroepingsfunctie."
+msgstr "Odvolanie bolo podané prostredníctvom funkcie online odvolania."
+
+#: wc-herroepingsfunctie.php:1361
+msgid "Klant:"
+msgstr "Zákazník:"
+
+#: wc-herroepingsfunctie.php:1365
+msgid "Reden:"
+msgstr "dôvod:"
+
+#: wc-herroepingsfunctie.php:1369
+msgid "Bekijk de bestelling"
+msgstr "Pozrite si objednávku"
+
+#: wc-herroepingsfunctie.php:1382 wc-herroepingsfunctie.php:1383
+msgid "Herroepingen"
+msgstr "Odvolania"
+
+#: wc-herroepingsfunctie.php:1391
+msgid "Herroepingsfunctie instellingen"
+msgstr "Nastavenia funkcie odvolania"
+
+#: wc-herroepingsfunctie.php:1392
+msgid "Herroeping instellingen"
+msgstr "Zrušenie nastavení"
+
+#: wc-herroepingsfunctie.php:1441
+msgid "Herroepingsfunctie – instellingen"
+msgstr "Funkcia odvolania – nastavenia"
+
+#: wc-herroepingsfunctie.php:1442
+msgid "Plaats het formulier op een goed vindbare pagina met de shortcode"
+msgstr "Umiestnite formulár na ľahko dostupnú stránku so skráteným kódom"
+
+#: wc-herroepingsfunctie.php:1442
+msgid ""
+"Het staat ook automatisch in \"Mijn account\" onder \"Herroepen\". Zet "
+"bovendien een duidelijke link in de footer."
+msgstr ""
+"Automaticky je tiež uvedený v časti „Môj účet“ v časti „Odvolané“. Okrem "
+"toho vložte do päty jasný odkaz."
+
+#: wc-herroepingsfunctie.php:1447
+msgid "Introductietekst"
+msgstr "Úvodný text"
+
+#: wc-herroepingsfunctie.php:1451
+msgid "Tekst bevestigingsknop"
+msgstr "Tlačidlo na potvrdenie textu"
+
+#: wc-herroepingsfunctie.php:1455
+msgid "Onderwerp bevestigingsmail"
+msgstr "E-mail s potvrdením predmetu"
+
+#: wc-herroepingsfunctie.php:1459
+msgid "Interne meldingen naar"
+msgstr "Interné upozornenia na"
+
+#: wc-herroepingsfunctie.php:1463
+msgid "Uitgesloten categorieën"
+msgstr "Vylúčené kategórie"
+
+#: wc-herroepingsfunctie.php:1479
+msgid ""
+"Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – "
+"producten zonder herroepingsrecht."
+msgstr ""
+"napr. hygienické výrobky vyrobené na mieru, zapečatené hygienické výrobky "
+"alebo tovar podliehajúci skaze – výrobky bez práva na odstúpenie od zmluvy."
+
+#: wc-herroepingsfunctie.php:1483
+msgid "Uitgesloten product-ID's"
+msgstr "Vylúčené identifikátory produktu"
+
+#: wc-herroepingsfunctie.php:1487
+msgid "Digitale producten uitsluiten"
+msgstr "Vylúčte digitálne produkty"
+
+#: wc-herroepingsfunctie.php:1488
+msgid "Virtuele/downloadbare producten niet tonen in de herroepingsfunctie"
+msgstr ""
+"Nezobrazovať virtuálne produkty/produkty na stiahnutie vo funkcii výberu"
+
+#: wc-herroepingsfunctie.php:1491
+msgid "Orderstatus aanpassen"
+msgstr "Upravte stav objednávky"
+
+#: wc-herroepingsfunctie.php:1492
+msgid ""
+"Order op \"in afwachting\" zetten bij een herroeping (geen automatische "
+"terugbetaling)"
+msgstr ""
+"Nastaviť objednávku na „čakajúcu“ v prípade zrušenia (žiadne automatické "
+"vrátenie peňazí)"
+
+#: wc-herroepingsfunctie.php:1495
+msgid "IP-adres bewaren"
+msgstr "Uložiť IP adresu"
+
+#: wc-herroepingsfunctie.php:1496
+msgid "IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)"
+msgstr ""
+"Zaznamenajte IP adresu ako dodatočný dôkaz (uveďte to vo svojom vyhlásení o "
+"ochrane osobných údajov)"
+
+#: wc-herroepingsfunctie.php:1499
+msgid "Checkout-afstandsverklaring voor digitale producten"
+msgstr "Vzdanie sa platby za digitálne produkty"
+
+#: wc-herroepingsfunctie.php:1502
+msgid "Afstandsverklaring inschakelen"
+msgstr "Povoliť zrieknutie sa práva"
+
+#: wc-herroepingsfunctie.php:1504
+msgid ""
+"Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare "
+"producten bevatten"
+msgstr ""
+"Zobraziť povinné začiarkavacie políčko pre košíky, ktoré obsahujú iba "
+"virtuálne produkty alebo produkty na stiahnutie"
+
+#: wc-herroepingsfunctie.php:1505
+msgid ""
+"Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin "
+"verplicht de checkbox server-side alleen voor volledig digitale carts en de "
+"hieronder ingestelde factuurlanden."
+msgstr ""
+"Funguje s klasickou pokladňou a s WooCommerce Checkout Block. Doplnok "
+"vyžaduje začiarkavacie políčko na strane servera iba pre plne digitálne "
+"košíky a fakturačné krajiny nastavené nižšie."
+
+#: wc-herroepingsfunctie.php:1509
+msgid "Landen waarvoor afstandsverklaring geldt"
+msgstr "Krajiny, na ktoré sa vzťahuje výnimka"
+
+#: wc-herroepingsfunctie.php:1512
+msgid ""
+"Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. "
+"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
+" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+msgstr ""
+"Kódy krajín ISO 3166-1 alpha-2 oddelené čiarkou, bodkočiarkou alebo "
+"medzerou. Štandard: EÚ + EHP. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, "
+"GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+
+#: wc-herroepingsfunctie.php:1516
+msgid "Onbekend factuurland"
+msgstr "Neznáma krajina fakturácie"
+
+#: wc-herroepingsfunctie.php:1518
+msgid "Checkbox verplichten zolang het factuurland nog leeg of onbekend is"
+msgstr ""
+"Vyžadovať začiarkavacie políčko, pokiaľ je krajina fakturácie prázdna alebo "
+"neznáma"
+
+#: wc-herroepingsfunctie.php:1519
+msgid ""
+"Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is "
+"geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht."
+msgstr ""
+"Odporúčané správanie pri zatvorení zlyhaním: Po výbere nenastavenej krajiny "
+"začiarkavacie políčko zmizne a stane sa nepovinným."
+
+#: wc-herroepingsfunctie.php:1523
+msgid "Checkboxtekst"
+msgstr "Text začiarkavacieho políčka"
+
+#: wc-herroepingsfunctie.php:1526
+msgid ""
+"Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als "
+"duurzame bevestiging."
+msgstr ""
+"Tento text je uložený v objednávke a súčasťou zákazníckeho e-mailu ako "
+"trvalé potvrdenie."
+
+#: wc-herroepingsfunctie.php:1530
+msgid "Tekstversie"
+msgstr "Textová verzia"
+
+#: wc-herroepingsfunctie.php:1531
+msgid "Verhoog deze versie wanneer de checkboxtekst wijzigt."
+msgstr "Zvýšte túto verziu, keď sa zmení text začiarkavacieho políčka."
+
+#: wc-herroepingsfunctie.php:1534
+msgid "Validatiemelding"
+msgstr "Oznámenie o overení"
+
+#: wc-herroepingsfunctie.php:1538
+msgid "Betaalknoptekst"
+msgstr "Text tlačidla platby"
+
+#: wc-herroepingsfunctie.php:1541
+msgid ""
+"Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de "
+"digitale-cart en factuurlandregels gelden."
+msgstr ""
+"Klasická platba a Checkout Block používajú tento text iba vtedy, keď platia "
+"pravidlá pre digitálny košík a fakturáciu krajiny."
+
+#: wc-herroepingsfunctie.php:1561
+msgid "Ontvangen herroepingen"
+msgstr "Prijaté odvolania"
+
+#: wc-herroepingsfunctie.php:1565
+msgid "Datum"
+msgstr "Dátum"
+
+#: wc-herroepingsfunctie.php:1566
+msgid "Order"
+msgstr "Objednať"
+
+#: wc-herroepingsfunctie.php:1567
+msgid "Klant"
+msgstr "Zákazník"
+
+#: wc-herroepingsfunctie.php:1568
+msgid "Producten"
+msgstr "Produkty"
+
+#: wc-herroepingsfunctie.php:1569
+msgid "Reden"
+msgstr "Dôvod"
+
+#: wc-herroepingsfunctie.php:1574
+msgid "Nog geen herroepingen ontvangen."
+msgstr "Zatiaľ neboli prijaté žiadne zrušenia."
