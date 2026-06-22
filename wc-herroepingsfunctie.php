@@ -599,6 +599,10 @@ final class WC_Herroepingsfunctie {
 
 		$result = array();
 
+		if ( $order->has_status( array( 'cancelled', 'refunded', 'failed' ) ) ) {
+			return apply_filters( 'wch_eligible_items', $result, $order );
+		}
+
 		foreach ( $order->get_items() as $item_id => $item ) {
 			if ( ! is_a( $item, 'WC_Order_Item_Product' ) ) {
 				continue;
@@ -606,6 +610,13 @@ final class WC_Herroepingsfunctie {
 			if ( in_array( (int) $item_id, $withdrawn, true ) ) {
 				continue;
 			}
+			$qty          = (int) $item->get_quantity();
+			$refunded_qty = absint( $order->get_qty_refunded_for_item( $item_id ) );
+			$remaining    = max( 0, $qty - $refunded_qty );
+			if ( 0 >= $remaining ) {
+				continue;
+			}
+
 			$product_id = $item->get_product_id();
 			$product    = $item->get_product();
 
@@ -626,7 +637,7 @@ final class WC_Herroepingsfunctie {
 			$result[] = array(
 				'id'   => (int) $item_id,
 				'name' => $item->get_name(),
-				'qty'  => (int) $item->get_quantity(),
+				'qty'  => $remaining,
 			);
 		}
 
