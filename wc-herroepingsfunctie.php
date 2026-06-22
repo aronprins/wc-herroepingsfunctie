@@ -778,10 +778,15 @@ final class WC_Herroepingsfunctie {
 
 	public function sanitize_settings( $input ) {
 		$out = $this->default_settings();
+		if ( ! is_array( $input ) ) {
+			return $out;
+		}
+
 		$out['intro_tekst']        = isset( $input['intro_tekst'] ) ? sanitize_textarea_field( $input['intro_tekst'] ) : $out['intro_tekst'];
 		$out['confirm_knop_tekst'] = isset( $input['confirm_knop_tekst'] ) ? sanitize_text_field( $input['confirm_knop_tekst'] ) : $out['confirm_knop_tekst'];
 		$out['email_onderwerp']    = isset( $input['email_onderwerp'] ) ? sanitize_text_field( $input['email_onderwerp'] ) : $out['email_onderwerp'];
-		$out['admin_email']        = isset( $input['admin_email'] ) ? sanitize_email( $input['admin_email'] ) : $out['admin_email'];
+		$admin_email               = isset( $input['admin_email'] ) ? sanitize_email( $input['admin_email'] ) : $out['admin_email'];
+		$out['admin_email']        = is_email( $admin_email ) ? $admin_email : get_option( 'admin_email' );
 		$out['uitgesloten_cats']   = isset( $input['uitgesloten_cats'] ) ? array_map( 'absint', (array) $input['uitgesloten_cats'] ) : array();
 		$out['uitgesloten_ids']    = isset( $input['uitgesloten_ids'] ) ? sanitize_text_field( $input['uitgesloten_ids'] ) : '';
 		$out['sluit_virtueel_uit'] = ( isset( $input['sluit_virtueel_uit'] ) && 'yes' === $input['sluit_virtueel_uit'] ) ? 'yes' : 'no';
