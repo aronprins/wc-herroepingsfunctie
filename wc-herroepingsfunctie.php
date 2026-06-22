@@ -86,6 +86,7 @@ final class WC_Herroepingsfunctie {
 		// Beheer.
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_filter( 'option_page_capability_wch_settings_group', array( $this, 'settings_capability' ) );
 	}
 
 	/* --------------------------------------------------------------------- *
@@ -761,6 +762,10 @@ final class WC_Herroepingsfunctie {
 
 	public function register_settings() {
 		register_setting( 'wch_settings_group', WCH_OPTION, array( $this, 'sanitize_settings' ) );
+	}
+
+	public function settings_capability() {
+		return 'manage_woocommerce';
 	}
 
 	public function sanitize_settings( $input ) {
