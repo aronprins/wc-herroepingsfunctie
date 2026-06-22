@@ -545,28 +545,25 @@ final class WC_Herroepingsfunctie {
 	 * @return WC_Order|false
 	 */
 	private function find_order( $order_number ) {
-		$order = false;
+		$orders = wc_get_orders( array(
+			'limit'      => 1,
+			'meta_key'   => '_order_number',
+			'meta_value' => $order_number,
+			'return'     => 'objects',
+		) );
+
+		if ( ! empty( $orders ) && $orders[0] instanceof WC_Order ) {
+			return $orders[0];
+		}
 
 		if ( is_numeric( $order_number ) ) {
 			$maybe = wc_get_order( (int) $order_number );
-			if ( $maybe instanceof WC_Order ) {
-				$order = $maybe;
+			if ( $maybe instanceof WC_Order && (string) $maybe->get_order_number() === (string) $order_number ) {
+				return $maybe;
 			}
 		}
 
-		if ( ! $order ) {
-			$orders = wc_get_orders( array(
-				'limit'      => 1,
-				'meta_key'   => '_order_number',
-				'meta_value' => $order_number,
-				'return'     => 'objects',
-			) );
-			if ( ! empty( $orders ) && $orders[0] instanceof WC_Order ) {
-				$order = $orders[0];
-			}
-		}
-
-		return $order;
+		return false;
 	}
 
 	private function email_matches( $order, $email ) {
