@@ -91,6 +91,7 @@ final class WC_Herroepingsfunctie {
 		// Beheer.
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		add_filter( 'option_page_capability_wch_settings_group', array( $this, 'settings_capability' ) );
 
 		// Checkout: afstandsverklaring voor directe digitale levering.

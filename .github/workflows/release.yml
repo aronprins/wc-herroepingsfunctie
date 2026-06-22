@@ -1,7 +1,10 @@
 name: Build and release plugin
 
 "on":
+  pull_request:
   push:
+    branches:
+      - master
     tags:
       - "v*"
   workflow_dispatch:
@@ -31,6 +34,7 @@ jobs:
 
           php -l wc-herroepingsfunctie.php
           php tests/github-release-updater-test.php
+          node --check assets/js/admin-settings.js
           node --check assets/js/checkout-blocks.js
           empty_tree="$(git hash-object -t tree /dev/null)"
           git diff --check "$empty_tree" HEAD

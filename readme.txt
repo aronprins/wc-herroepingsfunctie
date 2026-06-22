@@ -3,7 +3,7 @@ Contributors: aronprins
 Tags: woocommerce, withdrawal, refunds, compliance, checkout
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,7 @@ De plugin is gebouwd voor B2C-compliance rondom het herroepingsrecht. Hij toont 
 * Digitale checkout-afstandsverklaring voor virtual/downloadable-only carts.
 * EU/EER billing-country scope voor de digitale checkout-afstandsverklaring.
 * Machine-assisted vertalingen voor EU-officiele talen, EER-talen en Engels.
+* Instellingenhulp om meegeleverde vertaalde standaardteksten vooraf in te vullen, te controleren en pas daarna op te slaan.
 * WordPress-updatecontrole via installable ZIP-assets uit GitHub Releases.
 
 = Digitale checkout-afstandsverklaring =
@@ -55,7 +56,7 @@ bg_BG, cs_CZ, da_DK, de_DE, el, en_GB, en_US, es_ES, et, fi, fr_FR, ga_IE, hr, h
 
 Regionale varianten zoals nl_BE, fr_BE, de_AT of it_CH vallen automatisch terug op de bijbehorende basistaal.
 
-Standaardwaarden voor tekstvelden worden vertaald zolang ze nog exact gelijk zijn aan de meegeleverde standaardtekst. Zodra een merchant een instelling aanpast, blijft die aangepaste juridische tekst behouden en wordt deze niet stilzwijgend machine-vertaald.
+Standaardwaarden voor tekstvelden worden vertaald zolang ze nog exact gelijk zijn aan de meegeleverde standaardtekst. Zodra een merchant een instelling aanpast, blijft die aangepaste juridische tekst behouden en wordt deze niet stilzwijgend machine-vertaald. Op de instellingenpagina kan een merchant een meegeleverde vertaling kiezen om de tekstvelden vooraf in te vullen, te controleren en eventueel aan te passen voordat de normale knop "Wijzigingen opslaan" de waarden bewaart.
 
 = Juridische disclaimer =
 
@@ -115,10 +116,14 @@ De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert 
 == Changelog ==
 
 = Unreleased =
-* Added a built-in WordPress updater that uses published GitHub Release ZIP assets.
-* Added an offline PHP test harness for updater release parsing and safety checks.
+
+= 1.1.4 =
+* Added a settings-page dropdown for loading bundled translated defaults into editable text fields before saving.
+* Preserved explicitly selected bundled default translations when they match the raw built-in defaults.
 
 = 1.1.3 =
+* Added a built-in WordPress updater that uses published GitHub Release ZIP assets.
+* Added an offline PHP test harness for updater release parsing and safety checks.
 * Added WordPress textdomain loading.
 * Added bundled `.po` and `.mo` translation files for EU-official languages, EEA languages and English.
 * Added regional locale fallback for common European WordPress locales.
@@ -140,6 +145,9 @@ De plugin gebruikt GitHub Releases als distributiekanaal. WordPress controleert 
 * Initial online herroepingsfunctie with shortcode, account endpoint, email confirmation and admin log.
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Adds a review-before-save translation selector for default legal text settings.
 
 = 1.1.3 =
 Adds bundled European language files and locale-aware default settings. Review machine-assisted legal translations before relying on them in production.

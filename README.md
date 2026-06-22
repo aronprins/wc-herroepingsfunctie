@@ -75,7 +75,7 @@ Regional fallbacks are included for common European locales, for example:
 - `de_AT -> de_DE`
 - `it_CH -> it_IT`
 
-Default setting values are translated while they still match the built-in defaults. Merchant-edited legal text is preserved and not silently machine-translated.
+Default setting values are translated while they still match the built-in defaults. Merchant-edited legal text is preserved and not silently machine-translated. The settings page also lets merchants load any bundled default translation into the editable text fields for review and adjustment before saving.
 
 The bundled translations are machine-assisted drafts. Review them before production use.
 
@@ -84,6 +84,7 @@ The bundled translations are machine-assisted drafts. Review them before product
 - `wc-herroepingsfunctie.php` - plugin bootstrap, constants, includes, and initialization.
 - `includes/` - focused PHP modules for updater, settings, checkout waiver, public withdrawal flow, admin screens, order helpers, and mail handling.
 - `assets/js/checkout-blocks.js` - Checkout Block waiver UI controller.
+- `assets/js/admin-settings.js` - admin settings helper for previewing bundled default translations.
 - `languages/` - bundled POT/PO/MO files.
 - `readme.txt` - WordPress.org-compatible plugin readme.
 - `README.md` - GitHub-facing documentation.
@@ -98,6 +99,7 @@ Run the relevant subset before committing:
 php -l wc-herroepingsfunctie.php
 find includes -name '*.php' -print -exec php -l {} \;
 php tests/github-release-updater-test.php
+node --check assets/js/admin-settings.js
 node --check assets/js/checkout-blocks.js
 git diff --check
 for f in languages/*.po; do msgfmt -c -o /tmp/check.mo "$f" || exit 1; done; rm -f /tmp/check.mo
@@ -134,8 +136,8 @@ To publish a release:
 
 ```bash
 git status --short
-git tag v1.1.3
-git push origin v1.1.3
+git tag v1.1.4
+git push origin v1.1.4
 ```
 
 Users can download `wc-herroepingsfunctie-<version>.zip` from the GitHub Release and install it directly through `Plugins > Add New > Upload Plugin` in WordPress.
@@ -158,11 +160,15 @@ For staging verification inside WordPress without publishing a real release, add
 
 ### Unreleased
 
-- Added a built-in WordPress updater that uses published GitHub Release ZIP assets.
-- Added an offline PHP test harness for updater release parsing and safety checks.
+### 1.1.4
+
+- Added a settings-page dropdown for loading bundled translated defaults into editable text fields before saving.
+- Preserved explicitly selected bundled default translations when they match the raw built-in defaults.
 
 ### 1.1.3
 
+- Added a built-in WordPress updater that uses published GitHub Release ZIP assets.
+- Added an offline PHP test harness for updater release parsing and safety checks.
 - Added WordPress textdomain loading.
 - Added bundled `.po` and `.mo` translation files for EU-official languages, EEA languages, and English.
 - Added regional locale fallback for common European WordPress locales.
