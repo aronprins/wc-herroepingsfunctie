@@ -112,6 +112,32 @@ git archive --format=zip --prefix=wc-herroepingsfunctie/ HEAD -o releases/wc-her
 unzip -t releases/wc-herroepingsfunctie-1.1.3.zip
 ```
 
+## GitHub Releases
+
+The repository includes a lean GitHub Actions workflow at `.github/workflows/release.yml`.
+
+On every `v*` tag push, it:
+
+- checks out the repository;
+- installs `gettext`, `zip`, and `unzip`;
+- validates PHP, JavaScript, whitespace, and `.po` translation files;
+- checks that the plugin header `Version`, `WCH_VERSION`, `readme.txt` `Stable tag`, and Git tag all match;
+- builds an installable ZIP named `wc-herroepingsfunctie-<version>.zip`;
+- uploads the ZIP as a workflow artifact;
+- creates or updates a GitHub Release and attaches the ZIP.
+
+To publish a release:
+
+```bash
+git status --short
+git tag v1.1.3
+git push origin v1.1.3
+```
+
+Users can download `wc-herroepingsfunctie-<version>.zip` from the GitHub Release and install it directly through `Plugins > Add New > Upload Plugin` in WordPress.
+
+Manual workflow runs are supported too. They validate and build the ZIP as an Actions artifact, but they only create a GitHub Release when the workflow runs from a pushed `v*` tag.
+
 ## Changelog
 
 ### 1.1.3
@@ -122,6 +148,7 @@ unzip -t releases/wc-herroepingsfunctie-1.1.3.zip
 - Localized default setting values while preserving merchant-edited legal copy.
 - Added WordPress.org-compatible `readme.txt`.
 - Added this GitHub `README.md`.
+- Added GitHub Actions release workflow for installable ZIPs.
 
 ### 1.1.2
 
