@@ -513,15 +513,22 @@ final class WC_Herroepingsfunctie {
 		}
 
 		// 4. Ontvangstbevestiging naar klant (duurzame drager).
-		$this->send_customer_confirmation( $order, $email, $name, $selected, $reason, $display_time, $settings );
+		$customer_mail_sent = $this->send_customer_confirmation( $order, $email, $name, $selected, $reason, $display_time, $settings );
+		if ( ! $customer_mail_sent ) {
+			$order->add_order_note( __( 'Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet worden verzonden.', 'wc-herroepingsfunctie' ) );
+		}
 
 		// 5. Interne melding.
 		$this->send_admin_notification( $order, $name, $email, $selected, $reason, $display_time, $settings );
 
+		$message = $customer_mail_sent
+			? __( 'Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd naar %2$s. We nemen uw verzoek verder in behandeling.', 'wc-herroepingsfunctie' )
+			: __( 'Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s kon niet automatisch worden verzonden. Neem contact met ons op als u geen bevestiging ontvangt.', 'wc-herroepingsfunctie' );
+
 		wp_send_json_success( array(
 			'message' => sprintf(
-				/* translators: %s: e-mailadres */
-				__( 'Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd naar %2$s. We nemen uw verzoek verder in behandeling.', 'wc-herroepingsfunctie' ),
+				/* translators: 1: submission timestamp, 2: email address */
+				$message,
 				$display_time,
 				$email
 			),
@@ -713,7 +720,7 @@ final class WC_Herroepingsfunctie {
 		$body .= '<p>' . esc_html__( 'We nemen uw verzoek verder in behandeling, inclusief een eventuele terugbetaling conform de wettelijke termijnen.', 'wc-herroepingsfunctie' ) . '</p>';
 		$body .= '<p>' . esc_html( get_bloginfo( 'name' ) ) . '</p>';
 
-		$this->send_html_mail( $email, $subject, $body );
+		return $this->send_html_mail( $email, $subject, $body );
 	}
 
 	private function send_admin_notification( $order, $name, $email, $items, $reason, $time, $settings ) {
@@ -737,7 +744,7 @@ final class WC_Herroepingsfunctie {
 			$body .= '<p><a href="' . esc_url( $edit ) . '">' . esc_html__( 'Bekijk de bestelling', 'wc-herroepingsfunctie' ) . '</a></p>';
 		}
 
-		$this->send_html_mail( $to, $subject, $body );
+		return $this->send_html_mail( $to, $subject, $body );
 	}
 
 	/* --------------------------------------------------------------------- *
