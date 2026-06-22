@@ -138,6 +138,10 @@
 		var selector;
 		var cartData;
 
+		if ( typeof config.cartHasOnlyDigitalProducts === 'boolean' ) {
+			return config.cartHasOnlyDigitalProducts;
+		}
+
 		if ( ! window.wp || ! window.wp.data || ! window.wp.data.select ) {
 			return true;
 		}
