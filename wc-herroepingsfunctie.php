@@ -141,7 +141,7 @@ final class WC_Herroepingsfunctie {
 			'uitgesloten_ids'    => '',
 			'sluit_virtueel_uit' => 'no',
 			'order_status'       => 'no', // 'yes' = order op 'in afwachting' zetten.
-			'bewaar_ip'          => 'yes',
+			'bewaar_ip'          => 'no',
 		);
 	}
 
