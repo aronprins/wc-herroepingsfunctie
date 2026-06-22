@@ -3,7 +3,7 @@
  * Plugin Name:       WooCommerce Herroepingsfunctie (NL)
  * Plugin URI:        https://example.com/
  * Description:        Wettelijk verplichte online herroepingsfunctie voor webshops (art. 6:230oa BW / Richtlijn (EU) 2023/2673). Toont de echte bestelling, ondersteunt gedeeltelijke herroeping, tweestapsbevestiging, automatische ontvangstbevestiging en logging.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Custom
  * License:           GPL-2.0-or-later
  * Text Domain:       wc-herroepingsfunctie
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Directe toegang verbieden.
 }
 
-define( 'WCH_VERSION', '1.0.0' );
+define( 'WCH_VERSION', '1.1.0' );
 define( 'WCH_OPTION', 'wch_settings' );
 define( 'WCH_TABLE', 'wch_herroepingen' );
 define( 'WCH_FILE', __FILE__ );
@@ -26,6 +26,13 @@ define( 'WCH_FILE', __FILE__ );
  * Hoofdklasse.
  */
 final class WC_Herroepingsfunctie {
+
+	const WAIVER_FIELD_ID        = 'wc-herroepingsfunctie/withdrawal-waiver';
+	const WAIVER_META_AGREED    = '_wch_withdrawal_waiver_agreed';
+	const WAIVER_META_VERSION   = '_wch_withdrawal_waiver_version';
+	const WAIVER_META_TEXT      = '_wch_withdrawal_waiver_text';
+	const WAIVER_META_TIMESTAMP = '_wch_withdrawal_waiver_timestamp';
+	const WAIVER_META_SOURCE    = '_wch_withdrawal_waiver_source';
 
 	/** @var WC_Herroepingsfunctie */
 	private static $instance = null;
@@ -87,6 +94,18 @@ final class WC_Herroepingsfunctie {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_filter( 'option_page_capability_wch_settings_group', array( $this, 'settings_capability' ) );
+
+		// Checkout: afstandsverklaring voor directe digitale levering.
+		add_action( 'woocommerce_init', array( $this, 'register_checkout_block_waiver_field' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_checkout_block_assets' ) );
+		add_action( 'woocommerce_review_order_before_submit', array( $this, 'render_classic_checkout_waiver' ), 20 );
+		add_action( 'woocommerce_checkout_process', array( $this, 'validate_classic_checkout_waiver' ) );
+		add_action( 'woocommerce_checkout_create_order', array( $this, 'save_classic_checkout_waiver' ), 10, 2 );
+		add_action( 'woocommerce_set_additional_field_value', array( $this, 'save_block_checkout_waiver_field' ), 10, 4 );
+		add_action( 'woocommerce_store_api_checkout_update_order_meta', array( $this, 'save_block_checkout_waiver_order_meta' ) );
+		add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'render_waiver_admin_order_meta' ) );
+		add_action( 'woocommerce_email_after_order_table', array( $this, 'render_waiver_email_block' ), 10, 4 );
+		add_filter( 'woocommerce_order_button_text', array( $this, 'filter_classic_order_button_text' ) );
 	}
 
 	/* --------------------------------------------------------------------- *
@@ -142,6 +161,11 @@ final class WC_Herroepingsfunctie {
 			'sluit_virtueel_uit' => 'no',
 			'order_status'       => 'no', // 'yes' = order op 'in afwachting' zetten.
 			'bewaar_ip'          => 'no',
+			'waiver_enabled'     => 'yes',
+			'waiver_text'        => 'I agree that the product is delivered immediately after payment, and I acknowledge that I thereby waive my statutory 14-day right of withdrawal.',
+			'waiver_version'     => '1.0',
+			'waiver_error'       => 'Please agree to immediate digital delivery and acknowledge that you waive your right of withdrawal to complete this order.',
+			'waiver_button_text' => 'Buy now (payment required)',
 		);
 	}
 
@@ -537,6 +561,256 @@ final class WC_Herroepingsfunctie {
 	}
 
 	/* --------------------------------------------------------------------- *
+	 *  Checkout: afstandsverklaring voor directe digitale levering.
+	 * --------------------------------------------------------------------- */
+
+	public function register_checkout_block_waiver_field() {
+		$settings = $this->get_settings();
+		if ( 'yes' !== $settings['waiver_enabled'] || ! function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
+			return;
+		}
+
+		$digital_cart_schema = array(
+			'cart' => array(
+				'properties' => array(
+					'needs_shipping' => array(
+						'const' => false,
+					),
+				),
+			),
+		);
+
+		$physical_cart_schema = array(
+			'cart' => array(
+				'properties' => array(
+					'needs_shipping' => array(
+						'const' => true,
+					),
+				),
+			),
+		);
+
+		woocommerce_register_additional_checkout_field(
+			array(
+				'id'                => self::WAIVER_FIELD_ID,
+				'label'             => $settings['waiver_text'],
+				'optionalLabel'     => $settings['waiver_text'],
+				'location'          => 'order',
+				'type'              => 'checkbox',
+				'required'          => $digital_cart_schema,
+				'hidden'            => $physical_cart_schema,
+				'error_message'     => $settings['waiver_error'],
+				'sanitize_callback' => array( $this, 'sanitize_waiver_checkbox_value' ),
+				'validate_callback' => array( $this, 'validate_block_waiver_checkbox_value' ),
+			)
+		);
+	}
+
+	public function enqueue_checkout_block_assets() {
+		$settings = $this->get_settings();
+		if ( 'yes' !== $settings['waiver_enabled'] || '' === trim( (string) $settings['waiver_button_text'] ) ) {
+			return;
+		}
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) ) {
+			return;
+		}
+
+		wp_register_script(
+			'wch-checkout-blocks',
+			plugins_url( 'assets/js/checkout-blocks.js', WCH_FILE ),
+			array( 'wc-blocks-checkout' ),
+			WCH_VERSION,
+			true
+		);
+		wp_add_inline_script(
+			'wch-checkout-blocks',
+			'window.wchCheckoutWaiver = ' . wp_json_encode(
+				array(
+					'buttonText' => $settings['waiver_button_text'],
+				)
+			) . ';',
+			'before'
+		);
+		wp_enqueue_script( 'wch-checkout-blocks' );
+	}
+
+	public function render_classic_checkout_waiver() {
+		if ( ! $this->cart_requires_checkout_waiver() ) {
+			return;
+		}
+
+		$settings = $this->get_settings();
+		woocommerce_form_field(
+			'wch_withdrawal_waiver_agreed',
+			array(
+				'type'     => 'checkbox',
+				'class'    => array( 'form-row', 'validate-required' ),
+				'required' => true,
+				'label'    => $settings['waiver_text'],
+			),
+			''
+		);
+	}
+
+	public function validate_classic_checkout_waiver() {
+		if ( ! $this->cart_requires_checkout_waiver() ) {
+			return;
+		}
+
+		if ( ! $this->request_has_waiver_agreement() ) {
+			$settings = $this->get_settings();
+			wc_add_notice( $settings['waiver_error'], 'error' );
+		}
+	}
+
+	public function save_classic_checkout_waiver( $order, $data ) {
+		if ( ! $order instanceof WC_Order || ! $this->cart_requires_checkout_waiver() || ! $this->request_has_waiver_agreement() ) {
+			return;
+		}
+
+		$this->store_withdrawal_waiver_on_order( $order, 'classic_checkout' );
+	}
+
+	public function save_block_checkout_waiver_field( $field_key, $field_value, $group, $wc_object ) {
+		if ( self::WAIVER_FIELD_ID !== $field_key || 'other' !== $group || ! $wc_object instanceof WC_Order || ! $this->is_truthy( $field_value ) ) {
+			return;
+		}
+
+		$this->store_withdrawal_waiver_on_order( $wc_object, 'checkout_block' );
+	}
+
+	public function save_block_checkout_waiver_order_meta( $order ) {
+		if ( ! $order instanceof WC_Order || 'yes' === $order->get_meta( self::WAIVER_META_AGREED, true ) ) {
+			return;
+		}
+
+		$value = $order->get_meta( '_wc_other/' . self::WAIVER_FIELD_ID, true );
+		if ( $this->is_truthy( $value ) ) {
+			$this->store_withdrawal_waiver_on_order( $order, 'checkout_block' );
+		}
+	}
+
+	public function sanitize_waiver_checkbox_value( $field_value ) {
+		return $this->is_truthy( $field_value ) ? '1' : '0';
+	}
+
+	public function validate_block_waiver_checkbox_value( $field_value ) {
+		if ( $this->cart_requires_checkout_waiver() && ! $this->is_truthy( $field_value ) ) {
+			$settings = $this->get_settings();
+			return new WP_Error( 'wch_withdrawal_waiver_required', $settings['waiver_error'] );
+		}
+	}
+
+	public function filter_classic_order_button_text( $text ) {
+		if ( ! $this->cart_requires_checkout_waiver() ) {
+			return $text;
+		}
+
+		$settings = $this->get_settings();
+		return '' !== trim( (string) $settings['waiver_button_text'] ) ? $settings['waiver_button_text'] : $text;
+	}
+
+	public function render_waiver_admin_order_meta( $order ) {
+		if ( ! $order instanceof WC_Order || 'yes' !== $order->get_meta( self::WAIVER_META_AGREED, true ) ) {
+			return;
+		}
+
+		printf(
+			'<p><strong>%1$s</strong><br>%2$s<br>%3$s<br>%4$s</p>',
+			esc_html__( 'Afstandsverklaring herroepingsrecht:', 'wc-herroepingsfunctie' ),
+			esc_html(
+				sprintf(
+					/* translators: 1: version, 2: timestamp */
+					__( 'Akkoord vastgelegd (versie %1$s) op %2$s.', 'wc-herroepingsfunctie' ),
+					$order->get_meta( self::WAIVER_META_VERSION, true ),
+					$order->get_meta( self::WAIVER_META_TIMESTAMP, true )
+				)
+			),
+			esc_html( $order->get_meta( self::WAIVER_META_TEXT, true ) ),
+			esc_html(
+				sprintf(
+					/* translators: %s: source */
+					__( 'Bron: %s', 'wc-herroepingsfunctie' ),
+					$order->get_meta( self::WAIVER_META_SOURCE, true )
+				)
+			)
+		);
+	}
+
+	public function render_waiver_email_block( $order, $sent_to_admin, $plain_text, $email ) {
+		if ( ! $order instanceof WC_Order || 'yes' !== $order->get_meta( self::WAIVER_META_AGREED, true ) ) {
+			return;
+		}
+
+		$text      = $order->get_meta( self::WAIVER_META_TEXT, true );
+		$version   = $order->get_meta( self::WAIVER_META_VERSION, true );
+		$timestamp = $order->get_meta( self::WAIVER_META_TIMESTAMP, true );
+
+		if ( $plain_text ) {
+			echo "\n\n" . esc_html__( 'Waiver of the right of withdrawal', 'wc-herroepingsfunctie' ) . "\n";
+			echo esc_html( $text ) . "\n";
+			echo esc_html(
+				sprintf(
+					/* translators: 1: version, 2: timestamp */
+					__( 'Recorded as version %1$s on %2$s.', 'wc-herroepingsfunctie' ),
+					$version,
+					$timestamp
+				)
+			) . "\n";
+			return;
+		}
+
+		echo '<h2>' . esc_html__( 'Waiver of the right of withdrawal', 'wc-herroepingsfunctie' ) . '</h2>';
+		echo '<p>' . esc_html( $text ) . '</p>';
+		echo '<p><small>' . esc_html(
+			sprintf(
+				/* translators: 1: version, 2: timestamp */
+				__( 'Recorded as version %1$s on %2$s.', 'wc-herroepingsfunctie' ),
+				$version,
+				$timestamp
+			)
+		) . '</small></p>';
+	}
+
+	private function cart_requires_checkout_waiver() {
+		$settings = $this->get_settings();
+		if ( 'yes' !== $settings['waiver_enabled'] || ! function_exists( 'WC' ) || ! WC()->cart || WC()->cart->is_empty() ) {
+			return false;
+		}
+
+		foreach ( WC()->cart->get_cart() as $cart_item ) {
+			$product = isset( $cart_item['data'] ) ? $cart_item['data'] : null;
+			if ( ! $product || ( ! $product->is_downloadable() && ! $product->is_virtual() ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private function store_withdrawal_waiver_on_order( $order, $source ) {
+		if ( 'yes' === $order->get_meta( self::WAIVER_META_AGREED, true ) ) {
+			return;
+		}
+
+		$settings = $this->get_settings();
+		$order->update_meta_data( self::WAIVER_META_AGREED, 'yes' );
+		$order->update_meta_data( self::WAIVER_META_VERSION, $settings['waiver_version'] );
+		$order->update_meta_data( self::WAIVER_META_TEXT, $settings['waiver_text'] );
+		$order->update_meta_data( self::WAIVER_META_TIMESTAMP, current_time( 'mysql' ) );
+		$order->update_meta_data( self::WAIVER_META_SOURCE, sanitize_key( $source ) );
+	}
+
+	private function is_truthy( $value ) {
+		return true === $value || 1 === $value || '1' === $value || 'yes' === $value || 'true' === $value || 'on' === $value;
+	}
+
+	private function request_has_waiver_agreement() {
+		$value = isset( $_POST['wch_withdrawal_waiver_agreed'] ) ? sanitize_text_field( wp_unslash( $_POST['wch_withdrawal_waiver_agreed'] ) ) : '';
+		return $this->is_truthy( $value );
+	}
+
+	/* --------------------------------------------------------------------- *
 	 *  Helpers.
 	 * --------------------------------------------------------------------- */
 
@@ -793,6 +1067,11 @@ final class WC_Herroepingsfunctie {
 		$out['sluit_virtueel_uit'] = ( isset( $input['sluit_virtueel_uit'] ) && 'yes' === $input['sluit_virtueel_uit'] ) ? 'yes' : 'no';
 		$out['order_status']       = ( isset( $input['order_status'] ) && 'yes' === $input['order_status'] ) ? 'yes' : 'no';
 		$out['bewaar_ip']          = ( isset( $input['bewaar_ip'] ) && 'yes' === $input['bewaar_ip'] ) ? 'yes' : 'no';
+		$out['waiver_enabled']     = ( isset( $input['waiver_enabled'] ) && 'yes' === $input['waiver_enabled'] ) ? 'yes' : 'no';
+		$out['waiver_text']        = isset( $input['waiver_text'] ) ? sanitize_textarea_field( $input['waiver_text'] ) : $out['waiver_text'];
+		$out['waiver_version']     = isset( $input['waiver_version'] ) ? sanitize_text_field( $input['waiver_version'] ) : $out['waiver_version'];
+		$out['waiver_error']       = isset( $input['waiver_error'] ) ? sanitize_text_field( $input['waiver_error'] ) : $out['waiver_error'];
+		$out['waiver_button_text'] = isset( $input['waiver_button_text'] ) ? sanitize_text_field( $input['waiver_button_text'] ) : $out['waiver_button_text'];
 		return $out;
 	}
 
@@ -860,6 +1139,38 @@ final class WC_Herroepingsfunctie {
 					<tr>
 						<th><?php esc_html_e( 'IP-adres bewaren', 'wc-herroepingsfunctie' ); ?></th>
 						<td><label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[bewaar_ip]" value="yes" <?php checked( 'yes', $s['bewaar_ip'] ); ?>> <?php esc_html_e( 'IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)', 'wc-herroepingsfunctie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th colspan="2"><h2><?php esc_html_e( 'Checkout-afstandsverklaring voor digitale producten', 'wc-herroepingsfunctie' ); ?></h2></th>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Afstandsverklaring inschakelen', 'wc-herroepingsfunctie' ); ?></th>
+						<td>
+							<label><input type="checkbox" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_enabled]" value="yes" <?php checked( 'yes', $s['waiver_enabled'] ); ?>> <?php esc_html_e( 'Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare producten bevatten', 'wc-herroepingsfunctie' ); ?></label>
+							<p class="description"><?php esc_html_e( 'Werkt met classic checkout en met de WooCommerce Checkout Block via de Additional Checkout Fields API. Voor conditioneel tonen in blocks is WooCommerce 9.9+ nodig; oudere block-checkouts kunnen het veld mogelijk altijd tonen.', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="wch_waiver_text"><?php esc_html_e( 'Checkboxtekst', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td>
+							<textarea id="wch_waiver_text" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_text]" rows="4" class="large-text"><?php echo esc_textarea( $s['waiver_text'] ); ?></textarea>
+							<p class="description"><?php esc_html_e( 'Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als duurzame bevestiging.', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="wch_waiver_version"><?php esc_html_e( 'Tekstversie', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><input id="wch_waiver_version" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_version]" value="<?php echo esc_attr( $s['waiver_version'] ); ?>" class="small-text"> <span class="description"><?php esc_html_e( 'Verhoog deze versie wanneer de checkboxtekst wijzigt.', 'wc-herroepingsfunctie' ); ?></span></td>
+					</tr>
+					<tr>
+						<th><label for="wch_waiver_error"><?php esc_html_e( 'Validatiemelding', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td><input id="wch_waiver_error" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_error]" value="<?php echo esc_attr( $s['waiver_error'] ); ?>" class="large-text"></td>
+					</tr>
+					<tr>
+						<th><label for="wch_waiver_button"><?php esc_html_e( 'Betaalknoptekst', 'wc-herroepingsfunctie' ); ?></label></th>
+						<td>
+							<input id="wch_waiver_button" type="text" name="<?php echo esc_attr( WCH_OPTION ); ?>[waiver_button_text]" value="<?php echo esc_attr( $s['waiver_button_text'] ); ?>" class="regular-text">
+							<p class="description"><?php esc_html_e( 'Classic checkout gebruikt deze tekst alleen voor digitale carts. De Checkout Block-filter kan de betaalknop alleen globaal aanpassen wanneer dit script geladen is.', 'wc-herroepingsfunctie' ); ?></p>
+						</td>
 					</tr>
 				</table>
 				<?php submit_button(); ?>

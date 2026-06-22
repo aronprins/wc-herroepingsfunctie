@@ -130,6 +130,12 @@ De functie is alleen verplicht waar **daadwerkelijk een herroepingsrecht bestaat
 
 > Maak per assortiment een expliciete keuze welke categorieën/producten zijn uitgesloten, en sluit die uit in de functie. Bij twijfel: toetsen door een jurist.
 
+### Digitale inhoud: toestemming en afstand bij checkout
+
+Voor digitale inhoud die niet op een materiële drager wordt geleverd, vervalt het herroepingsrecht niet automatisch doordat het product digitaal is. De uitzondering geldt pas wanneer de uitvoering is begonnen met uitdrukkelijke toestemming van de consument én de consument heeft erkend dat hij daarmee afstand doet van zijn herroepingsrecht. In de praktijk betekent dit: een aparte, niet vooraf aangevinkte checkbox in checkout, de exacte tekst en versie vastleggen op de order, en die toestemming/afstand bevestigen in de orderbevestiging op een duurzame gegevensdrager.
+
+Dit staat los van de nieuwe online herroepingsfunctie. De herroepingsfunctie is de route waarmee consumenten na aankoop hun recht kunnen uitoefenen waar dat recht nog bestaat. De checkout-afstandsverklaring is de route waarmee bij directe levering van digitale inhoud wordt vastgelegd dat het recht onder voorwaarden vervalt.
+
 ---
 
 ## 8. Handhaving
@@ -158,6 +164,8 @@ Informatie & beleid:
 - [ ] **Modeltekst** over de online herroepingsfunctie opgenomen in de (pre)contractuele informatie.
 - [ ] **Algemene voorwaarden** en retourinformatie geactualiseerd.
 - [ ] **Uitzonderingen** (art. 6:230p) correct ingesteld voor het assortiment.
+- [ ] Bij directe levering van digitale inhoud: aparte checkout-checkbox voor uitdrukkelijke toestemming en afstand van het herroepingsrecht.
+- [ ] Checkboxtekst, tekstversie, tijdstip en bron worden op de order vastgelegd en in de klantmail bevestigd.
 - [ ] **Privacyverklaring** bijgewerkt (verwerking herroepingsgegevens, evt. IP-logging).
 - [ ] **Retour-/terugbetaalproces** sluit aan op de functie (terugbetaling binnen 14 dagen).
 
@@ -180,6 +188,7 @@ Keten & techniek:
 | Tijdigheid (timestamp) | Indientijdstip wordt geregistreerd en in de mail opgenomen |
 | Logging/bewijslast | Eigen databasetabel + ordernotitie; overzicht in WooCommerce-beheer |
 | Uitzonderingen | Uitsluiting per categorie, product-ID of virtueel/downloadbaar |
+| Digitale checkout-afstandsverklaring | Verplichte checkbox voor carts met uitsluitend virtuele/downloadbare producten; tekst, versie, timestamp en bron worden op de order bewaard en in de klantmail bevestigd |
 | Privacy/AVG | Ordergegevens pas na e-mailverificatie; IP-logging optioneel |
 
 ---
