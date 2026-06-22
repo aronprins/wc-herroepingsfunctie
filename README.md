@@ -21,7 +21,7 @@ WooCommerce compliance plugin for a public online withdrawal flow and a digital 
 
 ## Legal Scope
 
-This plugin is a technical implementation aid, not legal advice. Review all legal copy, product exclusions, country scope, checkout waiver text, and translations with counsel before production use.
+This plugin is provided as-is as a technical implementation aid and does not replace legal advice. Review all legal copy, product exclusions, country scope, checkout waiver text, and translations with counsel before production use.
 
 The digital checkout waiver defaults to EU + EEA billing countries:
 
@@ -149,6 +149,7 @@ Manual workflow runs are supported too. They validate and build the ZIP as an Ac
 - Added WordPress.org-compatible `readme.txt`.
 - Added this GitHub `README.md`.
 - Added GitHub Actions release workflow for installable ZIPs.
+- Added an explicit as-is legal disclaimer to the settings screen and documentation.
 
 ### 1.1.2
 

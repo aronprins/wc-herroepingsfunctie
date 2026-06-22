@@ -12,8 +12,9 @@
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
  *
- * LET OP: dit is een vertrekpunt. Test op een staging-omgeving en laat de
- * juridische teksten/uitzonderingen door een jurist controleren vóór livegang.
+ * LET OP: deze plugin wordt geleverd "as-is" en vervangt geen juridisch advies.
+ * Test op een staging-omgeving en laat de juridische teksten/uitzonderingen
+ * door een jurist controleren vóór livegang.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1442,6 +1443,10 @@ final class WC_Herroepingsfunctie {
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Herroepingsfunctie – instellingen', 'wc-herroepingsfunctie' ); ?></h1>
 			<p><?php esc_html_e( 'Plaats het formulier op een goed vindbare pagina met de shortcode', 'wc-herroepingsfunctie' ); ?> <code>[herroepingsfunctie]</code>. <?php esc_html_e( 'Het staat ook automatisch in "Mijn account" onder "Herroepen". Zet bovendien een duidelijke link in de footer.', 'wc-herroepingsfunctie' ); ?></p>
+			<div class="notice notice-warning inline">
+				<p><strong><?php esc_html_e( 'Juridische disclaimer', 'wc-herroepingsfunctie' ); ?></strong></p>
+				<p><?php esc_html_e( 'Deze plugin wordt geleverd "as-is" en vervangt geen juridisch advies. Laat alle juridische teksten, uitzonderingen, landenlijsten, checkout-afstandsverklaringen en vertalingen controleren door een jurist voordat u deze plugin in productie gebruikt.', 'wc-herroepingsfunctie' ); ?></p>
+			</div>
 			<form method="post" action="options.php">
 				<?php settings_fields( 'wch_settings_group' ); ?>
 				<table class="form-table" role="presentation">

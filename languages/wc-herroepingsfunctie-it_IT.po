@@ -2,8 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Herroepingsfunctie (NL) 1.1.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-herroepingsfunctie\n"
-"POT-Creation-Date: 2026-06-22T10:00:12+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-"
+"herroepingsfunctie\n"
+"POT-Creation-Date: 2026-06-22T10:27:35+00:00\n"
 "PO-Revision-Date: 2026-06-22 00:00+0000\n"
 "Last-Translator: Machine-assisted draft <noreply@example.com>\n"
 "Language-Team: it_IT <noreply@example.com>\n"
@@ -13,7 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: wc-herroepingsfunctie\n"
-"X-Generator: Codex machine-assisted draft; review legal copy before production\n"
+"X-Generator: Codex machine-assisted draft; review legal copy before "
+"production\n"
 
 #. Plugin Name of the plugin
 #: wc-herroepingsfunctie.php
@@ -43,29 +45,28 @@ msgstr ""
 msgid "Custom"
 msgstr "Custom"
 
-#: wc-herroepingsfunctie.php:126
+#: wc-herroepingsfunctie.php:129
 msgid "WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is."
-msgstr ""
-"WooCommerce La funzione di revoca richiede che WooCommerce sia attivo."
+msgstr "WooCommerce La funzione di revoca richiede che WooCommerce sia attivo."
 
-#: wc-herroepingsfunctie.php:276
+#: wc-herroepingsfunctie.php:279
 msgid ""
 "Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke "
 "bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in."
 msgstr ""
-"Desideri annullare (parte del) il tuo ordine entro il periodo di riflessione"
-" legale di 14 giorni? Inserisci il numero dell'ordine e l'indirizzo email "
-"qui sotto."
+"Desideri annullare (parte del) il tuo ordine entro il periodo di riflessione "
+"legale di 14 giorni? Inserisci il numero dell'ordine e l'indirizzo email qui "
+"sotto."
 
-#: wc-herroepingsfunctie.php:278 wc-herroepingsfunctie.php:392
+#: wc-herroepingsfunctie.php:281 wc-herroepingsfunctie.php:395
 msgid "Herroeping bevestigen"
 msgstr "Conferma la revoca"
 
-#: wc-herroepingsfunctie.php:280
+#: wc-herroepingsfunctie.php:283
 msgid "Bevestiging van uw herroeping"
 msgstr "Conferma della tua revoca"
 
-#: wc-herroepingsfunctie.php:282
+#: wc-herroepingsfunctie.php:285
 msgid ""
 "I agree that the product is delivered immediately after payment, and I "
 "acknowledge that I thereby waive my statutory 14-day right of withdrawal."
@@ -73,7 +74,7 @@ msgstr ""
 "Accetto che il prodotto venga consegnato immediatamente dopo il pagamento e "
 "riconosco di rinunciare così al mio diritto di recesso legale di 14 giorni."
 
-#: wc-herroepingsfunctie.php:284
+#: wc-herroepingsfunctie.php:287
 msgid ""
 "Please agree to immediate digital delivery and acknowledge that you waive "
 "your right of withdrawal to complete this order."
@@ -81,35 +82,35 @@ msgstr ""
 "Si prega di accettare la consegna digitale immediata e di riconoscere di "
 "rinunciare al diritto di recesso per completare questo ordine."
 
-#: wc-herroepingsfunctie.php:286
+#: wc-herroepingsfunctie.php:289
 msgid "Buy now (payment required)"
 msgstr "Acquista ora (pagamento richiesto)"
 
-#: wc-herroepingsfunctie.php:310 wc-herroepingsfunctie.php:315
+#: wc-herroepingsfunctie.php:313 wc-herroepingsfunctie.php:318
 msgid "Herroepen"
 msgstr "Revocato"
 
-#: wc-herroepingsfunctie.php:362
+#: wc-herroepingsfunctie.php:365
 msgid "Bestelling herroepen"
 msgstr "Ordine revocato"
 
-#: wc-herroepingsfunctie.php:365
+#: wc-herroepingsfunctie.php:368
 msgid "Ordernummer"
 msgstr "Numero dell'ordine"
 
-#: wc-herroepingsfunctie.php:369
+#: wc-herroepingsfunctie.php:372
 msgid "E-mailadres van de bestelling"
 msgstr "Indirizzo e-mail dell'ordine"
 
-#: wc-herroepingsfunctie.php:373
+#: wc-herroepingsfunctie.php:376
 msgid "Bestelling ophalen"
 msgstr "Ritiro ordine"
 
-#: wc-herroepingsfunctie.php:379
+#: wc-herroepingsfunctie.php:382
 msgid "Wat wilt u herroepen?"
 msgstr "Cosa vuoi revocare?"
 
-#: wc-herroepingsfunctie.php:380
+#: wc-herroepingsfunctie.php:383
 msgid ""
 "Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent "
 "niet verplicht een reden op te geven."
@@ -117,19 +118,19 @@ msgstr ""
 "Seleziona i prodotti per i quali desideri revocare il contratto. Non sei "
 "obbligato a fornire una motivazione."
 
-#: wc-herroepingsfunctie.php:383
+#: wc-herroepingsfunctie.php:386
 msgid "Reden (optioneel)"
 msgstr "Motivo (facoltativo)"
 
-#: wc-herroepingsfunctie.php:386 wc-herroepingsfunctie.php:396
+#: wc-herroepingsfunctie.php:389 wc-herroepingsfunctie.php:399
 msgid "Terug"
 msgstr "Indietro"
 
-#: wc-herroepingsfunctie.php:387
+#: wc-herroepingsfunctie.php:390
 msgid "Doorgaan"
 msgstr "Continuare"
 
-#: wc-herroepingsfunctie.php:393
+#: wc-herroepingsfunctie.php:396
 msgid ""
 "Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten "
 "herroept. U ontvangt direct een ontvangstbevestiging per e-mail."
@@ -137,19 +138,19 @@ msgstr ""
 "Con la presente ci informi che revochi il contratto per i prodotti indicati "
 "di seguito. Riceverai immediatamente una conferma di ricezione via e-mail."
 
-#: wc-herroepingsfunctie.php:521
+#: wc-herroepingsfunctie.php:524
 msgid "Vul een geldig ordernummer en e-mailadres in."
 msgstr "Inserisci un numero d'ordine valido e un indirizzo email."
 
-#: wc-herroepingsfunctie.php:537
+#: wc-herroepingsfunctie.php:540
 msgid ""
 "We konden geen bestelling vinden met deze gegevens. Controleer uw "
 "ordernummer en e-mailadres."
 msgstr ""
-"Non siamo riusciti a trovare un ordine con queste informazioni. Controlla il"
-" numero dell'ordine e l'indirizzo e-mail."
+"Non siamo riusciti a trovare un ordine con queste informazioni. Controlla il "
+"numero dell'ordine e l'indirizzo e-mail."
 
-#: wc-herroepingsfunctie.php:547
+#: wc-herroepingsfunctie.php:550
 msgid ""
 "Voor de producten in deze bestelling is herroeping via dit formulier niet "
 "beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). "
@@ -159,19 +160,19 @@ msgstr ""
 "recesso tramite questo modulo (ad esempio perché sono già stati ritirati o "
 "esclusi). Se avete domande, contattateci."
 
-#: wc-herroepingsfunctie.php:570
+#: wc-herroepingsfunctie.php:573
 msgid "Onvolledige aanvraag. Probeer het opnieuw."
 msgstr "Domanda incompleta. Per favore riprova."
 
-#: wc-herroepingsfunctie.php:586
+#: wc-herroepingsfunctie.php:589
 msgid "We konden uw bestelling niet verifiëren."
 msgstr "Non siamo riusciti a verificare il tuo ordine."
 
-#: wc-herroepingsfunctie.php:604
+#: wc-herroepingsfunctie.php:607
 msgid "Geen geldige producten geselecteerd."
 msgstr "Nessun prodotto valido selezionato."
 
-#: wc-herroepingsfunctie.php:633
+#: wc-herroepingsfunctie.php:636
 msgid ""
 "We konden uw herroeping niet registreren. Probeer het later opnieuw of neem "
 "contact met ons op."
@@ -180,7 +181,7 @@ msgstr ""
 "contattaci."
 
 #. translators: 1: timestamp, 2: items, 3: reason
-#: wc-herroepingsfunctie.php:643
+#: wc-herroepingsfunctie.php:646
 #, php-format
 msgid ""
 "Herroeping ontvangen op %1$s via de online herroepingsfunctie.\n"
@@ -191,15 +192,15 @@ msgstr ""
 "Prodotti: %2$s\n"
 "Motivo: %3$s"
 
-#: wc-herroepingsfunctie.php:646
+#: wc-herroepingsfunctie.php:649
 msgid "(geen opgegeven)"
 msgstr "(nessuno specificato)"
 
-#: wc-herroepingsfunctie.php:652
+#: wc-herroepingsfunctie.php:655
 msgid "In afwachting van afhandeling herroeping. "
 msgstr "In attesa dell'elaborazione della cancellazione."
 
-#: wc-herroepingsfunctie.php:658
+#: wc-herroepingsfunctie.php:661
 msgid ""
 "Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet "
 "worden verzonden."
@@ -208,7 +209,7 @@ msgstr ""
 "questa revoca."
 
 #. translators: 1: timestamp, 2: customer email address
-#: wc-herroepingsfunctie.php:666
+#: wc-herroepingsfunctie.php:669
 #, php-format
 msgid ""
 "Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd "
@@ -218,7 +219,7 @@ msgstr ""
 "%2$s. Elaboreremo ulteriormente la tua richiesta."
 
 #. translators: 1: timestamp, 2: customer email address
-#: wc-herroepingsfunctie.php:669
+#: wc-herroepingsfunctie.php:672
 #, php-format
 msgid ""
 "Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s "
@@ -229,41 +230,41 @@ msgstr ""
 "automaticamente l'e-mail di conferma a %2$s. Se non ricevi conferma, "
 "contattaci."
 
-#: wc-herroepingsfunctie.php:892
+#: wc-herroepingsfunctie.php:895
 msgid "Afstandsverklaring herroepingsrecht:"
 msgstr "Rinuncia al diritto di recesso:"
 
 #. translators: 1: version, 2: timestamp
-#: wc-herroepingsfunctie.php:896
+#: wc-herroepingsfunctie.php:899
 #, php-format
 msgid "Akkoord vastgelegd (versie %1$s) op %2$s."
 msgstr "Accordo registrato (versione %1$s) il %2$s."
 
 #. translators: %s: source
-#: wc-herroepingsfunctie.php:905
+#: wc-herroepingsfunctie.php:908
 #, php-format
 msgid "Bron: %s"
 msgstr "Fonte: %s"
 
-#: wc-herroepingsfunctie.php:922 wc-herroepingsfunctie.php:935
+#: wc-herroepingsfunctie.php:925 wc-herroepingsfunctie.php:938
 msgid "Waiver of the right of withdrawal"
 msgstr "Rinuncia al diritto di recesso"
 
 #. translators: 1: version, 2: timestamp
-#: wc-herroepingsfunctie.php:927 wc-herroepingsfunctie.php:940
+#: wc-herroepingsfunctie.php:930 wc-herroepingsfunctie.php:943
 #, php-format
 msgid "Recorded as version %1$s on %2$s."
 msgstr "Registrato come versione %1$s su %2$s."
 
-#: wc-herroepingsfunctie.php:1310
+#: wc-herroepingsfunctie.php:1313
 msgid "Te veel pogingen. Wacht even en probeer het later opnieuw."
 msgstr "Troppi tentativi. Per favore attendi un attimo e riprova più tardi."
 
-#: wc-herroepingsfunctie.php:1334
+#: wc-herroepingsfunctie.php:1337
 msgid "Beste"
 msgstr "altro"
 
-#: wc-herroepingsfunctie.php:1335
+#: wc-herroepingsfunctie.php:1338
 msgid ""
 "We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud "
 "van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als "
@@ -273,81 +274,81 @@ msgstr ""
 "della tua dichiarazione e l'orario di presentazione. Conserva questa email "
 "come prova."
 
-#: wc-herroepingsfunctie.php:1336 wc-herroepingsfunctie.php:1362
+#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1365
 msgid "Ingediend op:"
 msgstr "Inviato a:"
 
-#: wc-herroepingsfunctie.php:1337
+#: wc-herroepingsfunctie.php:1340
 msgid "Naam:"
 msgstr "Nome:"
 
-#: wc-herroepingsfunctie.php:1338
+#: wc-herroepingsfunctie.php:1341
 msgid "E-mailadres voor bevestiging:"
 msgstr "Indirizzo e-mail per la conferma:"
 
-#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1360
+#: wc-herroepingsfunctie.php:1342 wc-herroepingsfunctie.php:1363
 msgid "Bestelling:"
 msgstr "Ordine:"
 
-#: wc-herroepingsfunctie.php:1340
+#: wc-herroepingsfunctie.php:1343
 msgid "Herroepen producten:"
 msgstr "Prodotti richiamati:"
 
-#: wc-herroepingsfunctie.php:1343
+#: wc-herroepingsfunctie.php:1346
 msgid "Door u opgegeven reden:"
 msgstr "Motivo da te fornito:"
 
-#: wc-herroepingsfunctie.php:1345
+#: wc-herroepingsfunctie.php:1348
 msgid ""
 "We nemen uw verzoek verder in behandeling, inclusief een eventuele "
 "terugbetaling conform de wettelijke termijnen."
 msgstr ""
-"Elaboreremo ulteriormente la tua richiesta, incluso un eventuale rimborso in"
-" conformità con le scadenze legali."
+"Elaboreremo ulteriormente la tua richiesta, incluso un eventuale rimborso in "
+"conformità con le scadenze legali."
 
 #. translators: %s: order number
-#: wc-herroepingsfunctie.php:1355
+#: wc-herroepingsfunctie.php:1358
 #, php-format
 msgid "Nieuwe herroeping voor bestelling %s"
 msgstr "Nuova revoca per ordine %s"
 
-#: wc-herroepingsfunctie.php:1359
+#: wc-herroepingsfunctie.php:1362
 msgid "Er is een herroeping ingediend via de online herroepingsfunctie."
 msgstr "È stata presentata una revoca tramite la funzione di revoca online."
 
-#: wc-herroepingsfunctie.php:1361
+#: wc-herroepingsfunctie.php:1364
 msgid "Klant:"
 msgstr "Cliente:"
 
-#: wc-herroepingsfunctie.php:1365
+#: wc-herroepingsfunctie.php:1368
 msgid "Reden:"
 msgstr "Cavalcato:"
 
-#: wc-herroepingsfunctie.php:1369
+#: wc-herroepingsfunctie.php:1372
 msgid "Bekijk de bestelling"
 msgstr "Visualizza l'ordine"
 
-#: wc-herroepingsfunctie.php:1382 wc-herroepingsfunctie.php:1383
+#: wc-herroepingsfunctie.php:1385 wc-herroepingsfunctie.php:1386
 msgid "Herroepingen"
 msgstr "Revoche"
 
-#: wc-herroepingsfunctie.php:1391
+#: wc-herroepingsfunctie.php:1394
 msgid "Herroepingsfunctie instellingen"
 msgstr "Impostazioni della funzione di revoca"
 
-#: wc-herroepingsfunctie.php:1392
+#: wc-herroepingsfunctie.php:1395
 msgid "Herroeping instellingen"
 msgstr "Revoca delle impostazioni"
 
-#: wc-herroepingsfunctie.php:1441
+#: wc-herroepingsfunctie.php:1444
 msgid "Herroepingsfunctie – instellingen"
 msgstr "Funzione di revoca – impostazioni"
 
-#: wc-herroepingsfunctie.php:1442
+#: wc-herroepingsfunctie.php:1445
 msgid "Plaats het formulier op een goed vindbare pagina met de shortcode"
 msgstr "Posiziona il modulo su una pagina facile da trovare con lo shortcode"
 
-#: wc-herroepingsfunctie.php:1442
+#: wc-herroepingsfunctie.php:1445
 msgid ""
 "Het staat ook automatisch in \"Mijn account\" onder \"Herroepen\". Zet "
 "bovendien een duidelijke link in de footer."
@@ -356,26 +357,38 @@ msgstr ""
 "\"Revocato\". Inoltre, inserisci un collegamento chiaro nel piè di pagina."
 
 #: wc-herroepingsfunctie.php:1447
+msgid "Juridische disclaimer"
+msgstr "Disclaimer legale"
+
+#: wc-herroepingsfunctie.php:1448
+msgid ""
+"Deze plugin wordt geleverd \"as-is\" en vervangt geen juridisch advies. Laat "
+"alle juridische teksten, uitzonderingen, landenlijsten, checkout-"
+"afstandsverklaringen en vertalingen controleren door een jurist voordat u "
+"deze plugin in productie gebruikt."
+msgstr "Questo plugin è fornito \"as-is\" e non sostituisce la consulenza legale. Fai verificare da un consulente legale tutti i testi legali, le esclusioni, gli elenchi dei paesi, le dichiarazioni di rinuncia al checkout e le traduzioni prima di usare questo plugin in produzione."
+
+#: wc-herroepingsfunctie.php:1454
 msgid "Introductietekst"
 msgstr "Testo introduttivo"
 
-#: wc-herroepingsfunctie.php:1451
+#: wc-herroepingsfunctie.php:1458
 msgid "Tekst bevestigingsknop"
 msgstr "Pulsante di conferma del testo"
 
-#: wc-herroepingsfunctie.php:1455
+#: wc-herroepingsfunctie.php:1462
 msgid "Onderwerp bevestigingsmail"
 msgstr "E-mail di conferma dell'oggetto"
 
-#: wc-herroepingsfunctie.php:1459
+#: wc-herroepingsfunctie.php:1466
 msgid "Interne meldingen naar"
 msgstr "Notifiche interne a"
 
-#: wc-herroepingsfunctie.php:1463
+#: wc-herroepingsfunctie.php:1470
 msgid "Uitgesloten categorieën"
 msgstr "Categorie escluse"
 
-#: wc-herroepingsfunctie.php:1479
+#: wc-herroepingsfunctie.php:1486
 msgid ""
 "Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – "
 "producten zonder herroepingsrecht."
@@ -383,23 +396,23 @@ msgstr ""
 "Per esempio. prodotti igienici confezionati su misura, sigillati o merci "
 "deperibili – prodotti senza diritto di recesso."
 
-#: wc-herroepingsfunctie.php:1483
+#: wc-herroepingsfunctie.php:1490
 msgid "Uitgesloten product-ID's"
 msgstr "Identificatori di prodotto esclusi"
 
-#: wc-herroepingsfunctie.php:1487
+#: wc-herroepingsfunctie.php:1494
 msgid "Digitale producten uitsluiten"
 msgstr "Escludere i prodotti digitali"
 
-#: wc-herroepingsfunctie.php:1488
+#: wc-herroepingsfunctie.php:1495
 msgid "Virtuele/downloadbare producten niet tonen in de herroepingsfunctie"
 msgstr "Non mostrare prodotti virtuali/scaricabili nella funzione di recesso"
 
-#: wc-herroepingsfunctie.php:1491
+#: wc-herroepingsfunctie.php:1498
 msgid "Orderstatus aanpassen"
 msgstr "Modifica lo stato dell'ordine"
 
-#: wc-herroepingsfunctie.php:1492
+#: wc-herroepingsfunctie.php:1499
 msgid ""
 "Order op \"in afwachting\" zetten bij een herroeping (geen automatische "
 "terugbetaling)"
@@ -407,25 +420,25 @@ msgstr ""
 "Imposta l'ordine su \"in sospeso\" in caso di annullamento (nessun rimborso "
 "automatico)"
 
-#: wc-herroepingsfunctie.php:1495
+#: wc-herroepingsfunctie.php:1502
 msgid "IP-adres bewaren"
 msgstr "Salva indirizzo IP"
 
-#: wc-herroepingsfunctie.php:1496
+#: wc-herroepingsfunctie.php:1503
 msgid "IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)"
 msgstr ""
 "Registra l'indirizzo IP come prova aggiuntiva (menzionalo nella tua "
 "informativa sulla privacy)"
 
-#: wc-herroepingsfunctie.php:1499
+#: wc-herroepingsfunctie.php:1506
 msgid "Checkout-afstandsverklaring voor digitale producten"
 msgstr "Esonero dal pagamento per prodotti digitali"
 
-#: wc-herroepingsfunctie.php:1502
+#: wc-herroepingsfunctie.php:1509
 msgid "Afstandsverklaring inschakelen"
 msgstr "Abilita rinuncia"
 
-#: wc-herroepingsfunctie.php:1504
+#: wc-herroepingsfunctie.php:1511
 msgid ""
 "Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare "
 "producten bevatten"
@@ -433,7 +446,7 @@ msgstr ""
 "Mostra la casella di controllo obbligatoria per i carrelli che contengono "
 "solo prodotti virtuali/scaricabili"
 
-#: wc-herroepingsfunctie.php:1505
+#: wc-herroepingsfunctie.php:1512
 msgid ""
 "Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin "
 "verplicht de checkbox server-side alleen voor volledig digitale carts en de "
@@ -443,31 +456,31 @@ msgstr ""
 "in richiede la casella di controllo lato server solo per i carrelli "
 "completamente digitali e per i paesi di fatturazione indicati di seguito."
 
-#: wc-herroepingsfunctie.php:1509
+#: wc-herroepingsfunctie.php:1516
 msgid "Landen waarvoor afstandsverklaring geldt"
 msgstr "Paesi soggetti a deroga"
 
-#: wc-herroepingsfunctie.php:1512
+#: wc-herroepingsfunctie.php:1519
 msgid ""
 "Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. "
-"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
-" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, "
+"IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
 msgstr ""
 "Codici paese ISO 3166-1 alpha-2 separati da virgola, punto e virgola o "
 "spazio. Norma: UE + SEE. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, "
 "HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
 
-#: wc-herroepingsfunctie.php:1516
+#: wc-herroepingsfunctie.php:1523
 msgid "Onbekend factuurland"
 msgstr "Paese di fatturazione sconosciuto"
 
-#: wc-herroepingsfunctie.php:1518
+#: wc-herroepingsfunctie.php:1525
 msgid "Checkbox verplichten zolang het factuurland nog leeg of onbekend is"
 msgstr ""
 "Richiedi la casella di controllo finché il Paese di fatturazione è ancora "
 "vuoto o sconosciuto"
 
-#: wc-herroepingsfunctie.php:1519
+#: wc-herroepingsfunctie.php:1526
 msgid ""
 "Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is "
 "geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht."
@@ -475,36 +488,36 @@ msgstr ""
 "Comportamento fail-close consigliato: una volta selezionato un paese non "
 "impostato, la casella di controllo scompare e diventa non obbligatoria."
 
-#: wc-herroepingsfunctie.php:1523
+#: wc-herroepingsfunctie.php:1530
 msgid "Checkboxtekst"
 msgstr "Test casella di controllo"
 
-#: wc-herroepingsfunctie.php:1526
+#: wc-herroepingsfunctie.php:1533
 msgid ""
 "Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als "
 "duurzame bevestiging."
 msgstr ""
-"Questo testo viene memorizzato nell'ordine e incluso nell'e-mail del cliente"
-" come conferma permanente."
+"Questo testo viene memorizzato nell'ordine e incluso nell'e-mail del cliente "
+"come conferma permanente."
 
-#: wc-herroepingsfunctie.php:1530
+#: wc-herroepingsfunctie.php:1537
 msgid "Tekstversie"
 msgstr "Versione testuale"
 
-#: wc-herroepingsfunctie.php:1531
+#: wc-herroepingsfunctie.php:1538
 msgid "Verhoog deze versie wanneer de checkboxtekst wijzigt."
 msgstr ""
 "Aumenta questa versione quando il testo della casella di controllo cambia."
 
-#: wc-herroepingsfunctie.php:1534
+#: wc-herroepingsfunctie.php:1541
 msgid "Validatiemelding"
 msgstr "Notifica di convalida"
 
-#: wc-herroepingsfunctie.php:1538
+#: wc-herroepingsfunctie.php:1545
 msgid "Betaalknoptekst"
 msgstr "Testo del pulsante di pagamento"
 
-#: wc-herroepingsfunctie.php:1541
+#: wc-herroepingsfunctie.php:1548
 msgid ""
 "Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de "
 "digitale-cart en factuurlandregels gelden."
@@ -512,30 +525,30 @@ msgstr ""
 "Il pagamento classico e Checkout Block utilizzano questo testo solo quando "
 "si applicano le regole del carrello digitale e del paese di fatturazione."
 
-#: wc-herroepingsfunctie.php:1561
+#: wc-herroepingsfunctie.php:1568
 msgid "Ontvangen herroepingen"
 msgstr "Revoche ricevute"
 
-#: wc-herroepingsfunctie.php:1565
+#: wc-herroepingsfunctie.php:1572
 msgid "Datum"
 msgstr "Dato"
 
-#: wc-herroepingsfunctie.php:1566
+#: wc-herroepingsfunctie.php:1573
 msgid "Order"
 msgstr "Ordine"
 
-#: wc-herroepingsfunctie.php:1567
+#: wc-herroepingsfunctie.php:1574
 msgid "Klant"
 msgstr "Cliente"
 
-#: wc-herroepingsfunctie.php:1568
+#: wc-herroepingsfunctie.php:1575
 msgid "Producten"
 msgstr "Prodotti"
 
-#: wc-herroepingsfunctie.php:1569
+#: wc-herroepingsfunctie.php:1576
 msgid "Reden"
 msgstr "Cavalcò"
 
-#: wc-herroepingsfunctie.php:1574
+#: wc-herroepingsfunctie.php:1581
 msgid "Nog geen herroepingen ontvangen."
 msgstr "Nessuna cancellazione ancora ricevuta."

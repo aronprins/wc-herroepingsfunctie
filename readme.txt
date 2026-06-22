@@ -58,7 +58,7 @@ Standaardwaarden voor tekstvelden worden vertaald zolang ze nog exact gelijk zij
 
 = Juridische disclaimer =
 
-Deze plugin is een technisch hulpmiddel en geen juridisch advies. Laat de juridische teksten, uitzonderingen, landenlijst, checkout-afstandsverklaring en vertalingen controleren door een jurist voordat u de plugin gebruikt in productie. Niet-EU landen kunnen eigen of vergelijkbare consumentenregels hebben.
+Deze plugin wordt "as-is" geleverd als technisch hulpmiddel en vervangt geen juridisch advies. Laat de juridische teksten, uitzonderingen, landenlijst, checkout-afstandsverklaring en vertalingen controleren door een jurist voordat u de plugin gebruikt in productie. Niet-EU landen kunnen eigen of vergelijkbare consumentenregels hebben.
 
 == Installation ==
 
@@ -114,6 +114,7 @@ Ja. De plugin declareert compatibiliteit met WooCommerce High-Performance Order 
 * Added bundled `.po` and `.mo` translation files for EU-official languages, EEA languages and English.
 * Added regional locale fallback for common European WordPress locales.
 * Localized default setting values while preserving merchant-edited legal copy.
+* Added an explicit as-is legal disclaimer to the settings screen and documentation.
 
 = 1.1.2 =
 * Scoped the digital checkout waiver to configured billing countries, defaulting to EU + EER.

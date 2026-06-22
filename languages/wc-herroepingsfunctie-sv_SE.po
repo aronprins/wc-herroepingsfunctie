@@ -2,8 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Herroepingsfunctie (NL) 1.1.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-herroepingsfunctie\n"
-"POT-Creation-Date: 2026-06-22T10:00:12+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-"
+"herroepingsfunctie\n"
+"POT-Creation-Date: 2026-06-22T10:27:35+00:00\n"
 "PO-Revision-Date: 2026-06-22 00:00+0000\n"
 "Last-Translator: Machine-assisted draft <noreply@example.com>\n"
 "Language-Team: sv_SE <noreply@example.com>\n"
@@ -13,7 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: wc-herroepingsfunctie\n"
-"X-Generator: Codex machine-assisted draft; review legal copy before production\n"
+"X-Generator: Codex machine-assisted draft; review legal copy before "
+"production\n"
 
 #. Plugin Name of the plugin
 #: wc-herroepingsfunctie.php
@@ -43,11 +45,11 @@ msgstr ""
 msgid "Custom"
 msgstr "Custom"
 
-#: wc-herroepingsfunctie.php:126
+#: wc-herroepingsfunctie.php:129
 msgid "WooCommerce Herroepingsfunctie vereist dat WooCommerce actief is."
 msgstr "WooCommerce Återkallningsfunktionen kräver att WooCommerce är aktiv."
 
-#: wc-herroepingsfunctie.php:276
+#: wc-herroepingsfunctie.php:279
 msgid ""
 "Wilt u (een deel van) uw bestelling herroepen binnen de wettelijke "
 "bedenktijd van 14 dagen? Vul hieronder uw ordernummer en e-mailadres in."
@@ -55,15 +57,15 @@ msgstr ""
 "Vill du avbryta (en del av) din beställning inom den lagstadgade "
 "ångerfristen på 14 dagar? Ange ditt ordernummer och din e-postadress nedan."
 
-#: wc-herroepingsfunctie.php:278 wc-herroepingsfunctie.php:392
+#: wc-herroepingsfunctie.php:281 wc-herroepingsfunctie.php:395
 msgid "Herroeping bevestigen"
 msgstr "Bekräfta återkallelse"
 
-#: wc-herroepingsfunctie.php:280
+#: wc-herroepingsfunctie.php:283
 msgid "Bevestiging van uw herroeping"
 msgstr "Bekräftelse på din återkallelse"
 
-#: wc-herroepingsfunctie.php:282
+#: wc-herroepingsfunctie.php:285
 msgid ""
 "I agree that the product is delivered immediately after payment, and I "
 "acknowledge that I thereby waive my statutory 14-day right of withdrawal."
@@ -71,7 +73,7 @@ msgstr ""
 "Jag samtycker till att varan levereras omedelbart efter betalning, och jag "
 "bekräftar att jag därmed avsäger mig min lagstadgade 14 dagars ångerrätt."
 
-#: wc-herroepingsfunctie.php:284
+#: wc-herroepingsfunctie.php:287
 msgid ""
 "Please agree to immediate digital delivery and acknowledge that you waive "
 "your right of withdrawal to complete this order."
@@ -79,35 +81,35 @@ msgstr ""
 "Vänligen godkänn omedelbar digital leverans och bekräfta att du avsäger dig "
 "din ångerrätt för att slutföra denna beställning."
 
-#: wc-herroepingsfunctie.php:286
+#: wc-herroepingsfunctie.php:289
 msgid "Buy now (payment required)"
 msgstr "Köp nu (betalning krävs)"
 
-#: wc-herroepingsfunctie.php:310 wc-herroepingsfunctie.php:315
+#: wc-herroepingsfunctie.php:313 wc-herroepingsfunctie.php:318
 msgid "Herroepen"
 msgstr "Återkallad"
 
-#: wc-herroepingsfunctie.php:362
+#: wc-herroepingsfunctie.php:365
 msgid "Bestelling herroepen"
 msgstr "Beställning återkallad"
 
-#: wc-herroepingsfunctie.php:365
+#: wc-herroepingsfunctie.php:368
 msgid "Ordernummer"
 msgstr "Ordernummer"
 
-#: wc-herroepingsfunctie.php:369
+#: wc-herroepingsfunctie.php:372
 msgid "E-mailadres van de bestelling"
 msgstr "Beställ e-postadress"
 
-#: wc-herroepingsfunctie.php:373
+#: wc-herroepingsfunctie.php:376
 msgid "Bestelling ophalen"
 msgstr "Hämta beställning"
 
-#: wc-herroepingsfunctie.php:379
+#: wc-herroepingsfunctie.php:382
 msgid "Wat wilt u herroepen?"
 msgstr "Vad vill du återkalla?"
 
-#: wc-herroepingsfunctie.php:380
+#: wc-herroepingsfunctie.php:383
 msgid ""
 "Selecteer de producten waarvoor u de overeenkomst wilt herroepen. U bent "
 "niet verplicht een reden op te geven."
@@ -115,19 +117,19 @@ msgstr ""
 "Välj de produkter som du vill häva avtalet för. Du är inte skyldig att ange "
 "en anledning."
 
-#: wc-herroepingsfunctie.php:383
+#: wc-herroepingsfunctie.php:386
 msgid "Reden (optioneel)"
 msgstr "Orsak (valfritt)"
 
-#: wc-herroepingsfunctie.php:386 wc-herroepingsfunctie.php:396
+#: wc-herroepingsfunctie.php:389 wc-herroepingsfunctie.php:399
 msgid "Terug"
 msgstr "Tillbaka"
 
-#: wc-herroepingsfunctie.php:387
+#: wc-herroepingsfunctie.php:390
 msgid "Doorgaan"
 msgstr "Fortsätt"
 
-#: wc-herroepingsfunctie.php:393
+#: wc-herroepingsfunctie.php:396
 msgid ""
 "Hierbij deelt u mede dat u de overeenkomst voor de onderstaande producten "
 "herroept. U ontvangt direct een ontvangstbevestiging per e-mail."
@@ -135,11 +137,11 @@ msgstr ""
 "Du meddelar härmed att du häver avtalet för produkterna nedan. Du kommer "
 "omedelbart att få en bekräftelse på mottagandet via e-post."
 
-#: wc-herroepingsfunctie.php:521
+#: wc-herroepingsfunctie.php:524
 msgid "Vul een geldig ordernummer en e-mailadres in."
 msgstr "Ange ett giltigt ordernummer och e-postadress."
 
-#: wc-herroepingsfunctie.php:537
+#: wc-herroepingsfunctie.php:540
 msgid ""
 "We konden geen bestelling vinden met deze gegevens. Controleer uw "
 "ordernummer en e-mailadres."
@@ -147,7 +149,7 @@ msgstr ""
 "Vi kunde inte hitta en beställning med denna information. Kontrollera ditt "
 "ordernummer och din e-postadress."
 
-#: wc-herroepingsfunctie.php:547
+#: wc-herroepingsfunctie.php:550
 msgid ""
 "Voor de producten in deze bestelling is herroeping via dit formulier niet "
 "beschikbaar (bijvoorbeeld omdat ze al zijn herroepen of zijn uitgesloten). "
@@ -157,28 +159,28 @@ msgstr ""
 "tillgängligt (till exempel för att de redan har dragits tillbaka eller "
 "uteslutits). Kontakta oss om du har några frågor."
 
-#: wc-herroepingsfunctie.php:570
+#: wc-herroepingsfunctie.php:573
 msgid "Onvolledige aanvraag. Probeer het opnieuw."
 msgstr "Ofullständig ansökan. Försök igen."
 
-#: wc-herroepingsfunctie.php:586
+#: wc-herroepingsfunctie.php:589
 msgid "We konden uw bestelling niet verifiëren."
 msgstr "Vi kunde inte verifiera din beställning."
 
-#: wc-herroepingsfunctie.php:604
+#: wc-herroepingsfunctie.php:607
 msgid "Geen geldige producten geselecteerd."
 msgstr "Inga giltiga produkter har valts."
 
-#: wc-herroepingsfunctie.php:633
+#: wc-herroepingsfunctie.php:636
 msgid ""
 "We konden uw herroeping niet registreren. Probeer het later opnieuw of neem "
 "contact met ons op."
 msgstr ""
-"Vi kunde inte registrera din återkallelse. Försök igen senare eller kontakta"
-" oss."
+"Vi kunde inte registrera din återkallelse. Försök igen senare eller kontakta "
+"oss."
 
 #. translators: 1: timestamp, 2: items, 3: reason
-#: wc-herroepingsfunctie.php:643
+#: wc-herroepingsfunctie.php:646
 #, php-format
 msgid ""
 "Herroeping ontvangen op %1$s via de online herroepingsfunctie.\n"
@@ -189,24 +191,24 @@ msgstr ""
 "Produkter: %2$s\n"
 "Orsak: %3$s"
 
-#: wc-herroepingsfunctie.php:646
+#: wc-herroepingsfunctie.php:649
 msgid "(geen opgegeven)"
 msgstr "(ingen specificerad)"
 
-#: wc-herroepingsfunctie.php:652
+#: wc-herroepingsfunctie.php:655
 msgid "In afwachting van afhandeling herroeping. "
 msgstr "Väntar på behandling av annulleringen."
 
-#: wc-herroepingsfunctie.php:658
+#: wc-herroepingsfunctie.php:661
 msgid ""
 "Let op: de automatische ontvangstbevestiging voor deze herroeping kon niet "
 "worden verzonden."
 msgstr ""
-"Observera: den automatiska bekräftelsen på mottagandet av denna återkallelse"
-" kunde inte skickas."
+"Observera: den automatiska bekräftelsen på mottagandet av denna återkallelse "
+"kunde inte skickas."
 
 #. translators: 1: timestamp, 2: customer email address
-#: wc-herroepingsfunctie.php:666
+#: wc-herroepingsfunctie.php:669
 #, php-format
 msgid ""
 "Uw herroeping is geregistreerd op %1$s. We hebben een bevestiging gestuurd "
@@ -216,7 +218,7 @@ msgstr ""
 "till %2$s. Vi kommer att behandla din begäran ytterligare."
 
 #. translators: 1: timestamp, 2: customer email address
-#: wc-herroepingsfunctie.php:669
+#: wc-herroepingsfunctie.php:672
 #, php-format
 msgid ""
 "Uw herroeping is geregistreerd op %1$s, maar de bevestigingsmail naar %2$s "
@@ -227,41 +229,41 @@ msgstr ""
 "kunde inte skickas automatiskt. Om du inte får bekräftelse, vänligen "
 "kontakta oss."
 
-#: wc-herroepingsfunctie.php:892
+#: wc-herroepingsfunctie.php:895
 msgid "Afstandsverklaring herroepingsrecht:"
 msgstr "Avstående från ångerrätt:"
 
 #. translators: 1: version, 2: timestamp
-#: wc-herroepingsfunctie.php:896
+#: wc-herroepingsfunctie.php:899
 #, php-format
 msgid "Akkoord vastgelegd (versie %1$s) op %2$s."
 msgstr "Avtal registrerat (version %1$s) den %2$s."
 
 #. translators: %s: source
-#: wc-herroepingsfunctie.php:905
+#: wc-herroepingsfunctie.php:908
 #, php-format
 msgid "Bron: %s"
 msgstr "Källa: %s"
 
-#: wc-herroepingsfunctie.php:922 wc-herroepingsfunctie.php:935
+#: wc-herroepingsfunctie.php:925 wc-herroepingsfunctie.php:938
 msgid "Waiver of the right of withdrawal"
 msgstr "Avstående från ångerrätten"
 
 #. translators: 1: version, 2: timestamp
-#: wc-herroepingsfunctie.php:927 wc-herroepingsfunctie.php:940
+#: wc-herroepingsfunctie.php:930 wc-herroepingsfunctie.php:943
 #, php-format
 msgid "Recorded as version %1$s on %2$s."
 msgstr "Inspelad som version %1$s på %2$s."
 
-#: wc-herroepingsfunctie.php:1310
+#: wc-herroepingsfunctie.php:1313
 msgid "Te veel pogingen. Wacht even en probeer het later opnieuw."
 msgstr "För många försök. Vänta ett ögonblick och försök igen senare."
 
-#: wc-herroepingsfunctie.php:1334
+#: wc-herroepingsfunctie.php:1337
 msgid "Beste"
 msgstr "Kära"
 
-#: wc-herroepingsfunctie.php:1335
+#: wc-herroepingsfunctie.php:1338
 msgid ""
 "We bevestigen de ontvangst van uw herroeping. Hieronder vindt u de inhoud "
 "van uw verklaring en het tijdstip van indiening. Bewaar deze e-mail als "
@@ -270,31 +272,31 @@ msgstr ""
 "Vi bekräftar mottagandet av din återkallelse. Nedan hittar du innehållet i "
 "ditt uttalande och tidpunkten för inlämningen. Behåll detta mejl som bevis."
 
-#: wc-herroepingsfunctie.php:1336 wc-herroepingsfunctie.php:1362
+#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1365
 msgid "Ingediend op:"
 msgstr "Skickat till:"
 
-#: wc-herroepingsfunctie.php:1337
+#: wc-herroepingsfunctie.php:1340
 msgid "Naam:"
 msgstr "Namn:"
 
-#: wc-herroepingsfunctie.php:1338
+#: wc-herroepingsfunctie.php:1341
 msgid "E-mailadres voor bevestiging:"
 msgstr "E-postadress för bekräftelse:"
 
-#: wc-herroepingsfunctie.php:1339 wc-herroepingsfunctie.php:1360
+#: wc-herroepingsfunctie.php:1342 wc-herroepingsfunctie.php:1363
 msgid "Bestelling:"
 msgstr "Beställning:"
 
-#: wc-herroepingsfunctie.php:1340
+#: wc-herroepingsfunctie.php:1343
 msgid "Herroepen producten:"
 msgstr "Återkallade produkter:"
 
-#: wc-herroepingsfunctie.php:1343
+#: wc-herroepingsfunctie.php:1346
 msgid "Door u opgegeven reden:"
 msgstr "Anledning du angett:"
 
-#: wc-herroepingsfunctie.php:1345
+#: wc-herroepingsfunctie.php:1348
 msgid ""
 "We nemen uw verzoek verder in behandeling, inclusief een eventuele "
 "terugbetaling conform de wettelijke termijnen."
@@ -303,48 +305,48 @@ msgstr ""
 "återbetalning i enlighet med lagstadgade tidsfrister."
 
 #. translators: %s: order number
-#: wc-herroepingsfunctie.php:1355
+#: wc-herroepingsfunctie.php:1358
 #, php-format
 msgid "Nieuwe herroeping voor bestelling %s"
 msgstr "Ny återkallelse för order %s"
 
-#: wc-herroepingsfunctie.php:1359
+#: wc-herroepingsfunctie.php:1362
 msgid "Er is een herroeping ingediend via de online herroepingsfunctie."
 msgstr "En återkallelse har lämnats via online-återkallningsfunktionen."
 
-#: wc-herroepingsfunctie.php:1361
+#: wc-herroepingsfunctie.php:1364
 msgid "Klant:"
 msgstr "Kund:"
 
-#: wc-herroepingsfunctie.php:1365
+#: wc-herroepingsfunctie.php:1368
 msgid "Reden:"
 msgstr "Orsak:"
 
-#: wc-herroepingsfunctie.php:1369
+#: wc-herroepingsfunctie.php:1372
 msgid "Bekijk de bestelling"
 msgstr "Se beställningen"
 
-#: wc-herroepingsfunctie.php:1382 wc-herroepingsfunctie.php:1383
+#: wc-herroepingsfunctie.php:1385 wc-herroepingsfunctie.php:1386
 msgid "Herroepingen"
 msgstr "Återkallelser"
 
-#: wc-herroepingsfunctie.php:1391
+#: wc-herroepingsfunctie.php:1394
 msgid "Herroepingsfunctie instellingen"
 msgstr "Inställningar för återkallelsefunktion"
 
-#: wc-herroepingsfunctie.php:1392
+#: wc-herroepingsfunctie.php:1395
 msgid "Herroeping instellingen"
 msgstr "Återkallande av inställningar"
 
-#: wc-herroepingsfunctie.php:1441
+#: wc-herroepingsfunctie.php:1444
 msgid "Herroepingsfunctie – instellingen"
 msgstr "Återkallningsfunktion – inställningar"
 
-#: wc-herroepingsfunctie.php:1442
+#: wc-herroepingsfunctie.php:1445
 msgid "Plaats het formulier op een goed vindbare pagina met de shortcode"
 msgstr "Placera formuläret på en lätt att hitta sida med kortkoden"
 
-#: wc-herroepingsfunctie.php:1442
+#: wc-herroepingsfunctie.php:1445
 msgid ""
 "Het staat ook automatisch in \"Mijn account\" onder \"Herroepen\". Zet "
 "bovendien een duidelijke link in de footer."
@@ -353,26 +355,38 @@ msgstr ""
 "dessutom en tydlig länk i sidfoten."
 
 #: wc-herroepingsfunctie.php:1447
+msgid "Juridische disclaimer"
+msgstr "Juridisk ansvarsfriskrivning"
+
+#: wc-herroepingsfunctie.php:1448
+msgid ""
+"Deze plugin wordt geleverd \"as-is\" en vervangt geen juridisch advies. Laat "
+"alle juridische teksten, uitzonderingen, landenlijsten, checkout-"
+"afstandsverklaringen en vertalingen controleren door een jurist voordat u "
+"deze plugin in productie gebruikt."
+msgstr "Detta tillägg tillhandahålls \"as-is\" och ersätter inte juridisk rådgivning. Låt en jurist granska alla juridiska texter, undantag, landslistor, avståendeutlåtanden i checkout och översättningar innan du använder detta tillägg i produktion."
+
+#: wc-herroepingsfunctie.php:1454
 msgid "Introductietekst"
 msgstr "Inledande text"
 
-#: wc-herroepingsfunctie.php:1451
+#: wc-herroepingsfunctie.php:1458
 msgid "Tekst bevestigingsknop"
 msgstr "Textbekräftelseknapp"
 
-#: wc-herroepingsfunctie.php:1455
+#: wc-herroepingsfunctie.php:1462
 msgid "Onderwerp bevestigingsmail"
 msgstr "Ämnesbekräftelsemail"
 
-#: wc-herroepingsfunctie.php:1459
+#: wc-herroepingsfunctie.php:1466
 msgid "Interne meldingen naar"
 msgstr "Interna aviseringar till"
 
-#: wc-herroepingsfunctie.php:1463
+#: wc-herroepingsfunctie.php:1470
 msgid "Uitgesloten categorieën"
 msgstr "Uteslutna kategorier"
 
-#: wc-herroepingsfunctie.php:1479
+#: wc-herroepingsfunctie.php:1486
 msgid ""
 "Bijv. maatwerk, verzegelde hygiëneproducten of bederfelijke waren – "
 "producten zonder herroepingsrecht."
@@ -380,23 +394,23 @@ msgstr ""
 "T.ex. specialtillverkade, förseglade hygienprodukter eller lättfördärvliga "
 "varor – produkter utan ångerrätt."
 
-#: wc-herroepingsfunctie.php:1483
+#: wc-herroepingsfunctie.php:1490
 msgid "Uitgesloten product-ID's"
 msgstr "Uteslutna produktkoder"
 
-#: wc-herroepingsfunctie.php:1487
+#: wc-herroepingsfunctie.php:1494
 msgid "Digitale producten uitsluiten"
 msgstr "Uteslut digitala produkter"
 
-#: wc-herroepingsfunctie.php:1488
+#: wc-herroepingsfunctie.php:1495
 msgid "Virtuele/downloadbare producten niet tonen in de herroepingsfunctie"
 msgstr "Visa inte virtuella/nedladdningsbara produkter i uttagsfunktionen"
 
-#: wc-herroepingsfunctie.php:1491
+#: wc-herroepingsfunctie.php:1498
 msgid "Orderstatus aanpassen"
 msgstr "Justera orderstatus"
 
-#: wc-herroepingsfunctie.php:1492
+#: wc-herroepingsfunctie.php:1499
 msgid ""
 "Order op \"in afwachting\" zetten bij een herroeping (geen automatische "
 "terugbetaling)"
@@ -404,32 +418,32 @@ msgstr ""
 "Ställ in beställning på \"väntande\" vid avbokning (ingen automatisk "
 "återbetalning)"
 
-#: wc-herroepingsfunctie.php:1495
+#: wc-herroepingsfunctie.php:1502
 msgid "IP-adres bewaren"
 msgstr "Spara IP-adress"
 
-#: wc-herroepingsfunctie.php:1496
+#: wc-herroepingsfunctie.php:1503
 msgid "IP-adres loggen als extra bewijs (vermeld dit in uw privacyverklaring)"
 msgstr ""
 "Logga IP-adress som ytterligare bevis (nämn detta i din sekretesspolicy)"
 
-#: wc-herroepingsfunctie.php:1499
+#: wc-herroepingsfunctie.php:1506
 msgid "Checkout-afstandsverklaring voor digitale producten"
 msgstr "Kassabefrielse för digitala produkter"
 
-#: wc-herroepingsfunctie.php:1502
+#: wc-herroepingsfunctie.php:1509
 msgid "Afstandsverklaring inschakelen"
 msgstr "Aktivera undantag"
 
-#: wc-herroepingsfunctie.php:1504
+#: wc-herroepingsfunctie.php:1511
 msgid ""
 "Verplichte checkbox tonen bij carts die uitsluitend virtuele/downloadbare "
 "producten bevatten"
 msgstr ""
-"Visa obligatorisk kryssruta för vagnar som endast innehåller "
-"virtuella/nedladdningsbara produkter"
+"Visa obligatorisk kryssruta för vagnar som endast innehåller virtuella/"
+"nedladdningsbara produkter"
 
-#: wc-herroepingsfunctie.php:1505
+#: wc-herroepingsfunctie.php:1512
 msgid ""
 "Werkt met classic checkout en met de WooCommerce Checkout Block. De plugin "
 "verplicht de checkbox server-side alleen voor volledig digitale carts en de "
@@ -439,30 +453,30 @@ msgstr ""
 "programmet kräver endast kryssrutan på serversidan för helt digitala vagnar "
 "och de faktureringsländer som anges nedan."
 
-#: wc-herroepingsfunctie.php:1509
+#: wc-herroepingsfunctie.php:1516
 msgid "Landen waarvoor afstandsverklaring geldt"
 msgstr "Länder som omfattas av undantag"
 
-#: wc-herroepingsfunctie.php:1512
+#: wc-herroepingsfunctie.php:1519
 msgid ""
 "Komma-, puntkomma- of spatiegescheiden ISO 3166-1 alpha-2 landcodes. "
-"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
-" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+"Standaard: EU + EER (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, "
+"IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
 msgstr ""
 "Komma, semikolon eller blanksteg separerade ISO 3166-1 alpha-2 landskoder. "
-"Standard: EU + EES. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE,"
-" IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
+"Standard: EU + EES. (AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, "
+"IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO)."
 
-#: wc-herroepingsfunctie.php:1516
+#: wc-herroepingsfunctie.php:1523
 msgid "Onbekend factuurland"
 msgstr "Okänt faktureringsland"
 
-#: wc-herroepingsfunctie.php:1518
+#: wc-herroepingsfunctie.php:1525
 msgid "Checkbox verplichten zolang het factuurland nog leeg of onbekend is"
 msgstr ""
 "Kräv kryssruta så länge faktureringslandet fortfarande är tomt eller okänt"
 
-#: wc-herroepingsfunctie.php:1519
+#: wc-herroepingsfunctie.php:1526
 msgid ""
 "Aanbevolen fail-closed gedrag: zodra een niet-ingesteld land is "
 "geselecteerd, verdwijnt de checkbox en wordt deze niet verplicht."
@@ -470,11 +484,11 @@ msgstr ""
 "Rekommenderat felstängt beteende: När ett icke-inställt land har valts "
 "försvinner kryssrutan och blir icke-obligatorisk."
 
-#: wc-herroepingsfunctie.php:1523
+#: wc-herroepingsfunctie.php:1530
 msgid "Checkboxtekst"
 msgstr "Kryssruta text"
 
-#: wc-herroepingsfunctie.php:1526
+#: wc-herroepingsfunctie.php:1533
 msgid ""
 "Deze tekst wordt opgeslagen op de order en opgenomen in de klantmail als "
 "duurzame bevestiging."
@@ -482,23 +496,23 @@ msgstr ""
 "Denna text lagras på beställningen och ingår i kundmailet som en permanent "
 "bekräftelse."
 
-#: wc-herroepingsfunctie.php:1530
+#: wc-herroepingsfunctie.php:1537
 msgid "Tekstversie"
 msgstr "Textversion"
 
-#: wc-herroepingsfunctie.php:1531
+#: wc-herroepingsfunctie.php:1538
 msgid "Verhoog deze versie wanneer de checkboxtekst wijzigt."
 msgstr "Öka denna version när kryssrutan ändras."
 
-#: wc-herroepingsfunctie.php:1534
+#: wc-herroepingsfunctie.php:1541
 msgid "Validatiemelding"
 msgstr "Valideringsmeddelande"
 
-#: wc-herroepingsfunctie.php:1538
+#: wc-herroepingsfunctie.php:1545
 msgid "Betaalknoptekst"
 msgstr "Text för betalningsknapp"
 
-#: wc-herroepingsfunctie.php:1541
+#: wc-herroepingsfunctie.php:1548
 msgid ""
 "Classic checkout en Checkout Block gebruiken deze tekst alleen wanneer de "
 "digitale-cart en factuurlandregels gelden."
@@ -506,30 +520,30 @@ msgstr ""
 "Klassisk kassa och Checkout Block använder endast denna text när den "
 "digitala varukorgen och reglerna för faktureringslandet gäller."
 
-#: wc-herroepingsfunctie.php:1561
+#: wc-herroepingsfunctie.php:1568
 msgid "Ontvangen herroepingen"
 msgstr "Mottagna återkallelser"
 
-#: wc-herroepingsfunctie.php:1565
+#: wc-herroepingsfunctie.php:1572
 msgid "Datum"
 msgstr "Datum"
 
-#: wc-herroepingsfunctie.php:1566
+#: wc-herroepingsfunctie.php:1573
 msgid "Order"
 msgstr "Beställ"
 
-#: wc-herroepingsfunctie.php:1567
+#: wc-herroepingsfunctie.php:1574
 msgid "Klant"
 msgstr "Kund"
 
-#: wc-herroepingsfunctie.php:1568
+#: wc-herroepingsfunctie.php:1575
 msgid "Producten"
 msgstr "Produkter"
 
-#: wc-herroepingsfunctie.php:1569
+#: wc-herroepingsfunctie.php:1576
 msgid "Reden"
 msgstr "Anledning"
 
-#: wc-herroepingsfunctie.php:1574
+#: wc-herroepingsfunctie.php:1581
 msgid "Nog geen herroepingen ontvangen."
 msgstr "Inga avbokningar har kommit in ännu."
